@@ -2,11 +2,19 @@
 import React, {useState} from 'react'
 import { Platform, StyleSheet, SafeAreaView, Text, Image, TextInput, TouchableOpacity } from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
+import {yupResolver} from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 
+const schema = yup.object({
+  email: yup.string().email("Digite um email válido!").required("Digite seu email."),
+  password: yup.string().required("Digite sua senha.")
+})
 
 // Chamando a função principal (necessário para abrir a tela inicial)
 export default function HomeScreen() {
-  const {control, handleSubmit, formState: {errors}} = useForm({})
+  const {control, handleSubmit, formState: {errors}} = useForm({
+    resolver: yupResolver(schema)
+  })
   
   function handleSignIn(data: any){
     console.log(data)
@@ -22,8 +30,8 @@ export default function HomeScreen() {
       </SafeAreaView>
 
       <SafeAreaView>
-        <Controller control={control} name="email" render={({field: {onChange, onBlur, value, }}) => (<TextInput style={styles.input} onChangeText={onChange} onBlur={onBlur} value={value} placeholder='Email'></TextInput>)}/>
-        <Controller control={control} name="password" render={({field: {onChange, onBlur, value, }}) => (<TextInput style={styles.input} onChangeText={onChange} onBlur={onBlur} value={value} placeholder='Senha' secureTextEntry={true}></TextInput>)}/>
+        <Controller control={control} name="email" render={({field: {onChange, onBlur, value, }}) => (<TextInput style={styles.input} onChangeText={onChange} onBlur={onBlur} value={value} placeholder='Email'></TextInput>)}/>{errors.email && <Text style={styles.errorMessage}>{errors.email.message}</Text>}
+        <Controller control={control} name="password" render={({field: {onChange, onBlur, value, }}) => (<TextInput style={styles.input} onChangeText={onChange} onBlur={onBlur} value={value} placeholder='Senha' secureTextEntry={true}></TextInput>)}/>{errors.password && <Text style={styles.errorMessage}>{errors.password.message}</Text>}
         <TouchableOpacity style={styles.button} onPress={handleSubmit(handleSignIn)}><Text style={styles.buttonText}>Entrar</Text></TouchableOpacity>
       </SafeAreaView>
     </SafeAreaView>
@@ -58,5 +66,8 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#4F378A',
     fontWeight: 'bold'
+  },
+  errorMessage: {
+    color: 'red'
   }
 });
