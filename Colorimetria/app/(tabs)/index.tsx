@@ -1,6 +1,7 @@
 // Importando as bibliotecas necessárias para o código
-import React, {useState} from 'react'
-import { Platform, StyleSheet, SafeAreaView, Text, Image, TextInput, TouchableOpacity } from 'react-native';
+import React from 'react';
+import {router, useRouter} from 'expo-router';
+import {StyleSheet, SafeAreaView, Text, Image, TextInput, TouchableOpacity } from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -18,23 +19,26 @@ export default function HomeScreen() {
   
   function handleSignIn(data: any){
     console.log(data)
+    router.navigate('./inicial')
   }
 
 
   // O que será mostrado na tela
   return (
-    <SafeAreaView style={styles.titleContainer}>
-      <SafeAreaView>
-        <Image source={require('../../assets/images/foto_login.png')}></Image>
-        <Text style={{fontSize: 30, fontWeight: "bold", textAlign: "center", marginBottom: '50%'}}>COEGI</Text>
-      </SafeAreaView>
+      <SafeAreaView style={styles.titleContainer}>
+        <SafeAreaView>
+          <Image source={require('../../assets/images/foto_login.png')}></Image>
+          <Text style={{fontSize: 30, fontWeight: "bold", textAlign: "center", marginBottom: '50%'}}>COEGI</Text>
+        </SafeAreaView>
 
-      <SafeAreaView>
-        <Controller control={control} name="email" render={({field: {onChange, onBlur, value, }}) => (<TextInput style={styles.input} onChangeText={onChange} onBlur={onBlur} value={value} placeholder='Email'></TextInput>)}/>{errors.email && <Text style={styles.errorMessage}>{errors.email.message}</Text>}
-        <Controller control={control} name="password" render={({field: {onChange, onBlur, value, }}) => (<TextInput style={styles.input} onChangeText={onChange} onBlur={onBlur} value={value} placeholder='Senha' secureTextEntry={true}></TextInput>)}/>{errors.password && <Text style={styles.errorMessage}>{errors.password.message}</Text>}
-        <TouchableOpacity style={styles.button} onPress={handleSubmit(handleSignIn)}><Text style={styles.buttonText}>Entrar</Text></TouchableOpacity>
+        <SafeAreaView>
+          <Controller control={control} name="email" render={({field: {onChange, onBlur, value, }}) => (<TextInput style={[styles.input, {borderColor: errors.email && 'red'}]} onChangeText={onChange} onBlur={onBlur} value={value} placeholder='Email'></TextInput>)}/>{errors.email && <Text style={styles.errorMessage}>{errors.email.message}</Text>}
+          <Controller control={control} name="password" render={({field: {onChange, onBlur, value, }}) => (<TextInput style={[styles.input, {borderColor: errors.password && 'red'}]} onChangeText={onChange} onBlur={onBlur} value={value} placeholder='Senha' secureTextEntry={true}></TextInput>)}/>{errors.password && <Text style={styles.errorMessage}>{errors.password.message}</Text>}
+          <TouchableOpacity style={styles.button} onPress={handleSubmit(handleSignIn)}><Text style={styles.buttonText}>Entrar</Text></TouchableOpacity>
+        </SafeAreaView>
+
+        <TouchableOpacity style={{top: '20%'}}><Text style={{color: '#0000FF', fontWeight: 'bold'}}>Esqueceu a Senha?</Text></TouchableOpacity>
       </SafeAreaView>
-    </SafeAreaView>
   );
 } 
 
