@@ -40,15 +40,22 @@ export default function DadosColorimetro() {
          
           <SafeAreaView style = {styles.div_alinha_linha}>
 
-             <Text><b>1° Composto:</b></Text>
-             <TouchableOpacity style = {styles.botao} onPress={exportarDocumentos('PDF')}>EXPORTAR</TouchableOpacity>
+             <Text><b>1° Composto: </b></Text>
+             
+             <TextInput 
+             style = {styles.botao} 
+             />
 
           </SafeAreaView>
 
           <SafeAreaView style = {styles.div_alinha_linha}>
 
-            <Text><b>2° Composto:</b></Text>
-             <TouchableOpacity style = {styles.botao} onPress={exportarDocumentos('PDF')}>EXPORTAR</TouchableOpacity>
+            <Text><b>2° Composto: </b></Text>
+            
+            <TextInput 
+             style = {styles.botao} 
+             />
+
           </SafeAreaView>
           
 
@@ -107,7 +114,7 @@ const styles = StyleSheet.create({
     justifyContent:'center',
     alignItems:'flex-start',
     paddingLeft: '10%',
-    backgroundColor:'green',
+    marginTop:'20%'
   },
 
   titleContainer: {
@@ -123,15 +130,14 @@ const styles = StyleSheet.create({
   },
   botao:{
       padding:5,
-      backgroundColor:'red',
+
       borderRadius: 15,
       borderWidth: 1,
   },
   div_alinha_coluna:{
       marginTop:50,
       padding:5,
-      flexDirection:'column',
-      backgroundColor:'gray',
+      flexDirection:'column'
   },
 
   div_alinha_linha:{

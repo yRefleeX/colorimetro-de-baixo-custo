@@ -1,110 +1,144 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+// importando as bibliotecas necessarias para execução do código
 
-import { Collapsible } from '@/components/Collapsible';
-import { ExternalLink } from '@/components/ExternalLink';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-import { IconSymbol } from '@/components/ui/IconSymbol';
+import { StyleSheet, Text, SafeAreaView, Image, TouchableOpacity, TextInput } from 'react-native';
 
-export default function TabTwoScreen() {
+
+
+// Função responsavel por carregar todo conteudo da pagina (Pagina principal: Dados Colorimetro).
+
+export default function CadastroReacao() {
+ 
+  
+// Função responsavel por exportar em pdf ou word os dados obtidos pelo colorimetro.
+
+  function exportarDocumentos(tipo: String){
+
+  }
+ 
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
-      headerImage={
-        <IconSymbol
-          size={310}
-          color="#808080"
-          name="chevron.left.forwardslash.chevron.right"
-          style={styles.headerImage}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Explore</ThemedText>
-      </ThemedView>
-      <ThemedText>This app includes example code to help you get started.</ThemedText>
-      <Collapsible title="File-based routing">
-        <ThemedText>
-          This app has two screens:{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/explore.tsx</ThemedText>
-        </ThemedText>
-        <ThemedText>
-          The layout file in <ThemedText type="defaultSemiBold">app/(tabs)/_layout.tsx</ThemedText>{' '}
-          sets up the tab navigator.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/router/introduction">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Android, iOS, and web support">
-        <ThemedText>
-          You can open this project on Android, iOS, and the web. To open the web version, press{' '}
-          <ThemedText type="defaultSemiBold">w</ThemedText> in the terminal running this project.
-        </ThemedText>
-      </Collapsible>
-      <Collapsible title="Images">
-        <ThemedText>
-          For static images, you can use the <ThemedText type="defaultSemiBold">@2x</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">@3x</ThemedText> suffixes to provide files for
-          different screen densities
-        </ThemedText>
-        <Image source={require('@/assets/images/react-logo.png')} style={{ alignSelf: 'center' }} />
-        <ExternalLink href="https://reactnative.dev/docs/images">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Custom fonts">
-        <ThemedText>
-          Open <ThemedText type="defaultSemiBold">app/_layout.tsx</ThemedText> to see how to load{' '}
-          <ThemedText style={{ fontFamily: 'SpaceMono' }}>
-            custom fonts such as this one.
-          </ThemedText>
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/versions/latest/sdk/font">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Light and dark mode components">
-        <ThemedText>
-          This template has light and dark mode support. The{' '}
-          <ThemedText type="defaultSemiBold">useColorScheme()</ThemedText> hook lets you inspect
-          what the user&apos;s current color scheme is, and so you can adjust UI colors accordingly.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/develop/user-interface/color-themes/">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Animations">
-        <ThemedText>
-          This template includes an example of an animated component. The{' '}
-          <ThemedText type="defaultSemiBold">components/HelloWave.tsx</ThemedText> component uses
-          the powerful <ThemedText type="defaultSemiBold">react-native-reanimated</ThemedText>{' '}
-          library to create a waving hand animation.
-        </ThemedText>
-        {Platform.select({
-          ios: (
-            <ThemedText>
-              The <ThemedText type="defaultSemiBold">components/ParallaxScrollView.tsx</ThemedText>{' '}
-              component provides a parallax effect for the header image.
-            </ThemedText>
-          ),
-        })}
-      </Collapsible>
-    </ParallaxScrollView>
+
+//Div 'Mãe" da pagina -> Todo conteudo estara dentro desse SafeAreaView, restringindo o conteudo exibido da barra de navegação na parte inferior até o cabeçalho de notificações.    
+
+    <SafeAreaView>
+
+      <SafeAreaView style={styles.div_titulo}>
+
+        <Text style={styles.title_page}><b>Cadastro de Reações</b></Text>
+      
+      </SafeAreaView>
+
+
+        <SafeAreaView style = {styles.div_alinha_coluna}>
+          
+          <SafeAreaView style = {styles.div_alinha_linha}>
+
+            <Text><b>Tipo de Reação:</b></Text>
+            
+            <TextInput 
+             style = {styles.botao} 
+             />
+          
+          </SafeAreaView>
+
+         <SafeAreaView style = {styles.div_alinha_linha}>
+
+            <Text><b>Composto 1: </b></Text>
+            
+            <TextInput 
+             style = {styles.botao} 
+             />
+          
+          </SafeAreaView>
+        
+          <SafeAreaView style = {styles.div_alinha_linha}>
+
+            <Text><b>Quantidade Composto 1: </b></Text>
+            
+            <TextInput 
+             style = {styles.botao} 
+             />
+          
+          </SafeAreaView>
+
+          <SafeAreaView style = {styles.div_alinha_linha}>
+
+            <Text><b>Composto 2: </b></Text>
+            
+            <TextInput 
+             style = {styles.botao} 
+             />
+          
+          </SafeAreaView>
+          <SafeAreaView style = {styles.div_alinha_linha}>
+
+            <Text><b>Quantidade Composto 2: </b></Text>
+            
+            <TextInput 
+             style = {styles.botao} 
+             />
+          
+          </SafeAreaView>
+
+        </SafeAreaView>
+
+        <SafeAreaView style= {{alignItems:'Center',height: 90,}}>
+             <TouchableOpacity style = {styles.botao}>EXPORTAR</TouchableOpacity>
+        </SafeAreaView>
+
+      </SafeAreaView>
+
   );
 }
 
+// Estilização da pagina
+
 const styles = StyleSheet.create({
-  headerImage: {
-    color: '#808080',
-    bottom: -90,
-    left: -35,
-    position: 'absolute',
+
+// Estilização do titulo da pagina definindo o tamanho em 30;
+
+  title_page: {
+
+      fontSize: 30,
+
   },
+
+// Estilização da div contendo o titulo da pagina. Centralização dos itens contidos na div para o centro e espaçamento 
+
+  div_titulo: {
+
+    justifyContent:'center',
+    alignItems:'center',
+    padding:40, 
+    margin: 40
+    
+ },
+
+
   titleContainer: {
     flexDirection: 'row',
     gap: 8,
   },
+  
+ 
+  botao:{
+      padding:5,
+      width:100,
+      borderRadius: 15,
+      borderWidth: 1,
+      marginTop:20,
+  },
+  div_alinha_coluna:{
+      marginTop:50,
+      padding:5,
+      flexDirection:'column'
+  },
+
+  div_alinha_linha:{
+      marginTop:5,
+      padding:5,
+      flexDirection:'row',
+      justifyContent: 'space-between',
+      borderWidth: 1,
+  },
+
 });
