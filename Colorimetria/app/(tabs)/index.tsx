@@ -1,6 +1,6 @@
 // Importando as bibliotecas necessárias para o código
 import React from 'react';
-import {router, useRouter} from 'expo-router';
+import {router} from 'expo-router';
 import {StyleSheet, SafeAreaView, Text, Image, TextInput, TouchableOpacity } from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
@@ -19,7 +19,7 @@ export default function HomeScreen() {
   
   function handleSignIn(data: any){
     console.log(data)
-    router.navigate('./inicial')
+    router.navigate('/inicial')
   }
 
 
@@ -50,10 +50,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8
   },
   input: {
     borderWidth: 0.5,
