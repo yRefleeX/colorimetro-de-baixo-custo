@@ -6,7 +6,7 @@ import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
-const { width, height } = Dimensions.get('window'); // Utilizando 'width' e 'height' para fazer estilização responsiva, a partir da biblioteca Dimensions
+const { height } = Dimensions.get('window'); // Utilizando 'height' para fazer estilização responsiva, a partir da biblioteca Dimensions
 
 // Declaração da constante 'schema', que será utilizada pela função yupResolver para verificar se o que o usuário digitou está correto
 const schema = yup.object({

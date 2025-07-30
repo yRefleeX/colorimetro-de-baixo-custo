@@ -5,7 +5,7 @@ import {StyleSheet, View, SafeAreaView, Text, Image, Dimensions, TouchableOpacit
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import UserInfoDisplay from '@/components/UserInfoDisplay';
 
-const { width, height } = Dimensions.get('window'); // Utilizando 'width' e 'height' para fazer estilização responsiva, a partir da biblioteca Dimensions
+const { height } = Dimensions.get('window'); // Utilizando 'height' para fazer estilização responsiva, a partir da biblioteca Dimensions
 
 // Chamando a função principal (necessário para abrir o menu principal)
 export default function HomeScreen() {
@@ -22,7 +22,7 @@ export default function HomeScreen() {
                 router.navigate('/(tabs)')
                 break;
             case 4:
-                router.navigate('/(tabs)')
+                router.navigate('/modelo_3d')
                 break;
         }
     }
