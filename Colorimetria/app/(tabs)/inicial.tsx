@@ -1,61 +1,67 @@
 // Importando as bibliotecas necessárias para o código
 import React from 'react';
 import {router} from 'expo-router';
-import {StyleSheet, SafeAreaView, Text, Image, TextInput, TouchableOpacity } from 'react-native';
+import {StyleSheet, View, SafeAreaView, Text, Image, Dimensions, TouchableOpacity } from 'react-native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import UserInfoDisplay from '@/components/UserInfoDisplay';
+
+const { width, height } = Dimensions.get('window'); // Utilizando 'width' e 'height' para fazer estilização responsiva, a partir da biblioteca Dimensions
 
 // Chamando a função principal (necessário para abrir o menu principal)
 export default function HomeScreen() {
+    // Função para trocar de tela
     function trocaTela(id: number){
         switch(id){
             case 1:
                 router.navigate('/(tabs)')
                 break;
             case 2:
-                router.navigate('/inicial')
+                router.navigate('/(tabs)')
                 break;
             case 3:
-                router.navigate('/inicial')
+                router.navigate('/(tabs)')
                 break;
             case 4:
-                router.navigate('/inicial')
+                router.navigate('/(tabs)')
                 break;
         }
     }
 
   // O que será mostrado na tela
   return (
-    <>
+      // Container do app (onde ficará toda a view)
       <SafeAreaView style={styles.titleContainer}>
-        <SafeAreaView style={{marginBottom: 75}}>
+        {/* Título "MENU PRINCIPAL", junto com a logo da tela inicial */}
+        <View style={{marginBottom: height * 0.05, marginTop: height * 0.1}}>
           <Text style={{fontSize: 30, fontWeight: "bold", textAlign: "center"}}>MENU PRINCIPAL</Text>
           <Image style={{width: 177, height: 162, resizeMode: 'contain', alignSelf: 'center', marginTop: '10%'}} source={require('../../assets/images/foto_tela_inicial.png')}></Image>
-        </SafeAreaView>
+        </View>
 
-        <SafeAreaView style={{bottom: '5%'}}>
-            <SafeAreaView style={{flexDirection: 'row'}}>
-                <Image style={{width: 33, resizeMode: 'contain', bottom: "7%"}} source={require('../../assets/images/menu.png')}></Image>
-                <TouchableOpacity onPress={() => trocaTela(1)}><Text style={styles.input}>Cadastrar reação colorímetro</Text></TouchableOpacity>
-            </SafeAreaView>
-            <SafeAreaView style={{flexDirection: 'row'}}>
-                <Image style={{width: 33, resizeMode: 'contain', bottom: "7%"}} source={require('../../assets/images/menu.png')}></Image>
-                <TouchableOpacity onPress={() => trocaTela(2)}><Text style={styles.input}>Visualize os dados do colorímetro</Text></TouchableOpacity>
-            </SafeAreaView>
-            <SafeAreaView style={{flexDirection: 'row'}}>
-                <Image style={{width: 33, resizeMode: 'contain', bottom: "7%"}} source={require('../../assets/images/menu.png')}></Image>
-                <TouchableOpacity onPress={() => trocaTela(3)}><Text style={styles.input}>Visualize a possibilidade de reação</Text></TouchableOpacity>
-            </SafeAreaView>
-            <SafeAreaView style={{flexDirection: 'row'}}>
-                <Image style={{width: 33, resizeMode: 'contain', bottom: "7%"}} source={require('../../assets/images/menu.png')}></Image>
-                <TouchableOpacity onPress={() => trocaTela(4)}><Text style={styles.input}>Visualize o modelo 3d do colorímetro</Text></TouchableOpacity>
-            </SafeAreaView>            
-        </SafeAreaView>
-      </SafeAreaView>
+        {/* View para mostrar o menu com as opções */}
+        <View style={{width: '80%', marginBottom: height * 0.1}}>
+                <TouchableOpacity style={styles.menuItem} onPress={() => trocaTela(1)}>
+                  <MaterialCommunityIcons name='magnify' size={24} color='gray'></MaterialCommunityIcons>
+                  <Text style={styles.menuText}>Cadastrar reação colorímetro</Text>
+                </TouchableOpacity>
+                
+                <TouchableOpacity style={styles.menuItem} onPress={() => trocaTela(2)}>
+                  <MaterialCommunityIcons name='magnify' size={24} color='gray'></MaterialCommunityIcons>
+                  <Text style={styles.menuText}>Visualize os dados do colorímetro</Text>
+                </TouchableOpacity>
+                
+                <TouchableOpacity style={styles.menuItem} onPress={() => trocaTela(3)}>
+                  <MaterialCommunityIcons name='magnify' size={24} color='gray'></MaterialCommunityIcons>
+                  <Text style={styles.menuText}>Visualize a possibilidade de reação</Text>
+                </TouchableOpacity>
 
-      <SafeAreaView style={{position: 'absolute', bottom: 0, left: '10%', flexDirection: 'row'}}>
-            <Image style={{width: 33, resizeMode: 'contain'}} source={require('../../assets/images/usuario.png')}></Image>
-            <Text style={{borderWidth: 0.5, height: 32, fontWeight: 'bold', borderRadius: 10}}>Usuário: Matheus Tonini dos Santos</Text>
+                <TouchableOpacity style={styles.menuItem} onPress={() => trocaTela(4)}>
+                  <MaterialCommunityIcons name='magnify' size={24} color='gray'></MaterialCommunityIcons>
+                  <Text style={styles.menuText}>Visualize o modelo 3d do colorímetro</Text>
+                </TouchableOpacity>
+        </View>
+
+        <UserInfoDisplay userName='Matheus Tonini dos Santos'></UserInfoDisplay> {/* Seção com as informações do usuário, junto com o botão para sair do app */}
       </SafeAreaView>
-    </>
   );
 } 
 
@@ -63,15 +69,22 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   titleContainer: {
     display: 'flex',
-    top: '5%',
     alignItems: 'center',
-    gap: 8,
+    flex: 1,
   },
-  input: {
-    borderWidth: 0.5,
-    margin: 5,
-    padding: 6,
-    fontWeight: 'bold',
-    borderRadius: 10
+  menuItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderRadius: 8,
+    paddingVertical: 12,
+    paddingHorizontal: 15,
+    marginBottom: 10,
+    borderWidth: 1,
+    borderColor: '#ccc',
   },
+  menuText: {
+    marginLeft: 10,
+    fontSize: 16,
+    color: 'gray'
+  }
 });

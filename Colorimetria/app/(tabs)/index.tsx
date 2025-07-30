@@ -1,11 +1,14 @@
 // Importando as bibliotecas necessárias para o código
 import React from 'react';
 import {router} from 'expo-router';
-import {StyleSheet, SafeAreaView, Text, Image, TextInput, TouchableOpacity } from 'react-native';
+import {StyleSheet, SafeAreaView, Text, Image, TextInput, TouchableOpacity, Dimensions, View} from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
+const { width, height } = Dimensions.get('window'); // Utilizando 'width' e 'height' para fazer estilização responsiva, a partir da biblioteca Dimensions
+
+// Declaração da constante 'schema', que será utilizada pela função yupResolver para verificar se o que o usuário digitou está correto
 const schema = yup.object({
   email: yup.string().email("Digite um email válido!").required("Digite seu email."),
   password: yup.string().required("Digite sua senha.")
@@ -13,10 +16,12 @@ const schema = yup.object({
 
 // Chamando a função principal (necessário para abrir a tela inicial)
 export default function HomeScreen() {
+
   const {control, handleSubmit, formState: {errors}} = useForm({
-    resolver: yupResolver(schema)
+    resolver: yupResolver(schema) // Utilização do yupResolver para validação os dados
   })
   
+  // Função para entrar na tela inicial após o login
   function handleSignIn(data: any){
     console.log(data)
     router.navigate('/inicial')
@@ -25,19 +30,23 @@ export default function HomeScreen() {
 
   // O que será mostrado na tela
   return (
+      // Container do app (onde ficará toda a view)
       <SafeAreaView style={styles.titleContainer}>
-        <SafeAreaView>
-          <Image source={require('../../assets/images/foto_login.png')}></Image>
-          <Text style={{fontSize: 30, fontWeight: "bold", textAlign: "center", marginBottom: '50%'}}>COEGI</Text>
-        </SafeAreaView>
 
-        <SafeAreaView>
+        {/* Logo do IFSP, junto com o título (nome do app) */}
+        <View>
+          <Image source={require('../../assets/images/foto_login.png')}></Image>
+          <Text style={{fontSize: 30, fontWeight: "bold", textAlign: "center", marginBottom: height * 0.08}}>COEGI</Text>
+        </View>
+
+        {/* View com inputs para login */}
+        <View>
           <Controller control={control} name="email" render={({field: {onChange, onBlur, value, }}) => (<TextInput style={[styles.input, {borderColor: errors.email && 'red'}]} onChangeText={onChange} onBlur={onBlur} value={value} placeholder='Email'></TextInput>)}/>{errors.email && <Text style={styles.errorMessage}>{errors.email.message}</Text>}
           <Controller control={control} name="password" render={({field: {onChange, onBlur, value, }}) => (<TextInput style={[styles.input, {borderColor: errors.password && 'red'}]} onChangeText={onChange} onBlur={onBlur} value={value} placeholder='Senha' secureTextEntry={true}></TextInput>)}/>{errors.password && <Text style={styles.errorMessage}>{errors.password.message}</Text>}
           <TouchableOpacity style={styles.button} onPress={handleSubmit(handleSignIn)}><Text style={styles.buttonText}>Entrar</Text></TouchableOpacity>
-        </SafeAreaView>
+        </View>
 
-        <TouchableOpacity style={{top: '20%'}}><Text style={{color: '#0000FF', fontWeight: 'bold'}}>Esqueceu a Senha?</Text></TouchableOpacity>
+        <TouchableOpacity style={{top: height * 0.1}}><Text style={{color: '#0000FF', fontWeight: 'bold'}}>Esqueceu a Senha?</Text></TouchableOpacity> {/* Botão para entrar no app */}
       </SafeAreaView>
   );
 } 
