@@ -1,13 +1,13 @@
 // Importando as bibliotecas necessárias para o código
 import React from 'react';
-import {StyleSheet, View, SafeAreaView, Text, Dimensions, TouchableOpacity, FlatList} from 'react-native';
+import {StyleSheet, View, SafeAreaView, Text, Dimensions, FlatList} from 'react-native';
 import UserInfoDisplay from '@/components/UserInfoDisplay';
 import VoltaInicio from '@/components/VoltaInicio';
 
 const { height } = Dimensions.get('window'); // Utilizando 'height' para fazer estilização responsiva, a partir da biblioteca Dimensions
 
-// Chamando a função principal (necessário para abrir o menu principal)
-export default function HomeScreen() {
+// Chamando a função principal (necessário para abrir a tela "visualizar colorímetro 3D")
+export default function ViewColorimeterScreen() {
   // O que será mostrado na tela
   return (
       // Container do app (onde ficará toda a view)

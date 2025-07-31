@@ -6,9 +6,21 @@ Caso queira utilizá-lo em alguma tela, basta digitar <UserInfoDislay userName =
 
 // Importando as bibliotecas necessárias para o código
 import React from 'react';
-import { View, Text, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, TouchableOpacity, Alert } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import {router} from 'expo-router';
+import { getAuth, signOut } from 'firebase/auth';
+import { initializeApp } from 'firebase/app';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyB6rWreNwmi2e7osBqj3kn1yP0J_bGExaI",
+  authDomain: "colorimetro-de-baixo-custo.firebaseapp.com",
+  projectId: "colorimetro-de-baixo-custo",
+  storageBucket: "colorimetro-de-baixo-custo.firebasestorage.app",
+  messagingSenderId: "52158465405",
+  appId: "1:52158465405:web:19668e5dcdf73e31957814",
+  measurementId: "G-H3PS3E0QZF"
+};
 
 const {height} = Dimensions.get('window'); // Utilizando 'height' para fazer estilização responsiva, a partir da biblioteca Dimensions
 
@@ -16,13 +28,24 @@ interface UserInfoDisplayProps {
   userName: string; // Definindo o tipo da propriedade 'userName' para string
 }
 
-// Função para sair do app
-function logOut(){
-    router.navigate('/(tabs)')
-}
-
 // Definindo o UserInfoDisplay como uma constante, na qual possuirá o nome do usuário e o botão para sair do app
 const UserInfoDisplay = ({userName}: UserInfoDisplayProps) => {
+  // Função para sair do app
+  const logOut = async () => {
+     try {
+      // Inicializa o Firebase App com a sua configuração
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app); // Obtém a instância de autenticação
+
+      await signOut(auth); // Desloga o usuário do Firebase
+      console.log('Usuário deslogado com sucesso!');
+      router.navigate('/'); // Redireciona para a tela de login após o logout
+    } catch (error) {
+      console.error('Erro ao fazer logout:', error);
+      Alert.alert('Erro de Logout', 'Não foi possível fazer logout. Tente novamente.');
+    }
+  };
+
   return (
     <View style={styles.userInfoContainer}>
         <MaterialCommunityIcons name='account' size={50} color='black'></MaterialCommunityIcons>

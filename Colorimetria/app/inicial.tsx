@@ -13,13 +13,13 @@ export default function HomeScreen() {
     function trocaTela(id: number){
         switch(id){
             case 1:
-                router.navigate('/(tabs)')
+                router.navigate('/') // INSERIR HREF PARA TELA DE CADASTRO DE REAÇÃO A PARTIR DO COLORÍEMTRO
                 break;
             case 2:
-                router.navigate('/(tabs)')
+                router.navigate('/') // INSERIR HREF PARA TELA DE VISUALIZAÇÃO DOS DADOS DO COLORÍMETRO
                 break;
             case 3:
-                router.navigate('/(tabs)')
+                router.navigate('/') // INSERIR HREF PARA TELA DE VISUALIZAÇÃO DA POSSIBILIDADE DE REAÇÃO
                 break;
             case 4:
                 router.navigate('/modelo_3d')
@@ -34,7 +34,7 @@ export default function HomeScreen() {
         {/* Título "MENU PRINCIPAL", junto com a logo da tela inicial */}
         <View style={{marginBottom: height * 0.05, marginTop: height * 0.1}}>
           <Text style={{fontSize: 30, fontWeight: "bold", textAlign: "center"}}>MENU PRINCIPAL</Text>
-          <Image style={{width: 177, height: 162, resizeMode: 'contain', alignSelf: 'center', marginTop: '10%'}} source={require('../../assets/images/foto_tela_inicial.png')}></Image>
+          <Image style={{width: 177, height: 162, resizeMode: 'contain', alignSelf: 'center', marginTop: '10%'}} source={require('../assets/images/foto_tela_inicial.png')}></Image>
         </View>
 
         {/* View para mostrar o menu com as opções */}
