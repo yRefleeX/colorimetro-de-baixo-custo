@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, View, Text } from 'react-native';
 import { useFonts } from 'expo-font';
-import { Stack, router, useRootNavigationState} from 'expo-router';
+import { Stack, router, useRootNavigationState, usePathname} from 'expo-router';
 import 'react-native-reanimated';
 import { onAuthStateChanged, User } from 'firebase/auth';
 import { auth } from '../firebaseConfig';
@@ -14,6 +14,7 @@ export default function RootLayout() {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const navigationState = useRootNavigationState();
+  const pathName = usePathname();
 
   useEffect(() => {
         // Listener de estado de autenticação
@@ -28,6 +29,10 @@ export default function RootLayout() {
   useEffect(() => {
     // Garante que o estado de navegação esteja pronto antes de redirecionar
     if (!navigationState?.key || isLoading || !loaded) {
+        return;
+    }
+
+    if (pathName === '/nova_senha') {
         return;
     }
 
@@ -52,8 +57,8 @@ export default function RootLayout() {
 
   return (
     <Stack>
-      <Stack.Screen name="index" options={{ headerShown: false }} />
-      <Stack.Screen name="inicial" options={{ headerShown: false }} />
+      <Stack.Screen name="index" options={{ headerShown: false, animation: 'fade' }} />
+      <Stack.Screen name="inicial" options={{ headerShown: false, animation: 'fade' }} />
       <Stack.Screen name="modelo_3d" options={{ headerShown: false }} />
       <Stack.Screen name="cadastrar" options={{ headerShown: false }} />
       <Stack.Screen name="codigo" options={{ headerShown: false }} />

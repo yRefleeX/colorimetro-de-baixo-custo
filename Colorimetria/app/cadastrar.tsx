@@ -73,16 +73,18 @@ export default function Cadastrar() {
   return (
     <SafeAreaView style={styles.titleContainer}>
 
-    <Text style ={{ fontSize:30, fontWeight: 'bold', textAlign:'center'}}>CADASTRAR</Text>
+    <View style={styles.content}>
+        <Text style ={{ fontSize:30, fontWeight: 'bold', textAlign:'center'}}>CADASTRAR</Text>
 
-        <View style={{backgroundColor:"#e3e3e3", width: 300, paddingVertical: 20, marginTop: height * 0.08, borderRadius:15}}>
-            <Controller control={control} name='nome' render={({field: {onChange, onBlur, value, }}) => (<TextInput placeholder='Nome' style={{ height: 40, backgroundColor: 'white', width: 150, borderRadius: 5, borderColor: errors.nome && 'red', borderWidth:1, alignSelf:'center', marginTop: 20}} onChangeText={onChange} onBlur={onBlur} value={value}></TextInput>)}/>{errors.nome && <Text style={{ color:'red', alignSelf:'center'}}>{errors.nome.message}</Text>}
-            <Controller control={control} name='email' render={({field: {onChange, onBlur, value, }}) => (<TextInput autoCapitalize='none' keyboardType='email-address' placeholder='Email' style={{ height: 40, backgroundColor: 'white', width: 150, borderRadius: 5, borderColor: errors.email && 'red', borderWidth:1, alignSelf:'center', marginTop: 20}} onChangeText={onChange} onBlur={onBlur} value={value}></TextInput>)}/>{errors.email && <Text style={{ color:'red', alignSelf:'center'}}>{errors.email.message}</Text>}
-            <Controller control={control} name='senha' render={({field: {onChange, onBlur, value, }}) => (<TextInput placeholder='Senha' secureTextEntry={true} style={{ height: 40, backgroundColor: 'white', width: 150, borderRadius: 5, borderColor: errors.senha && 'red', borderWidth:1, alignSelf:'center', marginTop: 20}} onChangeText={onChange} onBlur={onBlur} value={value}></TextInput>)}/>{errors.senha && <Text style={{ color:'red', alignSelf:'center'}}>{errors.senha.message}</Text>}
-            <Controller control={control} name='ConfirmarSenha' render={({field: {onChange, onBlur, value, }}) => (<TextInput placeholder='Confirmar Senha' secureTextEntry={true} style={{ height: 40, backgroundColor: 'white', width: 150, borderRadius: 5, borderColor: errors.senha && 'red', borderWidth:1, alignSelf:'center', marginTop: 20}} onChangeText={onChange} onBlur={onBlur} value={value}></TextInput>)}/>{errors.ConfirmarSenha && <Text style={{ color:'red', alignSelf:'center'}}>{errors.ConfirmarSenha.message}</Text>}
-            <TouchableOpacity style={styles.button} onPress={handleSubmit(handleSignIn)} disabled={loading}> {loading ? (<ActivityIndicator size="small" color="#000" />) : (<Text style={styles.buttonText}>Enviar</Text>)}</TouchableOpacity>
-            <TouchableOpacity style={styles.buttonVoltar} onPress={() => router.navigate('/')} disabled={loading}><Text style={{color: '#555', fontSize: 16}}>Voltar</Text></TouchableOpacity>
-        </View>
+            <View style={{backgroundColor:"#e3e3e3", width: '100%', paddingVertical: 20, marginTop: height * 0.08, borderRadius:15, minHeight: 120}}>
+                <Controller control={control} name='nome' render={({field: {onChange, onBlur, value, }}) => (<TextInput placeholder='Nome' style={{ height: 40, backgroundColor: 'white', borderRadius: 5, borderColor: errors.nome && 'red', borderWidth:1, alignSelf:'center', marginTop: 20}} onChangeText={onChange} onBlur={onBlur} value={value}></TextInput>)}/>{errors.nome && <Text style={{ color:'red', alignSelf:'center'}}>{errors.nome.message}</Text>}
+                <Controller control={control} name='email' render={({field: {onChange, onBlur, value, }}) => (<TextInput autoCapitalize='none' keyboardType='email-address' placeholder='Email' style={{ height: 40, backgroundColor: 'white', borderRadius: 5, borderColor: errors.email && 'red', borderWidth:1, alignSelf:'center', marginTop: 20}} onChangeText={onChange} onBlur={onBlur} value={value}></TextInput>)}/>{errors.email && <Text style={{ color:'red', alignSelf:'center'}}>{errors.email.message}</Text>}
+                <Controller control={control} name='senha' render={({field: {onChange, onBlur, value, }}) => (<TextInput placeholder='Senha' secureTextEntry={true} style={{ height: 40, backgroundColor: 'white', borderRadius: 5, borderColor: errors.senha && 'red', borderWidth:1, alignSelf:'center', marginTop: 20}} onChangeText={onChange} onBlur={onBlur} value={value}></TextInput>)}/>{errors.senha && <Text style={{ color:'red', alignSelf:'center'}}>{errors.senha.message}</Text>}
+                <Controller control={control} name='ConfirmarSenha' render={({field: {onChange, onBlur, value, }}) => (<TextInput placeholder='Confirmar Senha' secureTextEntry={true} style={{ height: 40, backgroundColor: 'white', borderRadius: 5, borderColor: errors.senha && 'red', borderWidth:1, alignSelf:'center', marginTop: 20}} onChangeText={onChange} onBlur={onBlur} value={value}></TextInput>)}/>{errors.ConfirmarSenha && <Text style={{ color:'red', alignSelf:'center'}}>{errors.ConfirmarSenha.message}</Text>}
+                <TouchableOpacity style={styles.button} onPress={handleSubmit(handleSignIn)} disabled={loading}> {loading ? (<ActivityIndicator size="small" color="#000" />) : (<Text style={styles.buttonText}>Enviar</Text>)}</TouchableOpacity>
+                <TouchableOpacity style={styles.buttonVoltar} onPress={() => router.navigate('/')} disabled={loading}><Text style={{color: '#555', fontSize: 16}}>Voltar</Text></TouchableOpacity>
+            </View>
+    </View>
     </SafeAreaView>
     );
 }
@@ -95,15 +97,26 @@ const styles = StyleSheet.create ({
         justifyContent: 'center',
         gap: 8
     },
-    button: {
-        height:40,
-        width:80,
-        backgroundColor:'white',
-        marginTop: height * 0.01,
-        alignSelf:'center',
-        alignItems:'center',
+    content: {
+        flex: 1,
+        alignItems: 'center',
         justifyContent: 'center',
-        marginBottom:15
+        paddingHorizontal: 30,
+    },
+    input: {
+        borderWidth: 0.5,
+        margin: 5,
+        padding: 10
+    },
+    button: {
+        height: 50,
+        borderWidth: 1,
+        borderRadius: 8,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#EADDFF',
+        marginTop: height * 0.01,
+        flexDirection: 'row'
     },
     buttonText: {
         fontWeight: 'bold'

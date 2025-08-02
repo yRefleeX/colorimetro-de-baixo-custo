@@ -106,8 +106,8 @@ export default function LoginScreen() {
 
         {/* Logo do IFSP, junto com o título (nome do app) */}
         <View style={styles.content}>
-          <Image source={require('../assets/images/foto_login.png')}></Image>
-          <Text style={{fontSize: 30, fontWeight: "bold", textAlign: "center", marginBottom: height * 0.08}}>COEGI</Text>
+          <Image source={require('../assets/images/foto_login.png')} style={styles.logo}></Image>
+          <Text style={{fontSize: 30, fontWeight: "bold", textAlign: "center", marginBottom: height * 0.03}}>COEGI</Text>
 
           {/* View com inputs para login */}
           <View style={styles.formContainer}>
@@ -146,6 +146,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 8,
+  },
+  logo: {
+    width: 150,
+    height: 150,
+    resizeMode: 'contain', 
+    marginBottom: 20
   },
   content: {
     flex: 1,
