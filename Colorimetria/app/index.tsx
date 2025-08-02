@@ -2,11 +2,12 @@
 import React, {useState, useEffect} from 'react';
 import {router} from 'expo-router';
 import {StyleSheet, SafeAreaView, Text, Image, TextInput, TouchableOpacity, Dimensions, View, Alert, ActivityIndicator} from 'react-native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import {auth} from '../firebaseConfig';
-import {signInWithEmailAndPassword, onAuthStateChanged, GoogleAuthProvider, signInWithCredential} from 'firebase/auth';
+import {signInWithEmailAndPassword, GoogleAuthProvider, signInWithCredential, signInAnonymously} from 'firebase/auth';
 import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
 import { makeRedirectUri } from 'expo-auth-session';
@@ -24,7 +25,7 @@ WebBrowser.maybeCompleteAuthSession();
 // Chamando a função principal (necessário para abrir a tela de login)
 export default function LoginScreen() {
   const [loading, setLoading] = useState<boolean>(false); // Estado de carregamento inicial para autenticação
-  const [authLoading, setAuthLoading] = useState<boolean>(true); // Estado de carregamento da inicialização do Firebase
+  const [showEmailForm, setShowEmailForm] = useState<boolean>(false);
 
   const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
     clientId: process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID_WEB,
@@ -41,23 +42,6 @@ export default function LoginScreen() {
     }
   })
 
-  // --- Inicialização do Firebase Auth ---
-  useEffect(() => {
-        // Observa mudanças no estado de autenticação
-        const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
-          setAuthLoading(false); // Autenticação pronta
-          if (user) {
-            console.log('Usuário autenticado:', user.uid);
-            // Se já houver um usuário logado, redireciona para a tela inicial
-            router.navigate('/inicial');
-          } else {
-            console.log('Nenhum usuário autenticado.');
-          }
-        });
-
-        return () => unsubscribeAuth(); // Limpa o listener ao desmontar
-  }, []);
-
   // --- Login com Google ---
   useEffect(() => {
     if (response?.type === 'success' && auth) {
@@ -73,6 +57,20 @@ export default function LoginScreen() {
         });
     }
   }, [response, auth]);
+
+  // Função para login como convidado
+  const handleGuestSignIn = async () => {
+    setLoading(true);
+    try {
+        await signInAnonymously(auth);
+        // O redirecionamento é feito pelo _layout.tsx
+    } catch (error) {
+        console.error('Erro no login anônimo:', error);
+        Alert.alert('Erro', 'Não foi possível entrar como convidado.');
+    } finally {
+        setLoading(false);
+    }
+  };
 
   // Função para entrar na tela inicial após o login
   const handleSignIn = async (data: {email: string; password: string}) => {
@@ -101,38 +99,41 @@ export default function LoginScreen() {
     }
   }
 
-  // Renderização condicional para o estado de carregamento
-  if (authLoading) {
-    return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#0000ff" />
-        <Text>Carregando autenticação...</Text>
-      </View>
-    );
-  }
-
-
   // O que será mostrado na tela
   return (
       // Container do app (onde ficará toda a view)
       <SafeAreaView style={styles.titleContainer}>
 
         {/* Logo do IFSP, junto com o título (nome do app) */}
-        <View>
+        <View style={styles.content}>
           <Image source={require('../assets/images/foto_login.png')}></Image>
           <Text style={{fontSize: 30, fontWeight: "bold", textAlign: "center", marginBottom: height * 0.08}}>COEGI</Text>
-        </View>
 
-        {/* View com inputs para login */}
-        <View>
-          <Controller control={control} name="email" render={({field: {onChange, onBlur, value}}) => (<TextInput autoCapitalize='none' keyboardType='email-address' style={[styles.input, {borderColor: errors.email && 'red'}]} onChangeText={onChange} onBlur={onBlur} value={value} placeholder='Email'></TextInput>)}/>{errors.email && <Text style={styles.errorMessage}>{errors.email.message}</Text>}
-          <Controller control={control} name="password" render={({field: {onChange, onBlur, value}}) => (<TextInput style={[styles.input, {borderColor: errors.password && 'red'}]} onChangeText={onChange} onBlur={onBlur} value={value} placeholder='Senha' secureTextEntry={true}></TextInput>)}/>{errors.password && <Text style={styles.errorMessage}>{errors.password.message}</Text>}
-          <TouchableOpacity style={styles.button} onPress={handleSubmit(handleSignIn)} disabled={loading}>{loading ? <ActivityIndicator color="#4F378A" /> : <Text style={styles.buttonText}>Entrar</Text>}</TouchableOpacity>
-          <TouchableOpacity style={styles.buttonGoogle} onPress={() => { setLoading(true); promptAsync(); }} disabled={loading}>{loading ? (<ActivityIndicator color="#555" />) : (<><Image source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg' }} style={styles.googleIcon} /><Text style={styles.buttonTextGoogle}>Entrar com o Google</Text></>)}</TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={() => router.navigate('/cadastrar')} disabled={loading}><Text style={styles.buttonText}>Criar conta</Text></TouchableOpacity>
-        </View>
+          {/* View com inputs para login */}
+          <View style={styles.formContainer}>
+            {showEmailForm ? (
+              // Formulário de Email e Senha
+              <>
+                <Controller control={control} name="email" render={({field: {onChange, onBlur, value}}) => (<TextInput autoCapitalize='none' keyboardType='email-address' style={[styles.input, {borderColor: errors.email && 'red'}]} onChangeText={onChange} onBlur={onBlur} value={value} placeholder='Email'></TextInput>)}/>{errors.email && <Text style={styles.errorMessage}>{errors.email.message}</Text>}
+                <Controller control={control} name="password" render={({field: {onChange, onBlur, value}}) => (<TextInput style={[styles.input, {borderColor: errors.password && 'red'}]} onChangeText={onChange} onBlur={onBlur} value={value} placeholder='Senha' secureTextEntry={true}></TextInput>)}/>{errors.password && <Text style={styles.errorMessage}>{errors.password.message}</Text>}
+                <TouchableOpacity style={styles.button} onPress={handleSubmit(handleSignIn)} disabled={loading}>{loading ? <ActivityIndicator color="#4F378A" /> : <Text style={styles.buttonText}>Entrar</Text>}</TouchableOpacity>
+                <TouchableOpacity style={styles.buttonVoltar} onPress={() => setShowEmailForm(false)} disabled={loading}><Text style={{color: '#555', fontSize: 16}}>Voltar</Text></TouchableOpacity>
+              </>
+            ) : (
+              // Botões iniciais de login
+              <>
+                <TouchableOpacity style={styles.button} onPress={() => setShowEmailForm(true)} disabled={loading}>{loading ? (<ActivityIndicator color="#555" />) : (<><MaterialCommunityIcons name='email' size={24} style={{marginRight: 12}}></MaterialCommunityIcons><Text style={styles.buttonText}>Entrar com Email</Text></>)}</TouchableOpacity>
+                <TouchableOpacity style={styles.buttonGoogle} onPress={() => { setLoading(true); promptAsync(); }} disabled={loading}>{loading ? (<ActivityIndicator color="#555" />) : (<><Image source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg' }} style={styles.googleIcon} /><Text style={styles.buttonTextGoogle}>Entrar com o Google</Text></>)}</TouchableOpacity>
+                <TouchableOpacity style={styles.buttonGuest} onPress={handleGuestSignIn} disabled={loading}><Text style={styles.buttonGuestText}>Entrar como Convidado</Text></TouchableOpacity>
 
-        <TouchableOpacity style={{top: height * 0.1}} onPress={() => router.navigate('/codigo')}><Text style={{color: '#0000FF', fontWeight: 'bold'}}>Esqueceu a Senha?</Text></TouchableOpacity> {/* Botão para entrar no app */}
+                <View style={styles.footerLinks}>
+                  <TouchableOpacity style={[styles.button, {paddingVertical: 10}]} onPress={() => router.navigate('/cadastrar')} disabled={loading}><Text style={styles.buttonText}>Criar conta</Text></TouchableOpacity>
+                  <TouchableOpacity style={{top: height * 0.05}} onPress={() => router.navigate('/codigo')}><Text style={{color: '#0000FF', fontWeight: 'bold'}}>Esqueceu a Senha?</Text></TouchableOpacity> {/* Botão para entrar no app */}
+                </View>
+              </>
+            )}
+          </View>
+        </View>
       </SafeAreaView>
   );
 } 
@@ -146,11 +147,21 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: 8,
   },
+  content: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 30,
+  },
   loadingContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#f0f0f0',
+  },
+  formContainer: {
+      width: '100%',
+      minHeight: 120
   },
   input: {
     borderWidth: 0.5,
@@ -164,7 +175,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#EADDFF',
-    marginTop: height * 0.01
+    marginTop: height * 0.01,
+    flexDirection: 'row'
+  },
+  buttonVoltar: {
+    marginTop: 15,
+    alignItems: 'center'
   },
   buttonGoogle: {
     height: 50,
@@ -176,6 +192,14 @@ const styles = StyleSheet.create({
     borderColor: '#ccc',
     marginTop: 10,
     flexDirection: 'row'
+  },
+  buttonGuest: {
+    height: 50,
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#f0f0f0',
+    marginTop: 10
   },
   buttonText: {
     color: '#4F378A',
@@ -194,5 +218,15 @@ const styles = StyleSheet.create({
     color: '#555',
     fontWeight: '500',
     fontSize: 16
+  },
+  buttonGuestText: {
+    color: '#333',
+    fontWeight: '500',
+    fontSize: 16
+  },
+  footerLinks: {
+    width: '100%',
+    alignItems: 'center',
+    marginTop: 60
   }
 });

@@ -1,31 +1,40 @@
 // Importando as bibliotecas necessárias para o código
-import React from 'react';
-import {router} from 'expo-router';
-import {StyleSheet, View, SafeAreaView, Text, Image, Dimensions, TouchableOpacity} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {router, Href} from 'expo-router';
+import {StyleSheet, View, SafeAreaView, Text, Image, Dimensions, TouchableOpacity, Alert} from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import UserInfoDisplay from '@/components/UserInfoDisplay';
+import {auth} from '../firebaseConfig';
+import {User} from 'firebase/auth';
 
 const { height } = Dimensions.get('window'); // Utilizando 'height' para fazer estilização responsiva, a partir da biblioteca Dimensions
 
 // Chamando a função principal (necessário para abrir o menu principal)
 export default function HomeScreen() {
+  const [user, setUser] = useState<User | null>(null);
+  const isGuest = user ? user.isAnonymous : false;
+
+  useEffect(() => {
+    // Escuta as mudanças de autenticação para saber quem é o usuário
+    const unsubscribe = auth.onAuthStateChanged((firebaseUser) => {
+        setUser(firebaseUser);
+    });
+    return () => unsubscribe();
+  }, []);
+
   // Função para trocar de tela
-  function trocaTela(id: number){
-      switch(id){
-          case 1:
-              router.navigate('/') // INSERIR HREF PARA TELA DE CADASTRO DE REAÇÃO A PARTIR DO COLORÍEMTRO
-              break;
-          case 2:
-              router.navigate('/') // INSERIR HREF PARA TELA DE VISUALIZAÇÃO DOS DADOS DO COLORÍMETRO
-              break;
-          case 3:
-              router.navigate('/') // INSERIR HREF PARA TELA DE VISUALIZAÇÃO DA POSSIBILIDADE DE REAÇÃO
-              break;
-          case 4:
-              router.navigate('/modelo_3d')
-              break;
+  const trocaTela = (path: Href, isProtected: boolean) => {
+      if (isProtected && isGuest) {
+          // Se a rota for protegida e o usuário for convidado, mostra um alerta
+          Alert.alert(
+              "Função Limitada",
+              "Para acessar esta funcionalidade, por favor, crie uma conta."
+          );
+      } else {
+          // Caso contrário, navega para a tela
+          router.navigate(path);
       }
-  }
+  };
 
   // O que será mostrado na tela
   return (
@@ -39,22 +48,23 @@ export default function HomeScreen() {
 
         {/* View para mostrar o menu com as opções */}
         <View style={{width: '80%', marginBottom: height * 0.1}}>
-                <TouchableOpacity style={styles.menuItem} onPress={() => trocaTela(1)}>
-                  <MaterialCommunityIcons name='magnify' size={24} color='gray'></MaterialCommunityIcons>
-                  <Text style={styles.menuText}>Cadastrar reação colorímetro</Text>
+                <TouchableOpacity style={[styles.menuItem, isGuest && styles.disabledMenuItem]} onPress={() => trocaTela('/', true)}>
+                  <MaterialCommunityIcons name={isGuest ? 'block-helper': 'magnify'} size={24} color={isGuest ? '#c53929' : 'gray'}></MaterialCommunityIcons>
+                  <Text style={[styles.menuText, isGuest && styles.disabledMenuText]}>Cadastrar reação colorímetro</Text>
                 </TouchableOpacity>
                 
-                <TouchableOpacity style={styles.menuItem} onPress={() => trocaTela(2)}>
-                  <MaterialCommunityIcons name='magnify' size={24} color='gray'></MaterialCommunityIcons>
-                  <Text style={styles.menuText}>Visualize os dados do colorímetro</Text>
+                <TouchableOpacity style={[styles.menuItem, isGuest && styles.disabledMenuItem]} onPress={() => trocaTela('/', true)}>
+                  <MaterialCommunityIcons name={isGuest ? 'block-helper': 'magnify'} size={24} color={isGuest ? '#c53929' : 'gray'}></MaterialCommunityIcons>
+                  <Text style={[styles.menuText, isGuest && styles.disabledMenuText]}>Visualize os dados do colorímetro</Text>
                 </TouchableOpacity>
                 
-                <TouchableOpacity style={styles.menuItem} onPress={() => trocaTela(3)}>
-                  <MaterialCommunityIcons name='magnify' size={24} color='gray'></MaterialCommunityIcons>
-                  <Text style={styles.menuText}>Visualize a possibilidade de reação</Text>
+                <TouchableOpacity style={[styles.menuItem, isGuest && styles.disabledMenuItem]} onPress={() => trocaTela('/', true)}>
+                  <MaterialCommunityIcons name={isGuest ? 'block-helper': 'magnify'} size={24} color={isGuest ? '#c53929' : 'gray'}></MaterialCommunityIcons>
+                  <Text style={[styles.menuText, isGuest && styles.disabledMenuText]}>Visualize a possibilidade de reação</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.menuItem} onPress={() => trocaTela(4)}>
+                {/* Botão público para todos os usuários */}
+                <TouchableOpacity style={styles.menuItem} onPress={() => trocaTela('/modelo_3d', false)}>
                   <MaterialCommunityIcons name='magnify' size={24} color='gray'></MaterialCommunityIcons>
                   <Text style={styles.menuText}>Visualize o modelo 3d do colorímetro</Text>
                 </TouchableOpacity>
@@ -86,5 +96,14 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     fontSize: 16,
     color: 'gray'
+  },
+
+  // Estilos para botões desabilitados
+  disabledMenuItem: {
+      backgroundColor: '#fce8e6',
+      borderColor: '#f5c6c',
+  },
+  disabledMenuText: {
+      color: '#a94442',
   }
 });

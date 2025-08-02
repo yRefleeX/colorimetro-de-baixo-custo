@@ -27,7 +27,7 @@ const UserInfoDisplay = () => {
   useEffect(() => {
       const unsubscribe = onAuthStateChanged(auth, (user) => {
         if (user) {
-          setUserName(user.displayName || 'Usuário');
+          setUserName(user.displayName || 'Convidado');
         } else {
           setUserName('Convidado');
         }

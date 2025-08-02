@@ -81,6 +81,7 @@ export default function Cadastrar() {
             <Controller control={control} name='senha' render={({field: {onChange, onBlur, value, }}) => (<TextInput placeholder='Senha' secureTextEntry={true} style={{ height: 40, backgroundColor: 'white', width: 150, borderRadius: 5, borderColor: errors.senha && 'red', borderWidth:1, alignSelf:'center', marginTop: 20}} onChangeText={onChange} onBlur={onBlur} value={value}></TextInput>)}/>{errors.senha && <Text style={{ color:'red', alignSelf:'center'}}>{errors.senha.message}</Text>}
             <Controller control={control} name='ConfirmarSenha' render={({field: {onChange, onBlur, value, }}) => (<TextInput placeholder='Confirmar Senha' secureTextEntry={true} style={{ height: 40, backgroundColor: 'white', width: 150, borderRadius: 5, borderColor: errors.senha && 'red', borderWidth:1, alignSelf:'center', marginTop: 20}} onChangeText={onChange} onBlur={onBlur} value={value}></TextInput>)}/>{errors.ConfirmarSenha && <Text style={{ color:'red', alignSelf:'center'}}>{errors.ConfirmarSenha.message}</Text>}
             <TouchableOpacity style={styles.button} onPress={handleSubmit(handleSignIn)} disabled={loading}> {loading ? (<ActivityIndicator size="small" color="#000" />) : (<Text style={styles.buttonText}>Enviar</Text>)}</TouchableOpacity>
+            <TouchableOpacity style={styles.buttonVoltar} onPress={() => router.navigate('/')} disabled={loading}><Text style={{color: '#555', fontSize: 16}}>Voltar</Text></TouchableOpacity>
         </View>
     </SafeAreaView>
     );
@@ -106,5 +107,9 @@ const styles = StyleSheet.create ({
     },
     buttonText: {
         fontWeight: 'bold'
+    },
+    buttonVoltar: {
+        marginTop: 15,
+        alignItems: 'center'
     }
 });
