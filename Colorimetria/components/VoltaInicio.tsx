@@ -1,5 +1,5 @@
 /*
-O arquivo VoltaInicio serve para mostrar uma seta, a qual funciona para voltar à tela inicial.
+O arquivo VoltaInicio.tsx serve para mostrar uma seta, a qual funciona para voltar à tela inicial.
 Como ele será utilizado em diversas telas, foi utilizado uma const, na qual funcionará como uma "tag".
 Caso queira utilizá-lo em alguma tela, basta digitar <VoltaInicio></VoltaInicio>
 */

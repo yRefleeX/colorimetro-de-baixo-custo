@@ -1,0 +1,110 @@
+import { StyleSheet, Text, SafeAreaView, TouchableOpacity, View, Dimensions, Alert, ActivityIndicator} from 'react-native';
+import React, {useState} from 'react';
+import { TextInput } from 'react-native';
+import {useForm, Controller} from 'react-hook-form';
+import {yupResolver} from "@hookform/resolvers/yup";
+import * as yup from 'yup';
+import {auth} from '../firebaseConfig';
+import { createUserWithEmailAndPassword, updateProfile} from 'firebase/auth';
+import { router } from 'expo-router';
+
+const { height } = Dimensions.get('window'); // Utilizando 'height' para fazer estilização responsiva, a partir da biblioteca Dimensions
+
+const schema = yup.object({
+    nome: yup.string().required("Digite um nome"),
+    email: yup.string().email("Digite um email válido").required("Digite um email"),
+    senha: yup.string().min(6, "A senha deve ter pelo menos 6 caracteres.").required("Digite uma senha"),
+    ConfirmarSenha: yup.string().oneOf([yup.ref('senha')], 'Senha tem que ser igual').required('Digite uma senha')
+})
+
+export default function Cadastrar() {
+    const [loading, setLoading] = useState(false);
+
+    const {control, handleSubmit, formState: {errors}} = useForm({
+        resolver: yupResolver(schema),
+        defaultValues: {
+        nome: '',
+        email: '',
+        senha: '',
+        ConfirmarSenha: '',
+        }
+    })
+
+    async function handleSignIn(data: any){
+        if(!auth){
+            Alert.alert("Erro", "Sistema de autenticação não inicializado.");
+            return;
+        }
+
+        setLoading(true);
+        try {
+        // Cria o usuário com e-mail e senha
+        const userCredential = await createUserWithEmailAndPassword(auth, data.email, data.senha);
+        const user = userCredential.user;
+
+        // Adiciona o nome de exibição (opcional, mas recomendado para o cadastro)
+        if (user) {
+            await updateProfile(user, { displayName: data.nome });
+        }
+
+        console.log("Usuário cadastrado com sucesso:", user);
+        Alert.alert("Sucesso", "Usuário cadastrado e logado com sucesso!");
+        // Redireciona para a tela inicial após o cadastro
+        router.replace('/inicial');
+
+        } catch (error: any) {
+        console.error("Erro ao cadastrar:", error.code, error.message);
+        let errorMessage = 'Ocorreu um erro ao cadastrar. Tente novamente.';
+
+        if (error.code === 'auth/email-already-in-use') {
+            errorMessage = 'Este e-mail já está em uso. Por favor, use outro.';
+        } else if (error.code === 'auth/invalid-email') {
+            errorMessage = 'O e-mail fornecido é inválido.';
+        } else if (error.code === 'auth/weak-password') {
+            errorMessage = 'A senha é muito fraca. Tente uma mais forte.';
+        }
+
+        Alert.alert("Erro no Cadastro", errorMessage);
+        } finally {
+        setLoading(false);
+        }
+    }
+
+  return (
+    <SafeAreaView style={styles.titleContainer}>
+
+    <Text style ={{ fontSize:30, fontWeight: 'bold', textAlign:'center'}}>CADASTRAR</Text>
+
+        <View style={{backgroundColor:"#e3e3e3", width: 300, paddingVertical: 20, marginTop: height * 0.08, borderRadius:15}}>
+            <Controller control={control} name='nome' render={({field: {onChange, onBlur, value, }}) => (<TextInput placeholder='Nome' style={{ height: 40, backgroundColor: 'white', width: 150, borderRadius: 5, borderColor: errors.nome && 'red', borderWidth:1, alignSelf:'center', marginTop: 20}} onChangeText={onChange} onBlur={onBlur} value={value}></TextInput>)}/>{errors.nome && <Text style={{ color:'red', alignSelf:'center'}}>{errors.nome.message}</Text>}
+            <Controller control={control} name='email' render={({field: {onChange, onBlur, value, }}) => (<TextInput autoCapitalize='none' keyboardType='email-address' placeholder='Email' style={{ height: 40, backgroundColor: 'white', width: 150, borderRadius: 5, borderColor: errors.email && 'red', borderWidth:1, alignSelf:'center', marginTop: 20}} onChangeText={onChange} onBlur={onBlur} value={value}></TextInput>)}/>{errors.email && <Text style={{ color:'red', alignSelf:'center'}}>{errors.email.message}</Text>}
+            <Controller control={control} name='senha' render={({field: {onChange, onBlur, value, }}) => (<TextInput placeholder='Senha' secureTextEntry={true} style={{ height: 40, backgroundColor: 'white', width: 150, borderRadius: 5, borderColor: errors.senha && 'red', borderWidth:1, alignSelf:'center', marginTop: 20}} onChangeText={onChange} onBlur={onBlur} value={value}></TextInput>)}/>{errors.senha && <Text style={{ color:'red', alignSelf:'center'}}>{errors.senha.message}</Text>}
+            <Controller control={control} name='ConfirmarSenha' render={({field: {onChange, onBlur, value, }}) => (<TextInput placeholder='Confirmar Senha' secureTextEntry={true} style={{ height: 40, backgroundColor: 'white', width: 150, borderRadius: 5, borderColor: errors.senha && 'red', borderWidth:1, alignSelf:'center', marginTop: 20}} onChangeText={onChange} onBlur={onBlur} value={value}></TextInput>)}/>{errors.ConfirmarSenha && <Text style={{ color:'red', alignSelf:'center'}}>{errors.ConfirmarSenha.message}</Text>}
+            <TouchableOpacity style={styles.button} onPress={handleSubmit(handleSignIn)} disabled={loading}> {loading ? (<ActivityIndicator size="small" color="#000" />) : (<Text style={styles.buttonText}>Enviar</Text>)}</TouchableOpacity>
+        </View>
+    </SafeAreaView>
+    );
+}
+
+const styles = StyleSheet.create ({
+    titleContainer: {
+        display: 'flex',
+        top: '15%',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 8
+    },
+    button: {
+        height:40,
+        width:80,
+        backgroundColor:'white',
+        marginTop: height * 0.01,
+        alignSelf:'center',
+        alignItems:'center',
+        justifyContent: 'center',
+        marginBottom:15
+    },
+    buttonText: {
+        fontWeight: 'bold'
+    }
+});

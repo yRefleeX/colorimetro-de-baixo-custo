@@ -1,7 +1,7 @@
 // Importando as bibliotecas necessárias para o código
 import React from 'react';
 import {router} from 'expo-router';
-import {StyleSheet, View, SafeAreaView, Text, Image, Dimensions, TouchableOpacity } from 'react-native';
+import {StyleSheet, View, SafeAreaView, Text, Image, Dimensions, TouchableOpacity} from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import UserInfoDisplay from '@/components/UserInfoDisplay';
 
@@ -9,23 +9,23 @@ const { height } = Dimensions.get('window'); // Utilizando 'height' para fazer e
 
 // Chamando a função principal (necessário para abrir o menu principal)
 export default function HomeScreen() {
-    // Função para trocar de tela
-    function trocaTela(id: number){
-        switch(id){
-            case 1:
-                router.navigate('/') // INSERIR HREF PARA TELA DE CADASTRO DE REAÇÃO A PARTIR DO COLORÍEMTRO
-                break;
-            case 2:
-                router.navigate('/') // INSERIR HREF PARA TELA DE VISUALIZAÇÃO DOS DADOS DO COLORÍMETRO
-                break;
-            case 3:
-                router.navigate('/') // INSERIR HREF PARA TELA DE VISUALIZAÇÃO DA POSSIBILIDADE DE REAÇÃO
-                break;
-            case 4:
-                router.navigate('/modelo_3d')
-                break;
-        }
-    }
+  // Função para trocar de tela
+  function trocaTela(id: number){
+      switch(id){
+          case 1:
+              router.navigate('/') // INSERIR HREF PARA TELA DE CADASTRO DE REAÇÃO A PARTIR DO COLORÍEMTRO
+              break;
+          case 2:
+              router.navigate('/') // INSERIR HREF PARA TELA DE VISUALIZAÇÃO DOS DADOS DO COLORÍMETRO
+              break;
+          case 3:
+              router.navigate('/') // INSERIR HREF PARA TELA DE VISUALIZAÇÃO DA POSSIBILIDADE DE REAÇÃO
+              break;
+          case 4:
+              router.navigate('/modelo_3d')
+              break;
+      }
+  }
 
   // O que será mostrado na tela
   return (
@@ -60,7 +60,7 @@ export default function HomeScreen() {
                 </TouchableOpacity>
         </View>
 
-        <UserInfoDisplay userName='Matheus Tonini dos Santos'></UserInfoDisplay> {/* Seção com as informações do usuário, junto com o botão para sair do app */}
+        <UserInfoDisplay/> {/* Seção com as informações do usuário, junto com o botão para sair do app */}
       </SafeAreaView>
   );
 } 

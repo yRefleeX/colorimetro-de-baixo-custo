@@ -3,38 +3,19 @@ import { ActivityIndicator, View, Text } from 'react-native';
 import { useFonts } from 'expo-font';
 import { Stack, router, useRootNavigationState} from 'expo-router';
 import 'react-native-reanimated';
-import { initializeApp } from 'firebase/app';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
-
-import { useColorScheme } from '@/hooks/useColorScheme';
+import { onAuthStateChanged, User } from 'firebase/auth';
+import { auth } from '../firebaseConfig';
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
   const [loaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
   });
 
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const navigationState = useRootNavigationState();
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyB6rWreNwmi2e7osBqj3kn1yP0J_bGExaI",
-    authDomain: "colorimetro-de-baixo-custo.firebaseapp.com",
-    projectId: "colorimetro-de-baixo-custo",
-    storageBucket: "colorimetro-de-baixo-custo.firebasestorage.app",
-    messagingSenderId: "52158465405",
-    appId: "1:52158465405:web:19668e5dcdf73e31957814",
-    measurementId: "G-H3PS3E0QZF"
-  };
-
   useEffect(() => {
-    const initFirebaseAndAuth = () => {
-      try {
-        // Acessa diretamente a configuração fornecida
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-
         // Listener de estado de autenticação
         const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
           setUser(firebaseUser);
@@ -42,13 +23,6 @@ export default function RootLayout() {
         });
 
         return () => unsubscribe(); // Limpa o listener ao desmontar
-      } catch (error) {
-        console.error('Erro ao inicializar Firebase no _layout:', error);
-        setIsLoading(false);
-      }
-    };
-
-    initFirebaseAndAuth();
   }, []);
 
   useEffect(() => {
@@ -60,10 +34,10 @@ export default function RootLayout() {
     // A lógica de redirecionamento agora está aqui, fora do return
     if (user) {
         // Se o usuário estiver logado, navegue para a tela inicial
-        router.navigate('/inicial');
+        router.replace('/inicial');
     } else {
         // Se não estiver logado, navegue para a tela de login
-        router.navigate('/');
+        router.replace('/');
     }
   }, [user, isLoading, loaded, navigationState?.key]);
 
@@ -81,6 +55,9 @@ export default function RootLayout() {
       <Stack.Screen name="index" options={{ headerShown: false }} />
       <Stack.Screen name="inicial" options={{ headerShown: false }} />
       <Stack.Screen name="modelo_3d" options={{ headerShown: false }} />
+      <Stack.Screen name="cadastrar" options={{ headerShown: false }} />
+      <Stack.Screen name="codigo" options={{ headerShown: false }} />
+      <Stack.Screen name="nova_senha" options={{ headerShown: false }} />
     </Stack>
   );
 }

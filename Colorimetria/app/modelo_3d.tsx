@@ -47,7 +47,7 @@ export default function ViewColorimeterScreen() {
             />
         </View>
 
-        <UserInfoDisplay userName='Matheus Tonini dos Santos'></UserInfoDisplay> {/* Seção com as informações do usuário, junto com o botão para sair do app */}
+        <UserInfoDisplay/> {/* Seção com as informações do usuário, junto com o botão para sair do app */}
       </SafeAreaView>
   );
 } 

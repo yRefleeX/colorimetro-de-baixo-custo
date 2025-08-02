@@ -5,8 +5,11 @@ import {StyleSheet, SafeAreaView, Text, Image, TextInput, TouchableOpacity, Dime
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { initializeApp } from 'firebase/app';
-import {getAuth, signInWithEmailAndPassword, onAuthStateChanged, User} from 'firebase/auth';
+import {auth} from '../firebaseConfig';
+import {signInWithEmailAndPassword, onAuthStateChanged, GoogleAuthProvider, signInWithCredential} from 'firebase/auth';
+import * as WebBrowser from 'expo-web-browser';
+import * as Google from 'expo-auth-session/providers/google';
+import { makeRedirectUri } from 'expo-auth-session';
 
 const { height } = Dimensions.get('window'); // Utilizando 'height' para fazer estilização responsiva, a partir da biblioteca Dimensions
 
@@ -16,20 +19,19 @@ const schema = yup.object({
   password: yup.string().required("Digite sua senha.")
 })
 
-const firebaseConfig = {
-  apiKey: "AIzaSyB6rWreNwmi2e7osBqj3kn1yP0J_bGExaI",
-  authDomain: "colorimetro-de-baixo-custo.firebaseapp.com",
-  projectId: "colorimetro-de-baixo-custo",
-  storageBucket: "colorimetro-de-baixo-custo.firebasestorage.app",
-  messagingSenderId: "52158465405",
-  appId: "1:52158465405:web:19668e5dcdf73e31957814",
-  measurementId: "G-H3PS3E0QZF"
-};
+WebBrowser.maybeCompleteAuthSession();
 
 // Chamando a função principal (necessário para abrir a tela de login)
 export default function LoginScreen() {
-  const [loading, setLoading] = useState<boolean>(true); // Estado de carregamento inicial para autenticação
-  const [auth, setAuth] = useState<any>(null); // Instância do Auth
+  const [loading, setLoading] = useState<boolean>(false); // Estado de carregamento inicial para autenticação
+  const [authLoading, setAuthLoading] = useState<boolean>(true); // Estado de carregamento da inicialização do Firebase
+
+  const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
+    clientId: process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID_WEB,
+    redirectUri: makeRedirectUri({
+      native: 'colorimetria://'
+    }),
+  });
 
   const {control, handleSubmit, formState: {errors}} = useForm({
     resolver: yupResolver(schema), // Utilização do yupResolver para validação os dados
@@ -41,19 +43,12 @@ export default function LoginScreen() {
 
   // --- Inicialização do Firebase Auth ---
   useEffect(() => {
-    const initFirebaseAuth = async () => {
-      try {
-        // Acessa diretamente a configuração fornecida
-        const app = initializeApp(firebaseConfig);
-        const firebaseAuth = getAuth(app);
-        setAuth(firebaseAuth);
-
         // Observa mudanças no estado de autenticação
-        const unsubscribeAuth = onAuthStateChanged(firebaseAuth, (user) => {
-          setLoading(false); // Autenticação pronta
+        const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
+          setAuthLoading(false); // Autenticação pronta
           if (user) {
             console.log('Usuário autenticado:', user.uid);
-            // Se o usuário já estiver logado, navega para a tela principal
+            // Se já houver um usuário logado, redireciona para a tela inicial
             router.navigate('/inicial');
           } else {
             console.log('Nenhum usuário autenticado.');
@@ -61,16 +56,24 @@ export default function LoginScreen() {
         });
 
         return () => unsubscribeAuth(); // Limpa o listener ao desmontar
-      } catch (error) {
-        console.error('Erro ao inicializar Firebase Auth:', error);
-        Alert.alert('Erro', 'Não foi possível inicializar o sistema de autenticação.');
-        setLoading(false);
-      }
-    };
-
-    initFirebaseAuth();
   }, []);
-  
+
+  // --- Login com Google ---
+  useEffect(() => {
+    if (response?.type === 'success' && auth) {
+      const { id_token } = response.params;
+      const credential = GoogleAuthProvider.credential(id_token);
+      signInWithCredential(auth, credential)
+        .then(() => {
+          Alert.alert('Sucesso', 'Login com Google realizado!');
+        })
+        .catch((error) => {
+          console.error('Erro no login com Google:', error);
+          Alert.alert('Erro', 'Não foi possível fazer login com Google.');
+        });
+    }
+  }, [response, auth]);
+
   // Função para entrar na tela inicial após o login
   const handleSignIn = async (data: {email: string; password: string}) => {
     if(!auth){
@@ -82,7 +85,6 @@ export default function LoginScreen() {
 
     try {
       await signInWithEmailAndPassword(auth, data.email, data.password);
-      // A navegação para /home será tratada pelo onAuthStateChanged
     } catch (error: any) {
       console.error('Erro ao fazer login:', error.code, error.message);
       let errorMessage = 'Erro ao fazer login. Verifique suas credenciais.';
@@ -100,7 +102,7 @@ export default function LoginScreen() {
   }
 
   // Renderização condicional para o estado de carregamento
-  if (loading) {
+  if (authLoading) {
     return (
       <View style={styles.loadingContainer}>
         <ActivityIndicator size="large" color="#0000ff" />
@@ -123,12 +125,14 @@ export default function LoginScreen() {
 
         {/* View com inputs para login */}
         <View>
-          <Controller control={control} name="email" render={({field: {onChange, onBlur, value, }}) => (<TextInput style={[styles.input, {borderColor: errors.email && 'red'}]} onChangeText={onChange} onBlur={onBlur} value={value} placeholder='Email'></TextInput>)}/>{errors.email && <Text style={styles.errorMessage}>{errors.email.message}</Text>}
-          <Controller control={control} name="password" render={({field: {onChange, onBlur, value, }}) => (<TextInput style={[styles.input, {borderColor: errors.password && 'red'}]} onChangeText={onChange} onBlur={onBlur} value={value} placeholder='Senha' secureTextEntry={true}></TextInput>)}/>{errors.password && <Text style={styles.errorMessage}>{errors.password.message}</Text>}
-          <TouchableOpacity style={styles.button} onPress={handleSubmit(handleSignIn)} disabled={loading}><Text style={styles.buttonText}>Entrar</Text></TouchableOpacity>
+          <Controller control={control} name="email" render={({field: {onChange, onBlur, value}}) => (<TextInput autoCapitalize='none' keyboardType='email-address' style={[styles.input, {borderColor: errors.email && 'red'}]} onChangeText={onChange} onBlur={onBlur} value={value} placeholder='Email'></TextInput>)}/>{errors.email && <Text style={styles.errorMessage}>{errors.email.message}</Text>}
+          <Controller control={control} name="password" render={({field: {onChange, onBlur, value}}) => (<TextInput style={[styles.input, {borderColor: errors.password && 'red'}]} onChangeText={onChange} onBlur={onBlur} value={value} placeholder='Senha' secureTextEntry={true}></TextInput>)}/>{errors.password && <Text style={styles.errorMessage}>{errors.password.message}</Text>}
+          <TouchableOpacity style={styles.button} onPress={handleSubmit(handleSignIn)} disabled={loading}>{loading ? <ActivityIndicator color="#4F378A" /> : <Text style={styles.buttonText}>Entrar</Text>}</TouchableOpacity>
+          <TouchableOpacity style={styles.buttonGoogle} onPress={() => { setLoading(true); promptAsync(); }} disabled={loading}>{loading ? (<ActivityIndicator color="#555" />) : (<><Image source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg' }} style={styles.googleIcon} /><Text style={styles.buttonTextGoogle}>Entrar com o Google</Text></>)}</TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={() => router.navigate('/cadastrar')} disabled={loading}><Text style={styles.buttonText}>Criar conta</Text></TouchableOpacity>
         </View>
 
-        <TouchableOpacity style={{top: height * 0.1}}><Text style={{color: '#0000FF', fontWeight: 'bold'}}>Esqueceu a Senha?</Text></TouchableOpacity> {/* Botão para entrar no app */}
+        <TouchableOpacity style={{top: height * 0.1}} onPress={() => router.navigate('/codigo')}><Text style={{color: '#0000FF', fontWeight: 'bold'}}>Esqueceu a Senha?</Text></TouchableOpacity> {/* Botão para entrar no app */}
       </SafeAreaView>
   );
 } 
@@ -154,17 +158,41 @@ const styles = StyleSheet.create({
     padding: 10
   },
   button: {
-    padding: 10,
-    borderWidth: 0.5,
-    borderRadius: 15,
+    height: 50,
+    borderWidth: 1,
+    borderRadius: 8,
     alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: '#EADDFF',
+    marginTop: height * 0.01
+  },
+  buttonGoogle: {
+    height: 50,
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#FFF',
+    borderWidth: 1,
+    borderColor: '#ccc',
+    marginTop: 10,
+    flexDirection: 'row'
   },
   buttonText: {
     color: '#4F378A',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    fontSize: 16
   },
   errorMessage: {
     color: 'red'
+  },
+  googleIcon: {
+    width: 24,
+    height: 24,
+    marginRight: 12
+  },
+  buttonTextGoogle: {
+    color: '#555',
+    fontWeight: '500',
+    fontSize: 16
   }
 });
