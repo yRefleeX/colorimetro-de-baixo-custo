@@ -66,14 +66,14 @@ export default function DadosColorimetro() {
           <SafeAreaView style = {styles.div_alinha_linha}>
 
             <Image style = {styles.images} source={require('../../assets/images/PDF.png')}/>
-            <TouchableOpacity style = {styles.botao} onPress={exportarDocumentos('PDF')}>EXPORTAR</TouchableOpacity>
+            <TouchableOpacity style = {styles.botao} onPress={() => exportarDocumentos('PDF')}>EXPORTAR</TouchableOpacity>
           
           </SafeAreaView>
 
           <SafeAreaView style = {styles.div_alinha_linha}>
 
             <Image style = {styles.images} source={require('../../assets/images/DOCS.png')}/>
-            <TouchableOpacity style = {styles.botao} onPress={exportarDocumentos('DOCS')}>EXPORTAR</TouchableOpacity>
+            <TouchableOpacity style = {styles.botao} onPress={() => exportarDocumentos('DOCS')}>EXPORTAR</TouchableOpacity>
 
           </SafeAreaView>
 

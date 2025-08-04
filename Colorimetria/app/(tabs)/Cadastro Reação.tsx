@@ -1,6 +1,6 @@
 // importando as bibliotecas necessarias para execução do código
 
-import { StyleSheet, Text, SafeAreaView, Image, TouchableOpacity, TextInput } from 'react-native';
+import { StyleSheet, Text, SafeAreaView, Image, TouchableOpacity, TextInput, View } from 'react-native';
 
 
 
@@ -19,18 +19,18 @@ export default function CadastroReacao() {
 
 //Div 'Mãe" da pagina -> Todo conteudo estara dentro desse SafeAreaView, restringindo o conteudo exibido da barra de navegação na parte inferior até o cabeçalho de notificações.    
 
-    <SafeAreaView>
+    <SafeAreaView style={styles.titleContainer}>
 
-      <SafeAreaView style={styles.div_titulo}>
+      <View style={styles.div_titulo}>
 
         <Text style={styles.title_page}><b>Cadastro de Reações</b></Text>
       
-      </SafeAreaView>
+      </View>
 
 
-        <SafeAreaView style = {styles.div_alinha_coluna}>
+        <View style = {styles.div_alinha_coluna}>
           
-          <SafeAreaView style = {styles.div_alinha_linha}>
+          <View style = {styles.div_alinha_linha}>
 
             <Text><b>Tipo de Reação:</b></Text>
             
@@ -38,9 +38,9 @@ export default function CadastroReacao() {
              style = {styles.botao} 
              />
           
-          </SafeAreaView>
+          </View>
 
-         <SafeAreaView style = {styles.div_alinha_linha}>
+         <View style = {styles.div_alinha_linha}>
 
             <Text><b>Composto 1: </b></Text>
             
@@ -48,9 +48,9 @@ export default function CadastroReacao() {
              style = {styles.botao} 
              />
           
-          </SafeAreaView>
+          </View>
         
-          <SafeAreaView style = {styles.div_alinha_linha}>
+          <View style = {styles.div_alinha_linha}>
 
             <Text><b>Quantidade Composto 1: </b></Text>
             
@@ -58,9 +58,9 @@ export default function CadastroReacao() {
              style = {styles.botao} 
              />
           
-          </SafeAreaView>
+          </View>
 
-          <SafeAreaView style = {styles.div_alinha_linha}>
+          <View style = {styles.div_alinha_linha}>
 
             <Text><b>Composto 2: </b></Text>
             
@@ -68,8 +68,8 @@ export default function CadastroReacao() {
              style = {styles.botao} 
              />
           
-          </SafeAreaView>
-          <SafeAreaView style = {styles.div_alinha_linha}>
+          </View>
+          <View style = {styles.div_alinha_linha}>
 
             <Text><b>Quantidade Composto 2: </b></Text>
             
@@ -77,13 +77,13 @@ export default function CadastroReacao() {
              style = {styles.botao} 
              />
           
-          </SafeAreaView>
+          </View>
 
-        </SafeAreaView>
+        </View>
 
-        <SafeAreaView style= {{alignItems:'Center',height: 90,}}>
+        <View style = {{alignItems:'center', height: 90}}>
              <TouchableOpacity style = {styles.botao}>EXPORTAR</TouchableOpacity>
-        </SafeAreaView>
+        </View>
 
       </SafeAreaView>
 

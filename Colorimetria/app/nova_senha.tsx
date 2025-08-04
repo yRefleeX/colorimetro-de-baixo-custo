@@ -11,7 +11,7 @@ import { auth } from '../firebaseConfig';
 const { height } = Dimensions.get('window'); // Utilizando 'height' para fazer estilização responsiva, a partir da biblioteca Dimensions
 
 const schema = yup.object({
-    senha: yup.string().required("Digite uma senha"),
+    senha: yup.string().min(6, "A senha deve ter pelo menos 6 caracteres.").required("Digite uma senha"),
     confirmarSenha: yup.string().oneOf([yup.ref('senha')], 'Senha tem que ser igual').required('Digite uma senha')
 })
 
