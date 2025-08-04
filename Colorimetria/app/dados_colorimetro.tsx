@@ -34,17 +34,17 @@ export default function DadosColorimetro() {
 
         <View style={styles.div_conteudo}>
 
-          <Text><b>Concentração:</b></Text>
+          <Text style={{fontWeight: 'bold'}}>Concentração:</Text>
 
-          <Text><b>Ph:</b></Text>
+          <Text style={{fontWeight: 'bold'}}>Ph:</Text>
 
-          <Text style ={{marginTop:10, marginBottom:10}}><b>Compostos utilizados:</b></Text>
+          <Text style ={{marginTop:10, marginBottom:10, fontWeight: 'bold'}}>Compostos utilizados:</Text>
 
           <View style = {styles.div_alinha_coluna}>
           
             <View style = {styles.div_alinha_linha}>
 
-              <Text><b>1° Composto: </b></Text>
+              <Text style={{fontWeight: 'bold'}}>1° Composto:</Text>
               
               <TextInput 
               style = {styles.botao} 
@@ -54,7 +54,7 @@ export default function DadosColorimetro() {
 
             <View style = {styles.div_alinha_linha}>
 
-              <Text><b>2° Composto: </b></Text>
+              <Text style={{fontWeight: 'bold'}}>2° Composto:</Text>
               
               <TextInput 
               style = {styles.botao} 
@@ -70,14 +70,14 @@ export default function DadosColorimetro() {
             <View style = {styles.div_alinha_linha}>
 
               <Image style = {styles.images} source={require('../assets/images/PDF.png')}/>
-              <TouchableOpacity style = {styles.botao} onPress={() => exportarDocumentos('PDF')}>EXPORTAR</TouchableOpacity>
+              <TouchableOpacity style = {styles.botao} onPress={() => exportarDocumentos('PDF')}><Text style={styles.buttonText}>EXPORTAR</Text></TouchableOpacity>
             
             </View>
 
             <View style = {styles.div_alinha_linha}>
 
               <Image style = {styles.images} source={require('../assets/images/DOCS.png')}/>
-              <TouchableOpacity style = {styles.botao} onPress={() => exportarDocumentos('DOCS')}>EXPORTAR</TouchableOpacity>
+              <TouchableOpacity style = {styles.botao} onPress={() => exportarDocumentos('DOCS')}><Text style={styles.buttonText}>EXPORTAR</Text></TouchableOpacity>
 
             </View>
 
@@ -141,5 +141,9 @@ const styles = StyleSheet.create({
       marginTop:5,
       padding:5,
       flexDirection:'row',
+  },
+  buttonText: {
+    fontSize: 16,
+    textAlign: 'center'
   }
 });

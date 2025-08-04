@@ -55,7 +55,7 @@ const UserInfoDisplay = () => {
     <View style={styles.userInfoContainer}>
         <MaterialCommunityIcons name='account' size={50} color='black'></MaterialCommunityIcons>
         {loading ? (<ActivityIndicator size="small" color="#000" />) : (<Text style={styles.userInfoText}>{`Usuário: ${userName}`}</Text>)}
-        <TouchableOpacity style={styles.userLogout} onPress={logOut}>Sair</TouchableOpacity>
+        <TouchableOpacity style={styles.userLogout} onPress={logOut}><Text style={styles.userLogoutText}>Sair</Text></TouchableOpacity>
     </View>
   );
 };
@@ -86,9 +86,11 @@ const styles = StyleSheet.create({
     borderColor: "#ccc",
     paddingVertical: 12,
     paddingHorizontal: 15,
-    color: '#852221',
     backgroundColor: '#fce8e6',
-    fontWeight: 'bold'
+  },
+  userLogoutText: {
+    fontWeight: 'bold',
+    color: '#852221'
   }
 });
 

@@ -26,7 +26,7 @@ export default function CadastroReacao() {
 
         <View style={styles.div_titulo}>
 
-          <Text style={styles.title_page}><b>Cadastro de Reações</b></Text>
+          <Text style={styles.title_page}>Cadastro de Reações</Text>
         
         </View>
 
@@ -35,7 +35,7 @@ export default function CadastroReacao() {
             
             <View style = {styles.div_alinha_linha}>
 
-              <Text><b>Tipo de Reação:</b></Text>
+              <Text style={{fontWeight: 'bold'}}>Tipo de Reação:</Text>
               
               <TextInput 
               style = {styles.botao} 
@@ -45,7 +45,7 @@ export default function CadastroReacao() {
 
           <View style = {styles.div_alinha_linha}>
 
-              <Text><b>Composto 1: </b></Text>
+              <Text style={{fontWeight: 'bold'}}>Composto 1: </Text>
               
               <TextInput 
               style = {styles.botao} 
@@ -55,7 +55,7 @@ export default function CadastroReacao() {
           
             <View style = {styles.div_alinha_linha}>
 
-              <Text><b>Quantidade Composto 1: </b></Text>
+              <Text style={{fontWeight: 'bold'}}>Quantidade Composto 1:</Text>
               
               <TextInput 
               style = {styles.botao} 
@@ -65,7 +65,7 @@ export default function CadastroReacao() {
 
             <View style = {styles.div_alinha_linha}>
 
-              <Text><b>Composto 2: </b></Text>
+              <Text style={{fontWeight: 'bold'}}>Composto 2:</Text>
               
               <TextInput 
               style = {styles.botao} 
@@ -74,7 +74,7 @@ export default function CadastroReacao() {
             </View>
             <View style = {styles.div_alinha_linha}>
 
-              <Text><b>Quantidade Composto 2: </b></Text>
+              <Text style={{fontWeight: 'bold'}}>Quantidade Composto 2:</Text>
               
               <TextInput 
               style = {styles.botao} 
@@ -85,7 +85,7 @@ export default function CadastroReacao() {
           </View>
 
           <View style = {{alignItems:'center', height: 90}}>
-              <TouchableOpacity style = {styles.botao}>EXPORTAR</TouchableOpacity>
+              <TouchableOpacity style = {styles.botao}><Text style={styles.buttonText}>EXPORTAR</Text></TouchableOpacity>
           </View>
 
           <UserInfoDisplay/> {/* Seção com as informações do usuário, junto com o botão para sair do app */}
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
   title_page: {
 
       fontSize: 30,
-
+      fontWeight: 'bold'
   },
 
 // Estilização da div contendo o titulo da pagina. Centralização dos itens contidos na div para o centro e espaçamento 
@@ -145,5 +145,10 @@ const styles = StyleSheet.create({
       justifyContent: 'space-between',
       borderWidth: 1,
   },
+
+  buttonText: {
+    fontSize: 16,
+    textAlign: 'center'
+  }
 
 });
