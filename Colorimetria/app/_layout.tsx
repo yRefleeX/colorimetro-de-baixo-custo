@@ -65,6 +65,7 @@ export default function RootLayout() {
       <Stack.Screen name="nova_senha" options={{ headerShown: false }} />
       <Stack.Screen name="cadastro_reacao" options={{ headerShown: false }} />
       <Stack.Screen name="dados_colorimetro" options={{ headerShown: false }} />
+      <Stack.Screen name="possibilidade_reacao" options={{ headerShown: false }} />
     </Stack>
   );
 }

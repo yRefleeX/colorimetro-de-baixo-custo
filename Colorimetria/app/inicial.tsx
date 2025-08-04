@@ -39,7 +39,7 @@ export default function HomeScreen() {
   // O que será mostrado na tela
   return (
       // Container do app (onde ficará toda a view)
-      <SafeAreaView style={styles.titleContainer}>
+      <SafeAreaView style={styles.container}>
         {/* Título "MENU PRINCIPAL", junto com a logo da tela inicial */}
         <View style={{marginBottom: height * 0.05, marginTop: height * 0.1}}>
           <Text style={{fontSize: 30, fontWeight: "bold", textAlign: "center"}}>MENU PRINCIPAL</Text>
@@ -48,17 +48,17 @@ export default function HomeScreen() {
 
         {/* View para mostrar o menu com as opções */}
         <View style={{width: '80%', marginBottom: height * 0.1}}>
-                <TouchableOpacity style={[styles.menuItem, isGuest && styles.disabledMenuItem]} onPress={() => trocaTela('/', true)}>
+                <TouchableOpacity style={[styles.menuItem, isGuest && styles.disabledMenuItem]} onPress={() => trocaTela('/cadastro_reacao', true)}>
                   <MaterialCommunityIcons name={isGuest ? 'block-helper': 'magnify'} size={24} color={isGuest ? '#c53929' : 'gray'}></MaterialCommunityIcons>
                   <Text style={[styles.menuText, isGuest && styles.disabledMenuText]}>Cadastrar reação colorímetro</Text>
                 </TouchableOpacity>
                 
-                <TouchableOpacity style={[styles.menuItem, isGuest && styles.disabledMenuItem]} onPress={() => trocaTela('/', true)}>
+                <TouchableOpacity style={[styles.menuItem, isGuest && styles.disabledMenuItem]} onPress={() => trocaTela('/dados_colorimetro', true)}>
                   <MaterialCommunityIcons name={isGuest ? 'block-helper': 'magnify'} size={24} color={isGuest ? '#c53929' : 'gray'}></MaterialCommunityIcons>
                   <Text style={[styles.menuText, isGuest && styles.disabledMenuText]}>Visualize os dados do colorímetro</Text>
                 </TouchableOpacity>
                 
-                <TouchableOpacity style={[styles.menuItem, isGuest && styles.disabledMenuItem]} onPress={() => trocaTela('/', true)}>
+                <TouchableOpacity style={[styles.menuItem, isGuest && styles.disabledMenuItem]} onPress={() => trocaTela('/possibilidade_reacao', true)}>
                   <MaterialCommunityIcons name={isGuest ? 'block-helper': 'magnify'} size={24} color={isGuest ? '#c53929' : 'gray'}></MaterialCommunityIcons>
                   <Text style={[styles.menuText, isGuest && styles.disabledMenuText]}>Visualize a possibilidade de reação</Text>
                 </TouchableOpacity>
@@ -77,7 +77,7 @@ export default function HomeScreen() {
 
 // Estilos da página
 const styles = StyleSheet.create({
-  titleContainer: {
+  container: {
     display: 'flex',
     alignItems: 'center',
     flex: 1,

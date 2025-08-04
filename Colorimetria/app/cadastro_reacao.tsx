@@ -1,6 +1,8 @@
 // importando as bibliotecas necessarias para execução do código
 
-import { StyleSheet, Text, SafeAreaView, Image, TouchableOpacity, TextInput, View } from 'react-native';
+import UserInfoDisplay from '@/components/UserInfoDisplay';
+import VoltaInicio from '@/components/VoltaInicio';
+import { StyleSheet, Text, SafeAreaView, TouchableOpacity, TextInput, View } from 'react-native';
 
 
 
@@ -19,72 +21,74 @@ export default function CadastroReacao() {
 
 //Div 'Mãe" da pagina -> Todo conteudo estara dentro desse SafeAreaView, restringindo o conteudo exibido da barra de navegação na parte inferior até o cabeçalho de notificações.    
 
-    <SafeAreaView style={styles.titleContainer}>
+    <SafeAreaView style={styles.container}>
+      <VoltaInicio></VoltaInicio>
 
-      <View style={styles.div_titulo}>
+        <View style={styles.div_titulo}>
 
-        <Text style={styles.title_page}><b>Cadastro de Reações</b></Text>
-      
-      </View>
-
-
-        <View style = {styles.div_alinha_coluna}>
-          
-          <View style = {styles.div_alinha_linha}>
-
-            <Text><b>Tipo de Reação:</b></Text>
-            
-            <TextInput 
-             style = {styles.botao} 
-             />
-          
-          </View>
-
-         <View style = {styles.div_alinha_linha}>
-
-            <Text><b>Composto 1: </b></Text>
-            
-            <TextInput 
-             style = {styles.botao} 
-             />
-          
-          </View>
+          <Text style={styles.title_page}><b>Cadastro de Reações</b></Text>
         
-          <View style = {styles.div_alinha_linha}>
-
-            <Text><b>Quantidade Composto 1: </b></Text>
-            
-            <TextInput 
-             style = {styles.botao} 
-             />
-          
-          </View>
-
-          <View style = {styles.div_alinha_linha}>
-
-            <Text><b>Composto 2: </b></Text>
-            
-            <TextInput 
-             style = {styles.botao} 
-             />
-          
-          </View>
-          <View style = {styles.div_alinha_linha}>
-
-            <Text><b>Quantidade Composto 2: </b></Text>
-            
-            <TextInput 
-             style = {styles.botao} 
-             />
-          
-          </View>
-
         </View>
 
-        <View style = {{alignItems:'center', height: 90}}>
-             <TouchableOpacity style = {styles.botao}>EXPORTAR</TouchableOpacity>
-        </View>
 
+          <View style = {styles.div_alinha_coluna}>
+            
+            <View style = {styles.div_alinha_linha}>
+
+              <Text><b>Tipo de Reação:</b></Text>
+              
+              <TextInput 
+              style = {styles.botao} 
+              />
+            
+            </View>
+
+          <View style = {styles.div_alinha_linha}>
+
+              <Text><b>Composto 1: </b></Text>
+              
+              <TextInput 
+              style = {styles.botao} 
+              />
+            
+            </View>
+          
+            <View style = {styles.div_alinha_linha}>
+
+              <Text><b>Quantidade Composto 1: </b></Text>
+              
+              <TextInput 
+              style = {styles.botao} 
+              />
+            
+            </View>
+
+            <View style = {styles.div_alinha_linha}>
+
+              <Text><b>Composto 2: </b></Text>
+              
+              <TextInput 
+              style = {styles.botao} 
+              />
+            
+            </View>
+            <View style = {styles.div_alinha_linha}>
+
+              <Text><b>Quantidade Composto 2: </b></Text>
+              
+              <TextInput 
+              style = {styles.botao} 
+              />
+            
+            </View>
+
+          </View>
+
+          <View style = {{alignItems:'center', height: 90}}>
+              <TouchableOpacity style = {styles.botao}>EXPORTAR</TouchableOpacity>
+          </View>
+
+          <UserInfoDisplay/> {/* Seção com as informações do usuário, junto com o botão para sair do app */}
       </SafeAreaView>
 
   );
@@ -114,9 +118,10 @@ const styles = StyleSheet.create({
  },
 
 
-  titleContainer: {
-    flexDirection: 'row',
-    gap: 8,
+  container: {
+    display: 'flex',
+    alignItems: 'center',
+    flex: 1
   },
   
  

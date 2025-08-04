@@ -11,7 +11,7 @@ export default function ViewColorimeterScreen() {
   // O que será mostrado na tela
   return (
       // Container do app (onde ficará toda a view)
-      <SafeAreaView style={styles.titleContainer}>
+      <SafeAreaView style={styles.container}>
         <VoltaInicio></VoltaInicio>
         {/* Título "Modelo 3D: Colorímetro" */}
         <View style={{marginBottom: height * 0.05, marginTop: height * 0.1}}>
@@ -54,7 +54,7 @@ export default function ViewColorimeterScreen() {
 
 // Estilos da página
 const styles = StyleSheet.create({
-  titleContainer: {
+  container: {
     display: 'flex',
     alignItems: 'center',
     flex: 1,

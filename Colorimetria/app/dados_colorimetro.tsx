@@ -1,8 +1,10 @@
 // importando as bibliotecas necessarias para execução do código
 
-import { StyleSheet, Text, SafeAreaView, Image, TouchableOpacity, TextInput } from 'react-native';
+import { StyleSheet, Text, SafeAreaView, Image, TouchableOpacity, TextInput, View, Dimensions,} from 'react-native';
+import VoltaInicio from '@/components/VoltaInicio';
+import UserInfoDisplay from '@/components/UserInfoDisplay';
 
-
+const { height } = Dimensions.get('window'); // Utilizando 'height' para fazer estilização responsiva, a partir da biblioteca Dimensions
 
 // Função responsavel por carregar todo conteudo da pagina (Pagina principal: Dados Colorimetro).
 
@@ -19,68 +21,70 @@ export default function DadosColorimetro() {
 
 //Div 'Mãe" da pagina -> Todo conteudo estara dentro desse SafeAreaView, restringindo o conteudo exibido da barra de navegação na parte inferior até o cabeçalho de notificações.    
 
-    <SafeAreaView>
-
-      <SafeAreaView style={styles.div_titulo}>
-
-        <Text style={styles.title_page}><b>Dados Coletados</b></Text>
-      
-      </SafeAreaView>
+    <SafeAreaView style={styles.container}>
+      <VoltaInicio></VoltaInicio>
 
 
-      <SafeAreaView style={styles.div_conteudo}>
+        <View style={styles.div_titulo}>
 
-        <Text><b>Concentração:</b></Text>
+          <Text style={styles.title_page}><b>Dados Coletados</b></Text>
+        
+        </View>
 
-        <Text><b>Ph:</b></Text>
 
-        <Text style ={{marginTop:10, marginBottom:10}}><b>Compostos utilizados:</b></Text>
+        <View style={styles.div_conteudo}>
 
-        <SafeAreaView style = {styles.div_alinha_coluna}>
-         
-          <SafeAreaView style = {styles.div_alinha_linha}>
+          <Text><b>Concentração:</b></Text>
 
-             <Text><b>1° Composto: </b></Text>
-             
-             <TextInput 
-             style = {styles.botao} 
-             />
+          <Text><b>Ph:</b></Text>
 
-          </SafeAreaView>
+          <Text style ={{marginTop:10, marginBottom:10}}><b>Compostos utilizados:</b></Text>
 
-          <SafeAreaView style = {styles.div_alinha_linha}>
+          <View style = {styles.div_alinha_coluna}>
+          
+            <View style = {styles.div_alinha_linha}>
 
-            <Text><b>2° Composto: </b></Text>
+              <Text><b>1° Composto: </b></Text>
+              
+              <TextInput 
+              style = {styles.botao} 
+              />
+
+            </View>
+
+            <View style = {styles.div_alinha_linha}>
+
+              <Text><b>2° Composto: </b></Text>
+              
+              <TextInput 
+              style = {styles.botao} 
+              />
+
+            </View>
             
-            <TextInput 
-             style = {styles.botao} 
-             />
 
-          </SafeAreaView>
-          
+          </View>
 
-        </SafeAreaView>
+          <View style = {styles.div_alinha_coluna}>
+            
+            <View style = {styles.div_alinha_linha}>
 
-        <SafeAreaView style = {styles.div_alinha_coluna}>
-          
-          <SafeAreaView style = {styles.div_alinha_linha}>
+              <Image style = {styles.images} source={require('../assets/images/PDF.png')}/>
+              <TouchableOpacity style = {styles.botao} onPress={() => exportarDocumentos('PDF')}>EXPORTAR</TouchableOpacity>
+            
+            </View>
 
-            <Image style = {styles.images} source={require('../../assets/images/PDF.png')}/>
-            <TouchableOpacity style = {styles.botao} onPress={() => exportarDocumentos('PDF')}>EXPORTAR</TouchableOpacity>
-          
-          </SafeAreaView>
+            <View style = {styles.div_alinha_linha}>
 
-          <SafeAreaView style = {styles.div_alinha_linha}>
+              <Image style = {styles.images} source={require('../assets/images/DOCS.png')}/>
+              <TouchableOpacity style = {styles.botao} onPress={() => exportarDocumentos('DOCS')}>EXPORTAR</TouchableOpacity>
 
-            <Image style = {styles.images} source={require('../../assets/images/DOCS.png')}/>
-            <TouchableOpacity style = {styles.botao} onPress={() => exportarDocumentos('DOCS')}>EXPORTAR</TouchableOpacity>
+            </View>
 
-          </SafeAreaView>
-
-        </SafeAreaView>
-
-      </SafeAreaView>
-
+          </View>
+    
+        </View>
+      <UserInfoDisplay/> {/* Seção com as informações do usuário, junto com o botão para sair do app */}
     </SafeAreaView>
 
   );
@@ -101,25 +105,18 @@ const styles = StyleSheet.create({
 // Estilização da div contendo o titulo da pagina. Centralização dos itens contidos na div para o centro e espaçamento 
 
   div_titulo: {
-
-    justifyContent:'center',
-    alignItems:'center',
-    padding:40, 
-    margin: 40
-    
+    marginBottom: height * 0.05,
+    marginTop: height * 0.1
  },
 
   div_conteudo:{
-    
-    justifyContent:'center',
-    alignItems:'flex-start',
-    paddingLeft: '10%',
-    marginTop:'20%'
+    borderWidth: 1
   },
 
-  titleContainer: {
-    flexDirection: 'row',
-    gap: 8,
+  container: {
+    display: 'flex',
+    alignItems: 'center',
+    flex: 1
   },
   
   images:{
@@ -144,6 +141,5 @@ const styles = StyleSheet.create({
       marginTop:5,
       padding:5,
       flexDirection:'row',
-  },
-
+  }
 });

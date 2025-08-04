@@ -76,7 +76,7 @@ export default function NovaSenha() {
     if (!actionCode) {
         // Mostra um loader enquanto o código é verificado
         return (
-            <SafeAreaView style={styles.titleContainer}>
+            <SafeAreaView style={styles.container}>
                 <ActivityIndicator size="large" />
                 <Text>Verificando link...</Text>
             </SafeAreaView>
@@ -84,7 +84,7 @@ export default function NovaSenha() {
     }
 
   return (
-    <SafeAreaView style={styles.titleContainer}>
+    <SafeAreaView style={styles.container}>
         <View style={styles.content}>
             <Text style ={{ fontSize:30, fontFamily:"Ruwudu", textAlign:'center', marginBottom: height * 0.08}}>Digite a sua nova senha</Text>
 
@@ -99,7 +99,7 @@ export default function NovaSenha() {
 }
 
 const styles = StyleSheet.create ({
-    titleContainer: {
+    container: {
         display: 'flex',
         top: '15%',
         alignItems: 'center',

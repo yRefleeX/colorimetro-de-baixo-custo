@@ -71,7 +71,7 @@ export default function Cadastrar() {
     }
 
   return (
-    <SafeAreaView style={styles.titleContainer}>
+    <SafeAreaView style={styles.container}>
 
     <View style={styles.content}>
         <Text style ={{ fontSize:30, fontWeight: 'bold', textAlign:'center'}}>CADASTRAR</Text>
@@ -90,7 +90,7 @@ export default function Cadastrar() {
 }
 
 const styles = StyleSheet.create ({
-    titleContainer: {
+    container: {
         display: 'flex',
         top: '15%',
         alignItems: 'center',

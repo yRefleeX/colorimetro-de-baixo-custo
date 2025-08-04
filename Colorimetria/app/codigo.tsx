@@ -47,7 +47,7 @@ export default function Codigo() {
         }
     };
   return (
-    <SafeAreaView style={styles.titleContainer}>
+    <SafeAreaView style={styles.container}>
     
         <View style={styles.content}>
             <MaterialCommunityIcons name='account-question' size={175} color='black'></MaterialCommunityIcons>
@@ -64,7 +64,7 @@ export default function Codigo() {
 }
 
 const styles = StyleSheet.create ({
-    titleContainer: {
+    container: {
         display: 'flex',
         top: '15%',
         alignItems: 'center',

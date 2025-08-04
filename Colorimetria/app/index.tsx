@@ -102,7 +102,7 @@ export default function LoginScreen() {
   // O que será mostrado na tela
   return (
       // Container do app (onde ficará toda a view)
-      <SafeAreaView style={styles.titleContainer}>
+      <SafeAreaView style={styles.container}>
 
         {/* Logo do IFSP, junto com o título (nome do app) */}
         <View style={styles.content}>
@@ -118,6 +118,9 @@ export default function LoginScreen() {
                 <Controller control={control} name="password" render={({field: {onChange, onBlur, value}}) => (<TextInput style={[styles.input, {borderColor: errors.password && 'red'}]} onChangeText={onChange} onBlur={onBlur} value={value} placeholder='Senha' secureTextEntry={true}></TextInput>)}/>{errors.password && <Text style={styles.errorMessage}>{errors.password.message}</Text>}
                 <TouchableOpacity style={styles.button} onPress={handleSubmit(handleSignIn)} disabled={loading}>{loading ? <ActivityIndicator color="#4F378A" /> : <Text style={styles.buttonText}>Entrar</Text>}</TouchableOpacity>
                 <TouchableOpacity style={styles.buttonVoltar} onPress={() => setShowEmailForm(false)} disabled={loading}><Text style={{color: '#555', fontSize: 16}}>Voltar</Text></TouchableOpacity>
+                <View style={styles.footerLinks}>
+                  <TouchableOpacity style={{top: height * 0.05}} onPress={() => router.navigate('/codigo')}><Text style={{color: '#0000FF', fontWeight: 'bold'}}>Esqueceu a Senha?</Text></TouchableOpacity> {/* Botão para entrar no app */}
+                </View>
               </>
             ) : (
               // Botões iniciais de login
@@ -128,7 +131,6 @@ export default function LoginScreen() {
 
                 <View style={styles.footerLinks}>
                   <TouchableOpacity style={[styles.button, {paddingVertical: 10}]} onPress={() => router.navigate('/cadastrar')} disabled={loading}><Text style={styles.buttonText}>Criar conta</Text></TouchableOpacity>
-                  <TouchableOpacity style={{top: height * 0.05}} onPress={() => router.navigate('/codigo')}><Text style={{color: '#0000FF', fontWeight: 'bold'}}>Esqueceu a Senha?</Text></TouchableOpacity> {/* Botão para entrar no app */}
                 </View>
               </>
             )}
@@ -140,7 +142,7 @@ export default function LoginScreen() {
 
 // Estilos da página
 const styles = StyleSheet.create({
-  titleContainer: {
+  container: {
     display: 'flex',
     top: '15%',
     alignItems: 'center',
