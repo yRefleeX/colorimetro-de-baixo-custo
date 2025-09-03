@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "52158465405",
+    "project_id": "colorimetro-de-baixo-custo",
+    "storage_bucket": "colorimetro-de-baixo-custo.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:52158465405:android:d6ecfd3a4eee40a5957814",
+        "android_client_info": {
+          "package_name": "com.colorimetrodebaixocusto.colorimetria"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "52158465405-5ln3q0qhgc3ncj3he4c1mtcts85qeuik.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyANE8HtWIv5EclbkuHNhCuOmWVjYF1TbQA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "52158465405-5ln3q0qhgc3ncj3he4c1mtcts85qeuik.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
