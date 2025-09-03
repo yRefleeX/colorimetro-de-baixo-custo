@@ -3,20 +3,49 @@
 import { StyleSheet, Text, SafeAreaView, Image, TouchableOpacity, TextInput, View, Dimensions,} from 'react-native';
 import VoltaInicio from '@/components/VoltaInicio';
 import UserInfoDisplay from '@/components/UserInfoDisplay';
+import { printToFileAsync } from 'expo-print';
+import { shareAsync } from 'expo-sharing';
+import { useState } from 'react';
 
 const { height } = Dimensions.get('window'); // Utilizando 'height' para fazer estilização responsiva, a partir da biblioteca Dimensions
 
 // Função responsavel por carregar todo conteudo da pagina (Pagina principal: Dados Colorimetro).
 
 export default function DadosColorimetro() {
- 
+ const [composto1, setComposto1] = useState('');
+ const [composto2, setComposto2] = useState('');
   
 // Função responsavel por exportar em pdf ou word os dados obtidos pelo colorimetro.
 
-  function exportarDocumentos(tipo: String){
+  let exportarDocumentos = async () => {
+    const html = `
+    <html>
+      <body>
+          <h1>Dados Coletados</h1>
+          <p><strong>Concentração:</strong></p>
+          <p><strong>pH:</strong></p>
+          <p><strong>1° Composto:</strong>}</p>
+          <p><strong>2° Composto:</strong></p>
+      </body>
+    </html>
+    `;
 
+    try {
+      const file = await printToFileAsync({
+        html,
+        base64: false
+      });
+
+      if (file && file.uri) {
+        await shareAsync(file.uri);
+      } else {
+        console.warn("Arquivo não foi gerado corretamente.");
+      }
+    } catch (error) {
+      console.error("Erro ao exportar documento:", error);
+    }
   }
- 
+
   return (
 
 //Div 'Mãe" da pagina -> Todo conteudo estara dentro desse SafeAreaView, restringindo o conteudo exibido da barra de navegação na parte inferior até o cabeçalho de notificações.    
@@ -27,7 +56,7 @@ export default function DadosColorimetro() {
 
         <View style={styles.div_titulo}>
 
-          <Text style={styles.title_page}><b>Dados Coletados</b></Text>
+          <Text style={styles.title_page}>Dados Coletados</Text>
         
         </View>
 
@@ -48,6 +77,8 @@ export default function DadosColorimetro() {
               
               <TextInput 
               style = {styles.botao} 
+              value = {composto1}
+              onChangeText={setComposto1}
               />
 
             </View>
@@ -57,7 +88,9 @@ export default function DadosColorimetro() {
               <Text style={{fontWeight: 'bold'}}>2° Composto:</Text>
               
               <TextInput 
-              style = {styles.botao} 
+              style = {styles.botao}
+              value = {composto2}
+              onChangeText={setComposto2}
               />
 
             </View>
@@ -70,15 +103,8 @@ export default function DadosColorimetro() {
             <View style = {styles.div_alinha_linha}>
 
               <Image style = {styles.images} source={require('../assets/images/PDF.png')}/>
-              <TouchableOpacity style = {styles.botao} onPress={() => exportarDocumentos('PDF')}><Text style={styles.buttonText}>EXPORTAR</Text></TouchableOpacity>
+              <TouchableOpacity style = {styles.botao} onPress={() => exportarDocumentos()}><Text style={styles.buttonText}>EXPORTAR</Text></TouchableOpacity>
             
-            </View>
-
-            <View style = {styles.div_alinha_linha}>
-
-              <Image style = {styles.images} source={require('../assets/images/DOCS.png')}/>
-              <TouchableOpacity style = {styles.botao} onPress={() => exportarDocumentos('DOCS')}><Text style={styles.buttonText}>EXPORTAR</Text></TouchableOpacity>
-
             </View>
 
           </View>
