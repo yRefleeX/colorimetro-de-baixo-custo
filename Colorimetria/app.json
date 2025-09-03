@@ -10,9 +10,13 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "associatedDomains": ["urn:apple:domain:colorimetro-de-baixo-custo.firebaseapp.com"]
+      "associatedDomains": [
+        "urn:apple:domain:colorimetro-de-baixo-custo.firebaseapp.com"
+      ]
     },
     "android": {
+      "package": "com.colorimetrodebaixocusto.colorimetria",
+      "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
@@ -28,7 +32,10 @@
               "pathPrefix": "/__/auth/action"
             }
           ],
-          "category": ["BROWSABLE", "DEFAULT"]
+          "category": [
+            "BROWSABLE",
+            "DEFAULT"
+          ]
         }
       ],
       "edgeToEdgeEnabled": true
@@ -53,6 +60,12 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "5122dc3f-f34b-4052-8695-6ea85603b340"
+      }
     }
   }
 }
