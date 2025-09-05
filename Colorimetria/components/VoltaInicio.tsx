@@ -6,11 +6,10 @@ Caso queira utilizá-lo em alguma tela, basta digitar <VoltaInicio></VoltaInicio
 
 // Importando as bibliotecas necessárias para o código
 import React from 'react';
-import { View, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import {router} from 'expo-router';
-
-const {width, height} = Dimensions.get('window'); // Utilizando 'width' e 'height' para fazer estilização responsiva, a partir da biblioteca Dimensions
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 // Função para sair do app
 function voltarTelaInicial(){
@@ -19,8 +18,9 @@ function voltarTelaInicial(){
 
 // Definindo o VoltaInicio como uma constante, na qual possuirá o nome do usuário e o botão para sair do app
 const VoltaInicio = () => {
+  const insets = useSafeAreaInsets();
   return (
-    <View style={styles.arrowContainer}>
+    <View style={[styles.arrowContainer, {top: insets.top, left: insets.left}]}>
         <TouchableOpacity onPress={voltarTelaInicial}>
             <MaterialCommunityIcons name='arrow-left' size={50} color='black'></MaterialCommunityIcons>
         </TouchableOpacity>
@@ -33,9 +33,7 @@ const styles = StyleSheet.create({
   arrowContainer: {
     position: 'absolute',
     flexDirection: 'row',
-    top: height * 0,
     width: '90%',
-    left: width * 0
   }
 });
 
