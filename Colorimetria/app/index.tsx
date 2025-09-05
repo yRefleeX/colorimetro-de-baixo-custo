@@ -113,26 +113,26 @@ export default function LoginScreen() {
           <View style={styles.formContainer}>
             {showEmailForm ? (
               // Formulário de Email e Senha
-              <>
+              <View>
                 <Controller control={control} name="email" render={({field: {onChange, onBlur, value}}) => (<TextInput autoCapitalize='none' keyboardType='email-address' style={[styles.input, {borderColor: errors.email && 'red'}]} onChangeText={onChange} onBlur={onBlur} value={value} placeholder='Email'></TextInput>)}/>{errors.email && <Text style={styles.errorMessage}>{errors.email.message}</Text>}
                 <Controller control={control} name="password" render={({field: {onChange, onBlur, value}}) => (<TextInput style={[styles.input, {borderColor: errors.password && 'red'}]} onChangeText={onChange} onBlur={onBlur} value={value} placeholder='Senha' secureTextEntry={true}></TextInput>)}/>{errors.password && <Text style={styles.errorMessage}>{errors.password.message}</Text>}
                 <TouchableOpacity style={styles.button} onPress={handleSubmit(handleSignIn)} disabled={loading}>{loading ? <ActivityIndicator color="#4F378A" /> : <Text style={styles.buttonText}>Entrar</Text>}</TouchableOpacity>
                 <TouchableOpacity style={styles.buttonVoltar} onPress={() => setShowEmailForm(false)} disabled={loading}><Text style={{color: '#555', fontSize: 16}}>Voltar</Text></TouchableOpacity>
                 <View style={styles.footerLinks}>
-                  <TouchableOpacity style={{top: height * 0.05}} onPress={() => router.navigate('/codigo')}><Text style={{color: '#0000FF', fontWeight: 'bold'}}>Esqueceu a Senha?</Text></TouchableOpacity> {/* Botão para entrar no app */}
+                  <TouchableOpacity style={{top: height * 0.05}} onPress={() => router.navigate('/codigo')}><Text style={{color: '#0000FF', fontWeight: 'bold'}}>Esqueceu a Senha?</Text></TouchableOpacity>
                 </View>
-              </>
+              </View>
             ) : (
               // Botões iniciais de login
-              <>
+              <View>
                 <TouchableOpacity style={styles.button} onPress={() => setShowEmailForm(true)} disabled={loading}>{loading ? (<ActivityIndicator color="#555" />) : (<><MaterialCommunityIcons name='email' size={24} style={{marginRight: 12}}></MaterialCommunityIcons><Text style={styles.buttonText}>Entrar com Email</Text></>)}</TouchableOpacity>
-                <TouchableOpacity style={styles.buttonGoogle} onPress={() => { setLoading(true); promptAsync(); }} disabled={loading}>{loading ? (<ActivityIndicator color="#555" />) : (<><Image source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg' }} style={styles.googleIcon} /><Text style={styles.buttonTextGoogle}>Entrar com o Google</Text></>)}</TouchableOpacity>
+                <TouchableOpacity style={styles.buttonGoogle} onPress={() => { setLoading(true); promptAsync(); }} disabled={loading}>{loading ? (<ActivityIndicator color="#555" />) : (<><Image source={require('../assets/images/google-logo.png')} style={styles.googleIcon} /><Text style={styles.buttonTextGoogle}>Entrar com o Google</Text></>)}</TouchableOpacity>
                 <TouchableOpacity style={styles.buttonGuest} onPress={handleGuestSignIn} disabled={loading}><Text style={styles.buttonGuestText}>Entrar como Convidado</Text></TouchableOpacity>
 
                 <View style={styles.footerLinks}>
                   <TouchableOpacity style={[styles.button, {paddingVertical: 10}]} onPress={() => router.navigate('/cadastrar')} disabled={loading}><Text style={styles.buttonText}>Criar conta</Text></TouchableOpacity>
                 </View>
-              </>
+              </View>
             )}
           </View>
         </View>
@@ -144,7 +144,7 @@ export default function LoginScreen() {
 const styles = StyleSheet.create({
   container: {
     display: 'flex',
-    top: '15%',
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     gap: 8,

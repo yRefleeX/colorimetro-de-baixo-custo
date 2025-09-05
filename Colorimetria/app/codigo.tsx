@@ -66,7 +66,7 @@ export default function Codigo() {
 const styles = StyleSheet.create ({
     container: {
         display: 'flex',
-        top: '15%',
+        flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
         gap: 8

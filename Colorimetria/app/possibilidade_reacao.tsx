@@ -22,7 +22,7 @@ export default function PossibilidadeReacaoScreen() {
             <Text>CONTEÚDO</Text>
         </View>
 
-        <UserInfoDisplay/> {/* Seção com as informações do usuário, junto com o botão para sair do app */}
+        <UserInfoDisplay/>
       </SafeAreaView>
   );
 } 

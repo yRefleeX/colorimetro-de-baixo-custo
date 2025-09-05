@@ -24,8 +24,8 @@ export default function DadosColorimetro() {
           <h1>Dados Coletados</h1>
           <p><strong>Concentração:</strong></p>
           <p><strong>pH:</strong></p>
-          <p><strong>1° Composto:</strong>}</p>
-          <p><strong>2° Composto:</strong></p>
+          <p><strong>1° Composto:</strong> ${composto1}</p>
+          <p><strong>2° Composto:</strong> ${composto2}</p>
       </body>
     </html>
     `;
@@ -110,7 +110,7 @@ export default function DadosColorimetro() {
           </View>
     
         </View>
-      <UserInfoDisplay/> {/* Seção com as informações do usuário, junto com o botão para sair do app */}
+      <UserInfoDisplay/>
     </SafeAreaView>
 
   );

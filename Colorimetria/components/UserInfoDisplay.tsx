@@ -6,13 +6,12 @@ Caso queira utilizá-lo em alguma tela, basta digitar <UserInfoDislay/>
 
 // Importando as bibliotecas necessárias para o código
 import React, {useState, useEffect} from 'react';
-import { View, Text, StyleSheet, Dimensions, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import {router} from 'expo-router';
-import {signOut, User, onAuthStateChanged } from 'firebase/auth';
+import {signOut, onAuthStateChanged } from 'firebase/auth';
 import {auth} from '../firebaseConfig';
-
-const {height} = Dimensions.get('window'); // Utilizando 'height' para fazer estilização responsiva, a partir da biblioteca Dimensions
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface UserInfoDisplayProps {
   userName: string; // Definindo o tipo da propriedade 'userName' para string
@@ -20,6 +19,7 @@ interface UserInfoDisplayProps {
 
 // Definindo o UserInfoDisplay como uma constante, na qual possuirá o nome do usuário e o botão para sair do app
 const UserInfoDisplay = () => {
+  const insets = useSafeAreaInsets();
   const [userName, setUserName] = useState<string>('Carregando...');
   const [loading, setLoading] = useState(false);
 
@@ -52,7 +52,7 @@ const UserInfoDisplay = () => {
   
 
   return (
-    <View style={styles.userInfoContainer}>
+    <View style={[styles.userInfoContainer, {bottom: insets.bottom}]}>
         <MaterialCommunityIcons name='account' size={50} color='black'></MaterialCommunityIcons>
         {loading ? (<ActivityIndicator size="small" color="#000" />) : (<Text style={styles.userInfoText}>{`Usuário: ${userName}`}</Text>)}
         <TouchableOpacity style={styles.userLogout} onPress={logOut}><Text style={styles.userLogoutText}>Sair</Text></TouchableOpacity>
@@ -66,7 +66,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     flexDirection: 'row',
     alignItems: 'center',
-    bottom: height * 0,
     width: '90%',
     justifyContent: 'center'
   },

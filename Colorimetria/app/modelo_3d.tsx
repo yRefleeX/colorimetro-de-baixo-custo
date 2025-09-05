@@ -47,7 +47,7 @@ export default function ViewColorimeterScreen() {
             />
         </View>
 
-        <UserInfoDisplay/> {/* Seção com as informações do usuário, junto com o botão para sair do app */}
+        <UserInfoDisplay/>
       </SafeAreaView>
   );
 } 

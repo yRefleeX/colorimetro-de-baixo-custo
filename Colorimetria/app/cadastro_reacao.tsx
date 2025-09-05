@@ -88,7 +88,7 @@ export default function CadastroReacao() {
               <TouchableOpacity style = {styles.botao}><Text style={styles.buttonText}>EXPORTAR</Text></TouchableOpacity>
           </View>
 
-          <UserInfoDisplay/> {/* Seção com as informações do usuário, junto com o botão para sair do app */}
+          <UserInfoDisplay/>
       </SafeAreaView>
 
   );

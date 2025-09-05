@@ -57,15 +57,15 @@ export default function RootLayout() {
 
   return (
     <Stack>
-      <Stack.Screen name="index" options={{ headerShown: false, animation: 'fade' }} />
-      <Stack.Screen name="inicial" options={{ headerShown: false, animation: 'fade' }} />
-      <Stack.Screen name="modelo_3d" options={{ headerShown: false }} />
-      <Stack.Screen name="cadastrar" options={{ headerShown: false }} />
-      <Stack.Screen name="codigo" options={{ headerShown: false }} />
-      <Stack.Screen name="nova_senha" options={{ headerShown: false }} />
-      <Stack.Screen name="cadastro_reacao" options={{ headerShown: false }} />
-      <Stack.Screen name="dados_colorimetro" options={{ headerShown: false }} />
-      <Stack.Screen name="possibilidade_reacao" options={{ headerShown: false }} />
+      <Stack.Screen name="index" options={{headerShown: false, animation: 'fade'}}/>
+      <Stack.Screen name="inicial" options={{headerShown: false, animation: 'fade'}}/>
+      <Stack.Screen name="modelo_3d" options={{headerShown: false}}/>
+      <Stack.Screen name="cadastrar" options={{headerShown: false}}/>
+      <Stack.Screen name="codigo" options={{headerShown: false}}/>
+      <Stack.Screen name="nova_senha" options={{headerShown: false}}/>
+      <Stack.Screen name="cadastro_reacao" options={{headerShown: false}}/>
+      <Stack.Screen name="dados_colorimetro" options={{headerShown: false}}/>
+      <Stack.Screen name="possibilidade_reacao" options={{headerShown: false}}/>
     </Stack>
   );
 }
