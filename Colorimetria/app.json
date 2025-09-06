@@ -36,6 +36,21 @@
             "BROWSABLE",
             "DEFAULT"
           ]
+        },
+        {
+          "action": "VIEW",
+          "autoVerify": true,
+          "data": [
+            {
+              "scheme": "https",
+              "host": "colorimetro-de-baixo-custo.firebaseapp.com",
+              "pathPrefix": "/__/auth/action"
+            }
+          ],
+          "category": [
+            "BROWSABLE",
+            "DEFAULT"
+          ]
         }
       ],
       "edgeToEdgeEnabled": true
@@ -67,6 +82,12 @@
         "projectId": "5122dc3f-f34b-4052-8695-6ea85603b340"
       }
     },
-    "owner": "refleex"
+    "owner": "refleex",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/5122dc3f-f34b-4052-8695-6ea85603b340"
+    }
   }
 }
