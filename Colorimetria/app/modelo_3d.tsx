@@ -67,14 +67,15 @@ const ModelViewer = () => {
         pointLight.position.set(100, 100, 100);
         scene.add(pointLight);
 
-        // --- LÓGICA DE CARREGAMENTO CORRIGIDA ---
         try {
             const asset = Asset.fromModule(require('../assets/models/colorimetro.stl'));
             await asset.downloadAsync();
-            
+
+            console.log('Asset localUri:', asset.localUri);
+            Alert.alert('Debug', `Asset localUri: ${asset.localUri}`);
+
             const loader = new STLLoader();
 
-            // Função de sucesso a ser partilhada por ambos os métodos de carregamento
             const onModelLoaded = (geometry: THREE.BufferGeometry) => {
                 geometry.center();
                 const material = new THREE.MeshStandardMaterial({
@@ -85,29 +86,29 @@ const ModelViewer = () => {
                 scene.add(model);
                 modelRef.current = model;
             };
-            
-            // Verificamos a plataforma
+
             if (Platform.OS === 'web') {
-                // MÉTODO PARA A WEB
                 loader.load(
                     asset.uri,
                     onModelLoaded,
-                    undefined, // onProgress
+                    undefined,
                     (error) => {
                         console.error("Erro ao carregar o modelo na web:", error);
                         Alert.alert("Erro Web", "Não foi possível carregar o modelo 3D.");
+                        setIsLoading(false);
                     }
                 );
             } else {
-                // MÉTODO PARA NATIVO (iOS/Android)
                 if (asset.localUri) {
-                    const stlContent = await readAsStringAsync(asset.localUri);
-                    const geometry = loader.parse(stlContent);
-                    onModelLoaded(geometry);
+                const response = await fetch(asset.localUri);
+                const arrayBuffer = await response.arrayBuffer();
+                const geometry = loader.parse(arrayBuffer);
+                onModelLoaded(geometry);
                 } else {
-                    throw new Error("O asset não tem um localUri válido.");
+                throw new Error("O asset não tem um localUri válido.");
                 }
             }
+            
         } catch (e) {
             console.error("ERRO CRÍTICO AO CARREGAR O MODELO 3D:", e);
             Alert.alert("Erro", "Não foi possível carregar o modelo 3D. Verifique a consola para detalhes.");
