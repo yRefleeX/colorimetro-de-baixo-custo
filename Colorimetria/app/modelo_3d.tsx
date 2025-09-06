@@ -1,10 +1,11 @@
 // Importando as bibliotecas necessárias para o código
-import React, { useRef, useState } from 'react';
-import {StyleSheet, View, SafeAreaView, Text, Dimensions, FlatList, ActivityIndicator, Platform, Alert} from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, View, SafeAreaView, Text, Dimensions, FlatList, ActivityIndicator, Platform, Alert } from 'react-native';
 import UserInfoDisplay from '@/components/UserInfoDisplay';
 import VoltaInicio from '@/components/VoltaInicio';
 import { ExpoWebGLRenderingContext, GLView } from 'expo-gl';
 import * as THREE from 'three';
+import { Renderer } from 'expo-three';
 import { STLLoader } from 'three/examples/jsm/loaders/STLLoader';
 import { Asset } from 'expo-asset';
 import { GestureDetector, Gesture, GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -12,13 +13,10 @@ import { useSharedValue } from 'react-native-reanimated';
 import { readAsStringAsync } from 'expo-file-system';
 
 
-const { height, width } = Dimensions.get('window'); // Utilizando 'height' para fazer estilização responsiva, a partir da biblioteca Dimensions
+const { height, width } = Dimensions.get('window');
 
 // --- Componente do Visualizador 3D ---
 const ModelViewer = () => {
-    const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
-    const modelRef = useRef<THREE.Mesh | null>(null);
-
     const [isLoading, setIsLoading] = useState(true);
 
     // -- Lógica de Gestos com Reanimated --
@@ -52,80 +50,72 @@ const ModelViewer = () => {
     const composedGesture = Gesture.Simultaneous(pinchGesture, panGesture);
 
     const onContextCreate = async (gl: ExpoWebGLRenderingContext) => {
+        let model: THREE.Mesh | null = null;
+        const { drawingBufferWidth: width, drawingBufferHeight: height } = gl;
+
+        // Cena
         const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, gl.drawingBufferWidth / gl.drawingBufferHeight, 0.1, 1000);
+        scene.background = new THREE.Color(0xf0f0f0);
+
+        // Câmara
+        const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
         camera.position.z = 150;
-        cameraRef.current = camera;
 
-        const renderer = new THREE.WebGLRenderer({ canvas: gl.canvas as any, antialias: true });
-        renderer.setSize(gl.drawingBufferWidth, gl.drawingBufferHeight);
-        renderer.setClearColor(0xf0f0f0);
+        // Renderer do expo-three (a correção principal)
+        const renderer = new Renderer({ gl });
+        renderer.setSize(width, height);
 
+        // Luzes
         const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
         scene.add(ambientLight);
         const pointLight = new THREE.PointLight(0xffffff, 0.8);
         pointLight.position.set(100, 100, 100);
         scene.add(pointLight);
 
+        const onModelLoaded = (geometry: THREE.BufferGeometry) => {
+            geometry.center();
+            const material = new THREE.MeshStandardMaterial({
+                color: 0x606060, metalness: 0.5, roughness: 0.5,
+            });
+            model = new THREE.Mesh(geometry, material);
+            model.scale.set(1.5, 1.5, 1.5);
+            scene.add(model);
+        };
+        
         try {
             const asset = Asset.fromModule(require('../assets/models/colorimetro.stl'));
             await asset.downloadAsync();
-
-            console.log('Asset localUri:', asset.localUri);
-            Alert.alert('Debug', `Asset localUri: ${asset.localUri}`);
-
             const loader = new STLLoader();
 
-            const onModelLoaded = (geometry: THREE.BufferGeometry) => {
-                geometry.center();
-                const material = new THREE.MeshStandardMaterial({
-                    color: 0x606060, metalness: 0.5, roughness: 0.5,
-                });
-                const model = new THREE.Mesh(geometry, material);
-                model.scale.set(1.5, 1.5, 1.5);
-                scene.add(model);
-                modelRef.current = model;
-            };
-
             if (Platform.OS === 'web') {
-                loader.load(
-                    asset.uri,
-                    onModelLoaded,
-                    undefined,
-                    (error) => {
-                        console.error("Erro ao carregar o modelo na web:", error);
-                        Alert.alert("Erro Web", "Não foi possível carregar o modelo 3D.");
-                        setIsLoading(false);
-                    }
-                );
+                loader.load(asset.uri, onModelLoaded, undefined, (error) => {
+                    console.error("Erro ao carregar o modelo na web:", error);
+                    Alert.alert("Erro Web", "Não foi possível carregar o modelo 3D.");
+                });
             } else {
                 if (asset.localUri) {
-                const response = await fetch(asset.localUri);
-                const arrayBuffer = await response.arrayBuffer();
-                const geometry = loader.parse(arrayBuffer);
-                onModelLoaded(geometry);
+                    const stlContent = await readAsStringAsync(asset.localUri);
+                    const geometry = loader.parse(stlContent);
+                    onModelLoaded(geometry);
                 } else {
-                throw new Error("O asset não tem um localUri válido.");
+                    throw new Error("O asset não tem um localUri válido.");
                 }
             }
-            
         } catch (e) {
             console.error("ERRO CRÍTICO AO CARREGAR O MODELO 3D:", e);
-            Alert.alert("Erro", "Não foi possível carregar o modelo 3D. Verifique a consola para detalhes.");
+            Alert.alert("Erro", "Não foi possível carregar o modelo 3D.");
         } finally {
             setIsLoading(false);
         }
         
         const animate = () => {
             requestAnimationFrame(animate);
-            if (modelRef.current) {
-                modelRef.current.rotation.x = rotationX.value;
-                modelRef.current.rotation.y = rotationY.value;
+            if (model) {
+                model.rotation.x = rotationX.value;
+                model.rotation.y = rotationY.value;
             }
-            if (cameraRef.current) {
-                cameraRef.current.zoom = scale.value;
-                cameraRef.current.updateProjectionMatrix();
-            }
+            camera.zoom = scale.value;
+            camera.updateProjectionMatrix();
             renderer.render(scene, camera);
             gl.endFrameEXP();
         };
@@ -135,19 +125,17 @@ const ModelViewer = () => {
     return (
         <GestureHandlerRootView style={styles.viewerContainer}>
             <GestureDetector gesture={composedGesture}>
-                <View style={styles.viewerContainer}>
-                    {isLoading && (
-                        <View style={styles.loadingOverlay}>
-                            <ActivityIndicator size="large" color="#0000ff" />
-                            <Text>A carregar modelo...</Text>
-                        </View>
-                    )}
-                    <GLView
-                        style={{ flex: 1 }}
-                        onContextCreate={onContextCreate}
-                    />
-                </View>
+                <GLView
+                    style={{ flex: 1 }}
+                    onContextCreate={onContextCreate}
+                />
             </GestureDetector>
+            {isLoading && (
+                <View style={styles.loadingOverlay}>
+                    <ActivityIndicator size="large" color="#0000ff" />
+                    <Text>A carregar modelo...</Text>
+                </View>
+            )}
         </GestureHandlerRootView>
     );
 };
@@ -163,7 +151,7 @@ export default function ViewColorimeterScreen() {
 
          <ModelViewer/>
 
-         <View style={{width: '80%', marginBottom: height * 0.1}}>
+         <View style={{width: '80%', marginBottom: height * 0.1, flex: 1}}>
              <Text style={{marginBottom: 20, fontSize: 16, fontWeight: 'bold', textDecorationLine: 'underline', textAlign: 'center'}}>LISTA DE COMPONENTES UTILIZADOS:</Text>
              <FlatList
                  data={[
@@ -209,6 +197,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(240, 240, 240, 0.8)',
     justifyContent: 'center',
     alignItems: 'center',
+    zIndex: 1,
   }
 });
-
