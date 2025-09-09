@@ -82,10 +82,20 @@ export default function CadastroReacao() {
             
             </View>
 
+            <View style = {styles.div_alinha_linha}>
+
+              <Text style={{fontWeight: 'bold'}}>Descrição da reação:</Text>
+              
+              <TextInput multiline
+              style = {styles.botaoDescricao} 
+              />
+            
+            </View>
+
           </View>
 
           <View style = {{alignItems:'center', height: 90}}>
-              <TouchableOpacity style = {styles.botao}><Text style={styles.buttonText}>EXPORTAR</Text></TouchableOpacity>
+              <TouchableOpacity style = {styles.botao}><Text style={styles.buttonText}>CADASTRAR</Text></TouchableOpacity>
           </View>
 
           <UserInfoDisplay/>
@@ -144,6 +154,19 @@ const styles = StyleSheet.create({
       flexDirection:'row',
       justifyContent: 'space-between',
       borderWidth: 1,
+  },
+
+  botaoDescricao:{
+    display: 'flex',
+    alignItems: 'center',
+    flex: 1,
+    height:50,
+    borderRadius: 15,
+    textAlignVertical: 'top',
+     padding:5,
+    borderWidth: 1,
+    marginTop:20,
+
   },
 
   buttonText: {
