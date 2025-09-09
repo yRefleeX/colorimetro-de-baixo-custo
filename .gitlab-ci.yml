@@ -21,22 +21,22 @@ cache:
 # --- FASE 1: INSTALAÇÃO ---
 install_dependencies:
   stage: install
-  script:
-    - echo "Navegando para a pasta do projeto..."
-    - cd Colorimetria
-    - echo "Instalando dependências com Yarn..."
-    - yarn install --frozen-lockfile
+  script: |
+    echo "Navegando para a pasta do projeto..."
+    cd Colorimetria
+    echo "Instalando dependências com Yarn..."
+    yarn install --frozen-lockfile
 
 # --- FASE 2: TESTES ---
 run_tests:
   stage: test
   needs: [install_dependencies] # Depende explicitamente da instalação
-  script:
-    - echo "Navegando para a pasta do projeto..."
-    - cd Colorimetria
-    - echo "Executando testes e lint..."
-    - yarn lint
-    # - yarn test # Adicionar testes de unidade aqui
+  script: |
+    echo "Navegando para a pasta do projeto..."
+    cd Colorimetria
+    echo "Executando testes e lint..."
+    yarn lint
+    # yarn test # Adicionar testes de unidade aqui
   rules:
     # Regra: Executar em todos os branches, exceto no 'main'.
     - if: '$CI_COMMIT_BRANCH != "main"'
@@ -45,13 +45,13 @@ run_tests:
 create_preview_update:
   stage: review
   needs: [install_dependencies] # Depende da instalação
-  script:
-    - echo "Navegando para a pasta do projeto..."
-    - cd Colorimetria
-    - echo "Criando um preview com Expo Update para revisão..."
-    - npm install -g eas-cli
-    - eas login --token $EAS_TOKEN
-    - eas update --branch "$CI_COMMIT_REF_NAME" --message "Preview: $CI_COMMIT_TITLE" --non-interactive
+  script: |
+    echo "Navegando para a pasta do projeto..."
+    cd Colorimetria
+    echo "Criando um preview com Expo Update para revisão..."
+    npm install -g eas-cli
+    eas login --token $EAS_TOKEN
+    eas update --branch "$CI_COMMIT_REF_NAME" --message "Preview: $CI_COMMIT_TITLE" --non-interactive
   rules:
     # Regra: Executar em Merge Requests para o branch 'develop'.
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop"'
@@ -60,13 +60,13 @@ create_preview_update:
 build_development:
   stage: build
   needs: [run_tests] # Depende do sucesso dos testes
-  script:
-    - echo "Navegando para a pasta do projeto..."
-    - cd Colorimetria
-    - echo "Iniciando build de integração para o ambiente de desenvolvimento..."
-    - npm install -g eas-cli
-    - eas login --token $EAS_TOKEN
-    - eas build --platform android --profile development --non-interactive --wait
+  script: |
+    echo "Navegando para a pasta do projeto..."
+    cd Colorimetria
+    echo "Iniciando build de integração para o ambiente de desenvolvimento..."
+    npm install -g eas-cli
+    eas login --token $EAS_TOKEN
+    eas build --platform android --profile development --non-interactive --wait
   rules:
     # Regra: Executar em pushes para o branch 'develop'.
     - if: '$CI_COMMIT_BRANCH == "develop"'
@@ -74,13 +74,13 @@ build_development:
 build_production:
   stage: build
   needs: [run_tests] # Depende do sucesso dos testes
-  script:
-    - echo "Navegando para a pasta do projeto..."
-    - cd Colorimetria
-    - echo "Iniciando build de produção..."
-    - npm install -g eas-cli
-    - eas login --token $EAS_TOKEN
-    - eas build --platform android --profile production --non-interactive --wait
+  script: |
+    echo "Navegando para a pasta do projeto..."
+    cd Colorimetria
+    echo "Iniciando build de produção..."
+    npm install -g eas-cli
+    eas login --token $EAS_TOKEN
+    eas build --platform android --profile production --non-interactive --wait
   artifacts:
     paths:
       - "Colorimetria/*.aab" # O caminho do artefacto agora inclui a subpasta
@@ -92,16 +92,16 @@ build_production:
 # --- FASE 5: DEPLOY PARA PRODUÇÃO ---
 deploy_to_production:
   stage: deploy
-  script:
-    - echo "Navegando para a pasta do projeto..."
-    - cd Colorimetria
-    - echo "Enviando a versão final para a loja de produção..."
-    - npm install -g eas-cli
-    - eas login --token $EAS_TOKEN
-    - eas submit --platform android --profile production --latest --non-interactive
   needs:
     - job: build_production
       artifacts: true # Garante que o artefacto (.aab) está disponível
+  script: |
+    echo "Navegando para a pasta do projeto..."
+    cd Colorimetria
+    echo "Enviando a versão final para a loja de produção..."
+    npm install -g eas-cli
+    eas login --token $EAS_TOKEN
+    eas submit --platform android --profile production --latest --non-interactive
   when: manual # O deploy final é sempre manual para ter controlo total.
   rules:
     # Regra: Permitir o deploy a partir do 'main' ou de branches 'hotfix'.
