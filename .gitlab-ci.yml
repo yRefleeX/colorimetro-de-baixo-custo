@@ -1,4 +1,4 @@
-image: node:18-bullseye
+image: node:20-bullseye
 
 # O workflow define quando um pipeline deve ser executado
 workflow:
