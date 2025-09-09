@@ -1,5 +1,11 @@
 image: node:18-bullseye
 
+# O workflow define quando um pipeline deve ser executado
+workflow:
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_COMMIT_BRANCH'
+
 stages:
   - install
   - test
@@ -22,6 +28,7 @@ install_dependencies:
 # --- FASE 2: TESTES ---
 run_tests:
   stage: test
+  needs: [install_dependencies] # Depende explicitamente da instalação
   script:
     - echo "Executando testes e lint..."
     - yarn lint
@@ -33,6 +40,7 @@ run_tests:
 # --- FASE 3: REVIEW (Preview com Expo Updates) ---
 create_preview_update:
   stage: review
+  needs: [install_dependencies] # Depende da instalação
   script:
     - echo "Criando um preview com Expo Update para revisão..."
     - npm install -g eas-cli
@@ -45,6 +53,7 @@ create_preview_update:
 # --- FASE 4: BUILD ---
 build_development:
   stage: build
+  needs: [run_tests] # Depende do sucesso dos testes
   script:
     - echo "Iniciando build de integração para o ambiente de desenvolvimento..."
     - npm install -g eas-cli
@@ -56,6 +65,7 @@ build_development:
 
 build_production:
   stage: build
+  needs: [run_tests] # Depende do sucesso dos testes
   script:
     - echo "Iniciando build de produção..."
     - npm install -g eas-cli
@@ -78,7 +88,8 @@ deploy_to_production:
     - eas login --token $EAS_TOKEN
     - eas submit --platform android --profile production --latest --non-interactive
   needs:
-    - build_production # Depende do sucesso do build de produção
+    - job: build_production
+      artifacts: true # Garante que o artefacto (.aab) está disponível
   when: manual # O deploy final é sempre manual para ter controlo total.
   rules:
     # Regra: Permitir o deploy a partir do 'main' ou de branches 'hotfix'.
