@@ -50,7 +50,7 @@ create_preview_update:
     cd Colorimetria
     echo "Criando um preview com Expo Update para revisão..."
     npm install -g eas-cli
-    eas login --token $EAS_TOKEN
+    export EXPO_TOKEN=$EAS_TOKEN
     eas update --branch "$CI_COMMIT_REF_NAME" --message "Preview: $CI_COMMIT_TITLE" --non-interactive
   rules:
     # Regra: Executar em Merge Requests para o branch 'develop'.
@@ -65,11 +65,25 @@ build_development:
     cd Colorimetria
     echo "Iniciando build de integração para o ambiente de desenvolvimento..."
     npm install -g eas-cli
-    eas login --token $EAS_TOKEN
+    export EXPO_TOKEN=$EAS_TOKEN
     eas build --platform android --profile development --non-interactive --wait
   rules:
     # Regra: Executar em pushes para o branch 'develop'.
     - if: '$CI_COMMIT_BRANCH == "develop"'
+
+  build_staging:
+  stage: build
+  needs: [run_tests]
+  script: |
+    echo "Navegando para a pasta do projeto..."
+    cd Colorimetria
+    echo "Iniciando build de Staging para validação final..."
+    npm install -g eas-cli
+    export EXPO_TOKEN=$EAS_TOKEN
+    eas build --platform android --profile staging --non-interactive --wait
+  rules:
+    # Regra: Executar em pushes para branches 'release/*'.
+    - if: '$CI_COMMIT_BRANCH =~ /^release\//'
 
 build_production:
   stage: build
@@ -100,7 +114,7 @@ deploy_to_production:
     cd Colorimetria
     echo "Enviando a versão final para a loja de produção..."
     npm install -g eas-cli
-    eas login --token $EAS_TOKEN
+    export EXPO_TOKEN=$EAS_TOKEN
     eas submit --platform android --profile production --latest --non-interactive
   when: manual # O deploy final é sempre manual para ter controlo total.
   rules:
