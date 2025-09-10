@@ -79,7 +79,7 @@ build_production:
     cd Colorimetria
     echo "Iniciando build de produção..."
     npm install -g eas-cli
-    eas login --token $EAS_TOKEN
+    export EXPO_TOKEN=$EAS_TOKEN
     eas build --platform android --profile production --non-interactive --wait
   artifacts:
     paths:
