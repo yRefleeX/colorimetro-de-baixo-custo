@@ -10,13 +10,6 @@ import { StyleSheet, Text, SafeAreaView, TouchableOpacity, TextInput, View } fro
 
 export default function CadastroReacao() {
  
-  
-// Função responsavel por exportar em pdf ou word os dados obtidos pelo colorimetro.
-
-  function exportarDocumentos(tipo: String){
-
-  }
- 
   return (
 
 //Div 'Mãe" da pagina -> Todo conteudo estara dentro desse SafeAreaView, restringindo o conteudo exibido da barra de navegação na parte inferior até o cabeçalho de notificações.    
