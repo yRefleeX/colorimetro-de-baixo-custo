@@ -44,7 +44,7 @@ export default function RootLayout() {
         // Se não estiver logado, navegue para a tela de login
         router.replace('/');
     }
-  }, [user, isLoading, loaded, navigationState?.key]);
+  }, [user, isLoading, loaded, navigationState?.key, pathName]);
 
   if (isLoading || !loaded) {
     return (

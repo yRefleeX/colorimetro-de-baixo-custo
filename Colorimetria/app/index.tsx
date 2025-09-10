@@ -27,7 +27,7 @@ export default function LoginScreen() {
   const [loading, setLoading] = useState<boolean>(false); // Estado de carregamento inicial para autenticação
   const [showEmailForm, setShowEmailForm] = useState<boolean>(false);
 
-  const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
+  const [, response, promptAsync] = Google.useIdTokenAuthRequest({
     clientId: process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID_WEB,
     redirectUri: makeRedirectUri({
       native: 'colorimetria://'
@@ -56,7 +56,7 @@ export default function LoginScreen() {
           Alert.alert('Erro', 'Não foi possível fazer login com Google.');
         });
     }
-  }, [response, auth]);
+  }, [response]);
 
   // Função para login como convidado
   const handleGuestSignIn = async () => {

@@ -1,6 +1,5 @@
-import { StyleSheet, Text, SafeAreaView, View, TouchableOpacity, Dimensions, Alert, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, SafeAreaView, View, TouchableOpacity, Dimensions, Alert, ActivityIndicator , TextInput } from 'react-native';
 import React, {useState, useEffect} from 'react';
-import { TextInput } from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from "@hookform/resolvers/yup";
 import * as yup from 'yup';

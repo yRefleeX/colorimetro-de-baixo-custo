@@ -1,6 +1,5 @@
-import { StyleSheet, Text, SafeAreaView, View, TouchableOpacity, Dimensions, Alert } from 'react-native';
+import { StyleSheet, Text, SafeAreaView, View, TouchableOpacity, Dimensions, Alert , TextInput, ActivityIndicator } from 'react-native';
 import React, {useState} from 'react';
-import { TextInput } from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from "@hookform/resolvers/yup";
 import * as yup from 'yup';
@@ -55,7 +54,7 @@ export default function Codigo() {
 
             <View style={{backgroundColor:"#e3e3e3", height:160, borderRadius:15, width:300, alignSelf:'center'}}>
                 <Controller control={control} name='email' render={({field: {onChange, onBlur, value, }}) => (<TextInput placeholder='Email' style={{ height: 40, backgroundColor: 'white', width: 150, borderRadius: 5, borderColor: errors.email && 'red', borderWidth:1, alignSelf:'center', marginTop: 20}} onChangeText={onChange} onBlur={onBlur} value={value}></TextInput>)}/>{errors.email && <Text style={{ color:'red', alignSelf:'center'}}>{errors.email.message}</Text>}
-                <TouchableOpacity style={{height:40, width:80, backgroundColor:'white', alignSelf:'center', alignItems:'center', marginTop: height * 0.03}} onPress={handleSubmit(handlePasswordReset)}><Text style={{marginTop:11, fontWeight: 'bold'}}>Enviar</Text></TouchableOpacity>
+                <TouchableOpacity style={{height:40, width:80, backgroundColor:'white', alignSelf:'center', alignItems:'center', marginTop: height * 0.03}} onPress={handleSubmit(handlePasswordReset)} disabled={loading}>{loading ? <ActivityIndicator color='#000'/> : <Text style={{marginTop:11, fontWeight: 'bold'}}>Enviar</Text>}</TouchableOpacity>
                 <TouchableOpacity style={styles.buttonVoltar} onPress={() => router.navigate('/')}><Text style={{color: '#555', fontSize: 16}}>Voltar</Text></TouchableOpacity>
             </View>
         </View>
