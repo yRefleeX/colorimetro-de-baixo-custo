@@ -71,19 +71,19 @@ build_development:
     # Regra: Executar em pushes para o branch 'develop'.
     - if: '$CI_COMMIT_BRANCH == "develop"'
 
-  build_staging:
-  stage: build
-  needs: [run_tests]
-  script: |
-    echo "Navegando para a pasta do projeto..."
-    cd Colorimetria
-    echo "Iniciando build de Staging para validação final..."
-    npm install -g eas-cli
-    export EXPO_TOKEN=$EAS_TOKEN
-    eas build --platform android --profile staging --non-interactive --wait
-  rules:
-    # Regra: Executar em pushes para branches 'release/*'.
-    - if: '$CI_COMMIT_BRANCH =~ /^release\//'
+build_staging:
+stage: build
+needs: [run_tests]
+script: |
+  echo "Navegando para a pasta do projeto..."
+  cd Colorimetria
+  echo "Iniciando build de Staging para validação final..."
+  npm install -g eas-cli
+  export EXPO_TOKEN=$EAS_TOKEN
+  eas build --platform android --profile staging --non-interactive --wait
+rules:
+  # Regra: Executar em pushes para branches 'release/*'.
+  - if: '$CI_COMMIT_BRANCH =~ /^release\//'
 
 build_production:
   stage: build
