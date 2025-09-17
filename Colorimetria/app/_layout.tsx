@@ -32,17 +32,24 @@ export default function RootLayout() {
         return;
     }
 
+    const authRoutes = ['/', '/cadastrar', '/codigo', '/nova_senha'];
+    const inAuthGroup = authRoutes.includes(pathName);
+
     if (pathName === '/nova_senha') {
         return;
     }
 
-    // A lógica de redirecionamento agora está aqui, fora do return
-    if (user) {
-        // Se o usuário estiver logado, navegue para a tela inicial
-        router.replace('/inicial');
-    } else {
-        // Se não estiver logado, navegue para a tela de login
-        router.replace('/');
+    if (
+      // Se o utilizador não está autenticado e NÃO está numa tela de autenticação.
+      !user &&
+      !inAuthGroup
+    ) {
+      // Redireciona para a tela de login.
+      router.replace('/');
+    } else if (user && inAuthGroup) {
+      // Se o utilizador está autenticado e está numa tela de autenticação (ex: login),
+      // redireciona para a tela inicial.
+      router.replace('/inicial');
     }
   }, [user, isLoading, loaded, navigationState?.key, pathName]);
 

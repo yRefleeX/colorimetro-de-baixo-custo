@@ -54,11 +54,10 @@ const styles = StyleSheet.create({
   },
     conteudo:{
       padding:5,
-      width:400,
-      height:500,
+      width:'80%',
+      height:'40%',
       borderRadius: 15,
       borderWidth: 1,
-      marginTop:20,
       marginBottom: height * 0.1
     }
 

@@ -112,12 +112,8 @@ const styles = StyleSheet.create({
 // Estilização da div contendo o titulo da pagina. Centralização dos itens contidos na div para o centro e espaçamento 
 
   div_titulo: {
-
-    justifyContent:'center',
-    alignItems:'center',
-    padding:40, 
-    margin: 40
-    
+    padding:30, 
+    margin: 30
  },
 
 
@@ -130,14 +126,13 @@ const styles = StyleSheet.create({
  
   botao:{
       padding:5,
-      width:100,
+      width: 150,
       borderRadius: 15,
       borderWidth: 1,
       marginTop:20,
   },
+  
   div_alinha_coluna:{
-      marginTop:50,
-      padding:5,
       flexDirection:'column'
   },
 
