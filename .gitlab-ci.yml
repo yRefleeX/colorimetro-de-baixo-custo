@@ -66,7 +66,7 @@ build_development:
     echo "Iniciando build de integração para o ambiente de desenvolvimento..."
     npm install -g eas-cli
     export EXPO_TOKEN=$EAS_TOKEN
-    eas build --platform android --profile development --non-interactive --wait
+    npx eas build --platform android --profile development --non-interactive --wait
   rules:
     # Regra: Executar em pushes para o branch 'develop'.
     - if: '$CI_COMMIT_BRANCH == "develop"'
@@ -80,7 +80,7 @@ build_staging:
     echo "Iniciando build de Staging para validação final..."
     npm install -g eas-cli
     export EXPO_TOKEN=$EAS_TOKEN
-    eas build --platform android --profile staging --non-interactive --wait
+    npx eas build --platform android --profile staging --non-interactive --wait
   rules:
     # Regra: Executar em pushes para branches 'release/*'.
     - if: '$CI_COMMIT_BRANCH =~ /^release\//'
@@ -94,7 +94,7 @@ build_production:
     echo "Iniciando build de produção..."
     npm install -g eas-cli
     export EXPO_TOKEN=$EAS_TOKEN
-    eas build --platform android --profile production --non-interactive --wait
+    npx eas build --platform android --profile production --non-interactive --wait
   artifacts:
     paths:
       - "Colorimetria/*.aab" # O caminho do artefacto agora inclui a subpasta
