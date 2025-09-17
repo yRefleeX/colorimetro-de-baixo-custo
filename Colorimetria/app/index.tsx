@@ -8,9 +8,7 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import {auth} from '../firebaseConfig';
 import {signInWithEmailAndPassword, GoogleAuthProvider, signInWithCredential, signInAnonymously} from 'firebase/auth';
-import * as WebBrowser from 'expo-web-browser';
-import * as Google from 'expo-auth-session/providers/google';
-import { makeRedirectUri } from 'expo-auth-session';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
 const { height } = Dimensions.get('window'); // Utilizando 'height' para fazer estilização responsiva, a partir da biblioteca Dimensions
 
@@ -20,19 +18,28 @@ const schema = yup.object({
   password: yup.string().required("Digite sua senha.")
 })
 
-WebBrowser.maybeCompleteAuthSession();
-
 // Chamando a função principal (necessário para abrir a tela de login)
 export default function LoginScreen() {
   const [loading, setLoading] = useState<boolean>(false); // Estado de carregamento inicial para autenticação
   const [showEmailForm, setShowEmailForm] = useState<boolean>(false);
 
-  const [, response, promptAsync] = Google.useIdTokenAuthRequest({
-    clientId: process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID_WEB,
-    redirectUri: makeRedirectUri({
-      native: 'colorimetria://'
-    }),
-  });
+  if (!process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID_WEB || !process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID_ANDROID) {
+      const errorMessage = "Uma ou mais variáveis de ambiente cruciais para a autenticação não foram definidas. Verifique seu arquivo .env e reinicie o servidor com 'npx expo start -c'.";
+      console.error("ERRO CRÍTICO DE CONFIGURAÇÃO:", errorMessage);
+      Alert.alert("Erro de Configuração", errorMessage);
+      return (
+          <SafeAreaView style={styles.container}>
+              <Text style={{color: 'red', padding: 20, textAlign: 'center'}}>Erro de Configuração. Verifique o console.</Text>
+          </SafeAreaView>
+      );
+  }
+
+  useEffect(() => {
+    GoogleSignin.configure({
+      webClientId: process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID_WEB,
+      scopes: ['profile', 'email', 'openid']
+    });
+  }, []);
 
   const {control, handleSubmit, formState: {errors}} = useForm({
     resolver: yupResolver(schema), // Utilização do yupResolver para validação os dados
@@ -42,21 +49,32 @@ export default function LoginScreen() {
     }
   })
 
-  // --- Login com Google ---
-  useEffect(() => {
-    if (response?.type === 'success' && auth) {
-      const { id_token } = response.params;
-      const credential = GoogleAuthProvider.credential(id_token);
-      signInWithCredential(auth, credential)
-        .then(() => {
-          Alert.alert('Sucesso', 'Login com Google realizado!');
-        })
-        .catch((error) => {
-          console.error('Erro no login com Google:', error);
-          Alert.alert('Erro', 'Não foi possível fazer login com Google.');
-        });
+  // Função para login com Google
+  const handleNativeGoogleSignIn = async () => {
+    try {
+        setLoading(true);
+        await GoogleSignin.hasPlayServices();
+        
+        const userInfo: any = await GoogleSignin.signIn();
+
+        if (userInfo.data && userInfo.data.idToken) { 
+            const credential = GoogleAuthProvider.credential(userInfo.data.idToken); 
+            await signInWithCredential(auth, credential);
+        } else {
+            Alert.alert('Erro', 'Não foi possível obter o token do Google.');
+        }
+
+    } catch (error: any) {
+        console.error("Erro no Login Google Nativo:", error);
+        if (error.code === '12501') { 
+            Alert.alert('Cancelado', 'Login com Google cancelado.');
+        } else {
+            Alert.alert('Erro', 'Um erro ocorreu no login com Google.');
+        }
+    } finally {
+        setLoading(false);
     }
-  }, [response]);
+  };
 
   // Função para login como convidado
   const handleGuestSignIn = async () => {
@@ -90,7 +108,7 @@ export default function LoginScreen() {
         errorMessage = 'E-mail inválido.';
       } else if (error.code === 'auth/user-disabled') {
         errorMessage = 'Usuário desativado.';
-      } else if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
+      } else if (error.code === 'auth/invalid-credential') {
         errorMessage = 'E-mail ou senha incorretos.';
       }
       Alert.alert('Erro de Login', errorMessage);
@@ -107,7 +125,7 @@ export default function LoginScreen() {
         {/* Logo do IFSP, junto com o título (nome do app) */}
         <View style={styles.content}>
           <Image source={require('../assets/images/foto_login.png')} style={styles.logo}></Image>
-          <Text style={{fontSize: 30, fontWeight: "bold", textAlign: "center", marginBottom: height * 0.03}}>COEGI</Text>
+          <Text style={{fontSize: 30, fontWeight: "bold", textAlign: "center", marginBottom: height * 0.03}}>ChromaLab</Text>
 
           {/* View com inputs para login */}
           <View style={styles.formContainer}>
@@ -126,7 +144,7 @@ export default function LoginScreen() {
               // Botões iniciais de login
               <View>
                 <TouchableOpacity style={styles.button} onPress={() => setShowEmailForm(true)} disabled={loading}>{loading ? (<ActivityIndicator color="#555" />) : (<><MaterialCommunityIcons name='email' size={24} style={{marginRight: 12}}></MaterialCommunityIcons><Text style={styles.buttonText}>Entrar com Email</Text></>)}</TouchableOpacity>
-                <TouchableOpacity style={styles.buttonGoogle} onPress={() => { setLoading(true); promptAsync(); }} disabled={loading}>{loading ? (<ActivityIndicator color="#555" />) : (<><Image source={require('../assets/images/google-logo.png')} style={styles.googleIcon} /><Text style={styles.buttonTextGoogle}>Entrar com o Google</Text></>)}</TouchableOpacity>
+                <TouchableOpacity style={styles.buttonGoogle} onPress={handleNativeGoogleSignIn} disabled={loading}>{loading ? (<ActivityIndicator color="#555" />) : (<><Image source={require('../assets/images/google-logo.png')} style={styles.googleIcon} /><Text style={styles.buttonTextGoogle}>Entrar com o Google</Text></>)}</TouchableOpacity>
                 <TouchableOpacity style={styles.buttonGuest} onPress={handleGuestSignIn} disabled={loading}><Text style={styles.buttonGuestText}>Entrar como Convidado</Text></TouchableOpacity>
 
                 <View style={styles.footerLinks}>

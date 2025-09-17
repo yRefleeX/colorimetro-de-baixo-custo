@@ -1,6 +1,7 @@
 // Importando as bibliotecas necessárias
-import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
+import { initializeApp, getApps, getApp } from 'firebase/app';
+import { getReactNativePersistence, initializeAuth, getAuth, type Auth } from 'firebase/auth/react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Sua configuração do Firebase que estava no LoginScreen
 const firebaseConfig = {
@@ -14,7 +15,11 @@ const firebaseConfig = {
 };
 
 // Inicializa o Firebase APENAS UMA VEZ
-const app = initializeApp(firebaseConfig);
+const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
 
-// Obtém a instância de autenticação e a exporta para ser usada em qualquer lugar do app
-export const auth = getAuth(app);
+// Inicializa o auth com persistência apenas uma vez
+const auth = initializeAuth(app, {
+  persistence: getReactNativePersistence(AsyncStorage),
+});
+
+export { auth, app };

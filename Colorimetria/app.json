@@ -1,7 +1,8 @@
 {
   "expo": {
-    "name": "Colorimetria",
+    "name": "ChromaLab",
     "slug": "Colorimetria",
+    "scheme": "colorimetria",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -18,8 +19,13 @@
       ]
     },
     "android": {
-      "package": "com.colorimetrodebaixocusto.colorimetria",
+      "package": "com.colorimetrodebaixocusto.chromalab",
       "googleServicesFile": "./google-services.json",
+      "config": {
+        "googleSignIn": {
+          "certificateHash": "0B:B5:94:C7:5E:18:CD:D1:21:55:56:DB:21:92:2E:67:67:84:B7:D8"
+        }
+      },
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
