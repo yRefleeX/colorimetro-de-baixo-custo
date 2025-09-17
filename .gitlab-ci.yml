@@ -34,6 +34,8 @@ run_tests:
   script: |
     echo "Navegando para a pasta do projeto..."
     cd Colorimetria
+    echo "Garantindo que as dependências estão instaladas..."
+    yarn install --frozen-lockfile
     echo "Executando testes e lint..."
     yarn lint
     yarn test
