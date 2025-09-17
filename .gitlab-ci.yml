@@ -36,7 +36,7 @@ run_tests:
     cd Colorimetria
     echo "Executando testes e lint..."
     yarn lint
-    # yarn test # Adicionar testes de unidade aqui
+    yarn test
   rules:
     # Regra: Executar em todos os branches, exceto no 'main'.
     - if: '$CI_COMMIT_BRANCH != "main"'
