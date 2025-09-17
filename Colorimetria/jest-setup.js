@@ -1,5 +1,5 @@
 // jest-setup.js
-import '@testing-library/react-native/extend-expect';
+require('@testing-library/react-native/extend-expect');
 
 // Mockar react-native-async-storage
 jest.mock('@react-native-async-storage/async-storage', () =>
