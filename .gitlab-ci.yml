@@ -35,6 +35,7 @@ run_tests:
     echo "Navegando para a pasta do projeto..."
     cd Colorimetria
     echo "Garantindo que as dependências estão instaladas..."
+    rm -rf node_modules
     yarn install --frozen-lockfile
     echo "Executando testes e lint..."
     yarn lint
