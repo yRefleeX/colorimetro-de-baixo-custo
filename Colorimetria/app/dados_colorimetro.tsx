@@ -1,6 +1,7 @@
 // importando as bibliotecas necessarias para execução do código
 
-import { StyleSheet, Text, SafeAreaView, Image, TouchableOpacity, TextInput, View, Dimensions,} from 'react-native';
+import { StyleSheet, Text, Image, TouchableOpacity, TextInput, View, Dimensions,} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import VoltaInicio from '@/components/VoltaInicio';
 import UserInfoDisplay from '@/components/UserInfoDisplay';
 import { printToFileAsync } from 'expo-print';

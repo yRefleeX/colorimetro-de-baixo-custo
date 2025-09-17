@@ -2,7 +2,8 @@
 
 import UserInfoDisplay from '@/components/UserInfoDisplay';
 import VoltaInicio from '@/components/VoltaInicio';
-import { StyleSheet, Text, SafeAreaView, TouchableOpacity, TextInput, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, TextInput, View } from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 
 
