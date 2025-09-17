@@ -1,7 +1,8 @@
 // Importando as bibliotecas necessárias para o código
 import React, {useState, useEffect} from 'react';
 import {router, Href} from 'expo-router';
-import {StyleSheet, View, SafeAreaView, Text, Image, Dimensions, TouchableOpacity, Alert} from 'react-native';
+import {StyleSheet, View, Text, Image, Dimensions, TouchableOpacity, Alert} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import UserInfoDisplay from '@/components/UserInfoDisplay';
 import {auth} from '../firebaseConfig';

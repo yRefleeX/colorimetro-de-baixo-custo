@@ -1,6 +1,7 @@
 // Importando as bibliotecas necessárias para o código
 import React from 'react';
-import {StyleSheet, View, SafeAreaView, Text, Dimensions, FlatList, TouchableOpacity} from 'react-native';
+import {StyleSheet, View, Text, Dimensions, FlatList, TouchableOpacity} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import UserInfoDisplay from '@/components/UserInfoDisplay';
 import VoltaInicio from '@/components/VoltaInicio';
 import * as WebBrowser from 'expo-web-browser';

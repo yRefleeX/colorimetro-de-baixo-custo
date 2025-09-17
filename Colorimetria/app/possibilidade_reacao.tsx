@@ -1,5 +1,6 @@
 // Importando as bibliotecas necessárias para o código
-import React, {TouchableOpacity, StyleSheet, View, SafeAreaView, Text, Dimensions} from 'react-native';
+import React, {TouchableOpacity, StyleSheet, View, Text, Dimensions} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import UserInfoDisplay from '@/components/UserInfoDisplay';
 import VoltaInicio from '@/components/VoltaInicio';
 

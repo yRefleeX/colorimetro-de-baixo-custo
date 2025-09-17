@@ -1,7 +1,8 @@
 // Importando as bibliotecas necessárias para o código
 import React, {useState, useEffect} from 'react';
 import {router} from 'expo-router';
-import {StyleSheet, SafeAreaView, Text, Image, TextInput, TouchableOpacity, Dimensions, View, Alert, ActivityIndicator} from 'react-native';
+import {StyleSheet, Text, Image, TextInput, TouchableOpacity, Dimensions, View, Alert, ActivityIndicator} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
