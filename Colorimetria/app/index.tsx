@@ -23,6 +23,21 @@ export default function LoginScreen() {
   const [loading, setLoading] = useState<boolean>(false); // Estado de carregamento inicial para autenticação
   const [showEmailForm, setShowEmailForm] = useState<boolean>(false);
 
+  const {control, handleSubmit, formState: {errors}} = useForm({
+    resolver: yupResolver(schema), // Utilização do yupResolver para validação os dados
+    defaultValues: { // Valores padrão para os campos do formulário
+      email: '',
+      password: ''
+    }
+  })
+
+  useEffect(() => {
+    GoogleSignin.configure({
+      webClientId: process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID_WEB,
+      scopes: ['profile', 'email', 'openid']
+    });
+  }, []);
+
   if (!process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID_WEB || !process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID_ANDROID) {
       const errorMessage = "Uma ou mais variáveis de ambiente cruciais para a autenticação não foram definidas. Verifique seu arquivo .env e reinicie o servidor com 'npx expo start -c'.";
       console.error("ERRO CRÍTICO DE CONFIGURAÇÃO:", errorMessage);
@@ -33,21 +48,6 @@ export default function LoginScreen() {
           </SafeAreaView>
       );
   }
-
-  useEffect(() => {
-    GoogleSignin.configure({
-      webClientId: process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID_WEB,
-      scopes: ['profile', 'email', 'openid']
-    });
-  }, []);
-
-  const {control, handleSubmit, formState: {errors}} = useForm({
-    resolver: yupResolver(schema), // Utilização do yupResolver para validação os dados
-    defaultValues: { // Valores padrão para os campos do formulário
-      email: '',
-      password: ''
-    }
-  })
 
   // Função para login com Google
   const handleNativeGoogleSignIn = async () => {
