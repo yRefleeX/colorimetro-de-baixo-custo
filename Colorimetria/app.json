@@ -21,11 +21,6 @@
     "android": {
       "package": "com.colorimetrodebaixocusto.chromalab",
       "googleServicesFile": "./google-services.json",
-      "config": {
-        "googleSignIn": {
-          "certificateHash": "0B:B5:94:C7:5E:18:CD:D1:21:55:56:DB:21:92:2E:67:67:84:B7:D8"
-        }
-      },
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
