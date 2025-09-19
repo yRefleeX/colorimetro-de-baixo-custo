@@ -82,7 +82,6 @@ export default function LoginScreen() {
     setLoading(true);
     try {
         await signInAnonymously(auth);
-        // O redirecionamento é feito pelo _layout.tsx
     } catch (error) {
         console.error('Erro no login anônimo:', error);
         Alert.alert('Erro', 'Não foi possível entrar como convidado.');

@@ -1,53 +1,137 @@
-// app/index.test.tsx
 import React from 'react';
-import { render, fireEvent, screen } from '@testing-library/react-native';
-import LoginScreen from './index'; // Importa a tela de login
-import { GoogleSignin } from '@react-native-google-signin/google-signin'; // Importamos o mock
-import { signInWithCredential } from 'firebase/auth'; // Importamos o mock
+import { render, fireEvent, screen, waitFor, act } from '@testing-library/react-native';
+import LoginScreen from './index';
 
-// Descreve o conjunto de testes para a Tela de Login
+// Mock do Google Signin
+jest.mock('@react-native-google-signin/google-signin', () => ({
+  GoogleSignin: {
+    configure: jest.fn(),
+    hasPlayServices: jest.fn(() => Promise.resolve(true)),
+    signIn: jest.fn(() => Promise.resolve({
+      data: { idToken: 'mock-id-token' }
+    })),
+  },
+}));
+
+// Mock das funções do Firebase Auth
+jest.mock('firebase/auth', () => ({
+  signInWithCredential: jest.fn(() => Promise.resolve(true)),
+  signInWithEmailAndPassword: jest.fn(() => Promise.resolve(true)),
+  signInAnonymously: jest.fn(() => Promise.resolve(true)),
+  GoogleAuthProvider: {
+    credential: jest.fn((token) => ({ token })),
+  },
+}));
+
+// Mock do expo-router (mock simples da navegação)
+jest.mock('expo-router', () => ({
+  router: {
+    navigate: jest.fn(),
+  },
+}));
+
+// Mock do ícone para evitar erro
+jest.mock('@expo/vector-icons', () => ({
+  MaterialCommunityIcons: () => null,
+}));
+
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import { signInWithCredential, signInWithEmailAndPassword, signInAnonymously, GoogleAuthProvider } from 'firebase/auth';
+import { router } from 'expo-router';
+
 describe('LoginScreen', () => {
 
-  // Teste 1: Verifica se a tela renderiza corretamente no estado inicial
-  it('renders correctly the initial state', () => {
-    render(<LoginScreen />);
-    
-    // Verifica se o texto "ChromaLab" está na tela
-    expect(screen.getByText('ChromaLab')).toBeTruthy();
-    
-    // Verifica se os botões iniciais estão presentes
-    expect(screen.getByText('Entrar com Email')).toBeTruthy();
-    expect(screen.getByText('Entrar com o Google')).toBeTruthy();
-    expect(screen.getByText('Entrar como Convidado')).toBeTruthy();
+  beforeEach(() => {
+    jest.clearAllMocks();
   });
 
-  // Teste 2: Verifica se o formulário de e-mail aparece ao clicar no botão
-  it('shows email form when "Entrar com Email" is pressed', () => {
+  it('renderiza o estado inicial corretamente', () => {
     render(<LoginScreen />);
-    
-    // Clica no botão "Entrar com Email"
-    fireEvent.press(screen.getByText('Entrar com Email'));
-    
-    // Verifica se os campos de input (placeholders) apareceram
-    expect(screen.getByPlaceholderText('Email')).toBeTruthy();
-    expect(screen.getByPlaceholderText('Senha')).toBeTruthy();
-    // Verifica se o botão "Voltar" apareceu
-    expect(screen.getByText('Voltar')).toBeTruthy();
+    expect(screen.getByText(/chromalab/i)).toBeTruthy();
+    expect(screen.getByText(/entrar com email/i)).toBeTruthy();
+    expect(screen.getByText(/entrar com o google/i)).toBeTruthy();
+    expect(screen.getByText(/entrar como convidado/i)).toBeTruthy();
   });
 
-  // Teste 3: Verifica se o login com Google chama as funções corretas
-  it('calls Google Sign-In and Firebase auth when Google button is pressed', async () => {
+  test('exibe formulário de email ao pressionar "Entrar com Email"', async () => {
     render(<LoginScreen />);
     
-    // Clica no botão "Entrar com o Google"
-    fireEvent.press(screen.getByText('Entrar com o Google'));
-    
-    // Espera que o mock de signIn() tenha sido chamado
+    // Pressiona o botão para mostrar o formulário
+    await act(async () => {
+      fireEvent.press(screen.getByText(/entrar com email/i));
+    });
+
+    // DEBUG: imprime tudo que está renderizado para ver se aparece o form
+    screen.debug();
+
+    // Tenta pegar o input de email
+    const emailInput = await screen.findByPlaceholderText(/email/i);
+    expect(emailInput).toBeTruthy();
+  });
+
+  it('faz login com Google quando o botão é pressionado', async () => {
+    render(<LoginScreen />);
+
+    await act(async () => {
+      fireEvent.press(screen.getByText(/entrar com o google/i));
+    });
+
+    expect(GoogleSignin.hasPlayServices).toHaveBeenCalledTimes(1);
     expect(GoogleSignin.signIn).toHaveBeenCalledTimes(1);
-    
-    // Espera que o mock de signInWithCredential tenha sido chamado (assíncrono)
-    // (Precisamos esperar que a promessa seja resolvida)
-    await screen.findByText('Entrar com o Google'); // Espera a re-renderização
-    expect(signInWithCredential).toHaveBeenCalledTimes(1);
+    expect(GoogleAuthProvider.credential).toHaveBeenCalledWith('mock-id-token');
+    await waitFor(() => {
+      expect(signInWithCredential).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('faz login anônimo quando o botão "Entrar como Convidado" é pressionado', async () => {
+    render(<LoginScreen />);
+    await act(async () => {
+      fireEvent.press(screen.getByText(/entrar como convidado/i));
+    });
+    await waitFor(() => {
+      expect(signInAnonymously).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('faz login com email e senha quando o formulário é submetido', async () => {
+    render(<LoginScreen />);
+
+    // Mostrar formulário email
+    await act(async () => {
+      fireEvent.press(screen.getByText(/entrar com email/i));
+    });
+
+    // Preencher campos email e senha
+    fireEvent.changeText(screen.getByPlaceholderText(/email/i), 'teste@gmail.com');
+    fireEvent.changeText(screen.getByPlaceholderText(/senha/i), 'aaaaaa');
+
+    // Submeter formulário
+    await act(async () => {
+      fireEvent.press(screen.getByText(/^entrar$/i)); // botão 'Entrar' dentro do formulário
+    });
+
+    await waitFor(() => {
+      expect(signInWithEmailAndPassword).toHaveBeenCalledWith(
+        expect.anything(), // auth objeto
+        'teste@gmail.com',
+        'aaaaaa'
+      );
+    });
+  });
+
+  it('navega para tela de cadastro ao pressionar "Criar conta"', async () => {
+    render(<LoginScreen />);
+    fireEvent.press(screen.getByText(/criar conta/i));
+    expect(router.navigate).toHaveBeenCalledWith('/cadastrar');
+  });
+
+  it('navega para tela de "Esqueceu a Senha?" corretamente', async () => {
+    render(<LoginScreen />);
+    await act(async () => {
+      fireEvent.press(screen.getByText(/entrar com email/i));
+    });
+    fireEvent.press(screen.getByText(/esqueceu a senha\?/i));
+    expect(router.navigate).toHaveBeenCalledWith('/codigo');
   });
 });
