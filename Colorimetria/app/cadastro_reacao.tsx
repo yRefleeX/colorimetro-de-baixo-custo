@@ -10,6 +10,9 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 // Função responsavel por carregar todo conteudo da pagina (Pagina principal: Dados Colorimetro).
 
 export default function CadastroReacao() {
+  const handleCadastrar = () => {
+    console.log('Botão CADASTRAR pressionado');
+  };
  
   return (
 
@@ -31,8 +34,9 @@ export default function CadastroReacao() {
 
               <Text style={{fontWeight: 'bold'}}>Tipo de Reação:</Text>
               
-              <TextInput 
-              style = {styles.botao} 
+              <TextInput
+                testID="tipo_reacao"
+                style = {styles.botao} 
               />
             
             </View>
@@ -41,7 +45,8 @@ export default function CadastroReacao() {
 
               <Text style={{fontWeight: 'bold'}}>Composto 1: </Text>
               
-              <TextInput 
+              <TextInput
+              testID='composto_1' 
               style = {styles.botao} 
               />
             
@@ -51,7 +56,8 @@ export default function CadastroReacao() {
 
               <Text style={{fontWeight: 'bold'}}>Quantidade Composto 1:</Text>
               
-              <TextInput 
+              <TextInput
+              testID='quantidade_composto_1'
               style = {styles.botao} 
               />
             
@@ -61,7 +67,8 @@ export default function CadastroReacao() {
 
               <Text style={{fontWeight: 'bold'}}>Composto 2:</Text>
               
-              <TextInput 
+              <TextInput
+              testID='composto_2'
               style = {styles.botao} 
               />
             
@@ -70,7 +77,8 @@ export default function CadastroReacao() {
 
               <Text style={{fontWeight: 'bold'}}>Quantidade Composto 2:</Text>
               
-              <TextInput 
+              <TextInput
+              testID='quantidade_composto_2'
               style = {styles.botao} 
               />
             
@@ -81,6 +89,7 @@ export default function CadastroReacao() {
               <Text style={{fontWeight: 'bold'}}>Descrição da reação:</Text>
               
               <TextInput multiline
+              testID='descricao_da_reacao'
               style = {styles.botaoDescricao} 
               />
             
@@ -89,7 +98,7 @@ export default function CadastroReacao() {
           </View>
 
           <View style = {{alignItems:'center', height: 90}}>
-              <TouchableOpacity style = {styles.botao}><Text style={styles.buttonText}>CADASTRAR</Text></TouchableOpacity>
+              <TouchableOpacity style = {styles.botao} onPress={handleCadastrar}><Text style={styles.buttonText}>CADASTRAR</Text></TouchableOpacity>
           </View>
 
           <UserInfoDisplay/>
