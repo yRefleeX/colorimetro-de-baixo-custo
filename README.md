@@ -1,6 +1,5 @@
 # Colorímetro de Baixo Custo
 
-<img src="/Colorimetria/assets/images/icon.png" alt="Imagem do projeto" style="width: 30%">
 > Status: Em Andamento ⚠️ <br>
 > Versão: 0.0.1
 
