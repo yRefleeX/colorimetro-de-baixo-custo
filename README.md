@@ -84,7 +84,7 @@ Um guia passo a passo para configurar o ambiente.
 2.  **Software (App):**
     * Clone o repositório:
         ```sh
-        git clone [https://gitlab.com/coegi1/colorimetro-de-baixo-custo.git](https://gitlab.com/coegi1/colorimetro-de-baixo-custo.git)
+        git clone https://gitlab.com/coegi1/colorimetro-de-baixo-custo.git
         ```
     * Navegue até a pasta do aplicativo:
         ```sh
