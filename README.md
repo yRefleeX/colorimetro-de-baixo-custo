@@ -136,14 +136,10 @@ Um guia passo a passo para configurar o ambiente.
         * **Obtenha a chave SHA-1 com EAS Credentials:**
             * Execute o seguinte comando na raíz do projeto:
                 ```sh
-                eas project:init
-                ```
-            * Execute `eas credentials` para obter a chave SHA-1
-                - Siga as instruções: selecione **Android**, e depois a credencial de build que você utiliza.
-                - O CLI irá exibir os detalhes da sua credencial, incluindo o **"SHA-1 Fingerprint"**. Copie este valor.
-                ```sh
                 eas credentials
                 ```
+                - Siga as instruções: selecione **Android**, e depois a credencial de build que você utiliza.
+                - O CLI irá exibir os detalhes da sua credencial, incluindo o **"SHA-1 Fingerprint"**. Copie este valor.
             * Adicione a chave SHA-1 no Firebase:
                 1. Vá para o seu projeto no [Console do Firebase](https://console.firebase.google.com/).
                 2. Clique no ícone de engrenagem (Configurações do projeto).
