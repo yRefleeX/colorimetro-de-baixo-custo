@@ -30,7 +30,7 @@ Espera-se, como resultado, obter um equipamento de menor custo e, portanto, mais
 
 ## 🎯 Próximos Passos
 
-- [✅] Finalização das telas do aplicativo.
+- [x] Finalização das telas do aplicativo.
 - [ ] Integração do hardware com o software.
 - [ ] Realização dos testes de calibração.
 
