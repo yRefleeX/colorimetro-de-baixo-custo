@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent, screen, waitFor, act } from '@testing-library/react-native';
-import LoginScreen from './index';
+import LoginScreen from '../app/index';
 
 // Mock do Google Signin
 jest.mock('@react-native-google-signin/google-signin', () => ({
