@@ -30,7 +30,7 @@ Espera-se, como resultado, obter um equipamento de menor custo e, portanto, mais
 
 ## 🎯 Próximos Passos
 
-- [ ] Finalização das telas do aplicativo.
+- [✅] Finalização das telas do aplicativo.
 - [ ] Integração do hardware com o software.
 - [ ] Realização dos testes de calibração.
 
@@ -160,7 +160,7 @@ Um guia passo a passo para configurar o ambiente.
         ```sh
         eas build --profile development --platform android
         ```
-        * Logo após o término do build, abra o site (https://expo.dev/), faça seu login e abra seu projeto.
+        * Logo após o término do build, abra o [Expo Dev](https://expo.dev/), faça seu login e abra seu projeto.
         * Então, abra o respectivo projeto inicializado (o qual terá o build para Android incluído) e baixe o arquivo .APK
     * Execute o aplicativo em modo de desenvolvimento:
         ```sh
