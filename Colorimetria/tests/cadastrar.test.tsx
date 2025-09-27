@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent, screen, waitFor, act } from '@testing-library/react-native';
-import CadastrarScreen from './cadastrar';
+import CadastrarScreen from '../app/cadastrar';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { router } from 'expo-router';
 
