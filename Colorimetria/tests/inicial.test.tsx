@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent, act } from '@testing-library/react-native';
-import HomeScreen from './inicial';
+import HomeScreen from '../app/inicial';
 import { router } from 'expo-router';
 import { Alert } from 'react-native';
 
