@@ -39,3 +39,4 @@ yarn-error.*
 
 app-example
 coverage/
+google-services.json
