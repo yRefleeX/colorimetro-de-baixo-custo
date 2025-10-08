@@ -1,17 +1,62 @@
 // importando as bibliotecas necessarias para execução do código
 
+import React, {useState} from 'react';
 import UserInfoDisplay from '@/components/UserInfoDisplay';
 import VoltaInicio from '@/components/VoltaInicio';
-import { StyleSheet, Text, TouchableOpacity, TextInput, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, TextInput, View, Alert } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-
-
+import {db} from '../firebaseConfig';
+import {auth} from '../firebaseConfig';
+import { collection, addDoc } from 'firebase/firestore';
 
 // Função responsavel por carregar todo conteudo da pagina (Pagina principal: Dados Colorimetro).
 
 export default function CadastroReacao() {
-  const handleCadastrar = () => {
-    console.log('Botão CADASTRAR pressionado');
+  const [tipoReacao, setTipoReacao] = useState('');
+  const [composto1, setComposto1] = useState('');
+  const [quantidadeComposto1, setQuantidadeComposto1] = useState('');
+  const [composto2, setComposto2] = useState('');
+  const [quantidadeComposto2, setQuantidadeComposto2] = useState('');
+  const [descricaoReacao, setDescricaoReacao] = useState('');
+
+  const handleCadastrar = async () => {
+    const currentUser = auth.currentUser;
+
+    if(!currentUser){
+      Alert.alert('Erro', 'Nenhum usuário logado. Por favor, faça login.');
+      return;
+    }
+
+    const reactionData = {
+      tipoReacao,
+      composto1,
+      quantidadeComposto1,
+      composto2,
+      quantidadeComposto2,
+      descricaoReacao,
+      timestamp: new Date(),
+      userId: currentUser.uid
+    };
+
+    try {
+      const userReactionsCollectionRef = collection(db, 'users', currentUser.uid, 'reacoes');
+
+      await addDoc(userReactionsCollectionRef, reactionData);
+      Alert.alert('Sucesso!', 'Reação cadastrada com sucesso!');
+      
+      // Limpar os campos após o cadastro
+      setTipoReacao('');
+      setComposto1('');
+      setQuantidadeComposto1('');
+      setComposto2('');
+      setQuantidadeComposto2('');
+      setDescricaoReacao('');
+
+    }
+    catch (error: any) {
+      console.error('Erro ao cadastrar reação:', error);
+      Alert.alert('Erro', `Falha ao cadastrar reação: ${error.message}`);
+    }
   };
  
   return (
@@ -36,7 +81,9 @@ export default function CadastroReacao() {
               
               <TextInput
                 testID="tipo_reacao"
-                style = {styles.botao} 
+                style = {styles.botao}
+                value = {tipoReacao}
+                onChangeText={setTipoReacao}
               />
             
             </View>
@@ -47,7 +94,9 @@ export default function CadastroReacao() {
               
               <TextInput
               testID='composto_1' 
-              style = {styles.botao} 
+              style = {styles.botao}
+              value = {composto1}
+              onChangeText = {setComposto1}
               />
             
             </View>
@@ -58,7 +107,9 @@ export default function CadastroReacao() {
               
               <TextInput
               testID='quantidade_composto_1'
-              style = {styles.botao} 
+              style = {styles.botao}
+              value = {quantidadeComposto1}
+              onChangeText = {setQuantidadeComposto1}
               />
             
             </View>
@@ -69,7 +120,9 @@ export default function CadastroReacao() {
               
               <TextInput
               testID='composto_2'
-              style = {styles.botao} 
+              style = {styles.botao}
+              value = {composto2}
+              onChangeText = {setComposto2}
               />
             
             </View>
@@ -79,7 +132,9 @@ export default function CadastroReacao() {
               
               <TextInput
               testID='quantidade_composto_2'
-              style = {styles.botao} 
+              style = {styles.botao}
+              value = {quantidadeComposto2}
+              onChangeText = {setQuantidadeComposto2}
               />
             
             </View>
@@ -91,6 +146,8 @@ export default function CadastroReacao() {
               <TextInput multiline
               testID='descricao_da_reacao'
               style = {styles.botaoDescricao} 
+              value = {descricaoReacao}
+              onChangeText = {setDescricaoReacao}
               />
             
             </View>
