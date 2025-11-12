@@ -8,12 +8,13 @@
     "icon": "./assets/images/icon.png",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
-    "assetBundlePatterns": [
-      "assets/fonts/*",
-      "assets/images/*"
-    ],
+    "assetBundlePatterns": ["assets/fonts/*", "assets/images/*"],
     "ios": {
       "supportsTablet": true,
+      "infoPlist": {
+        "NSBluetoothAlwaysUsageDescription": "O aplicativo utiliza o Bluetooth para se conectar ao colorímetro.",
+        "NSBluetoothPeripheralUsageDescription": "O aplicativo precisa de acesso ao Bluetooth para comunicação com o sensor colorimétrico."
+      },
       "associatedDomains": [
         "urn:apple:domain:colorimetro-de-baixo-custo.firebaseapp.com"
       ]
@@ -25,6 +26,14 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
+      "permissions": [
+        "BLUETOOTH",
+        "BLUETOOTH_ADMIN",
+        "BLUETOOTH_CONNECT",
+        "BLUETOOTH_SCAN",
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION"
+      ],
       "intentFilters": [
         {
           "action": "VIEW",
@@ -36,22 +45,12 @@
               "pathPrefix": "/__/auth/action"
             }
           ],
-          "category": [
-            "BROWSABLE",
-            "DEFAULT"
-          ]
+          "category": ["BROWSABLE", "DEFAULT"]
         },
         {
           "action": "VIEW",
-          "data": [
-            {
-              "scheme": "colorimetria"
-            }
-          ],
-          "category": [
-            "BROWSABLE",
-            "DEFAULT"
-          ]
+          "data": [{ "scheme": "colorimetria" }],
+          "category": ["BROWSABLE", "DEFAULT"]
         }
       ],
       "edgeToEdgeEnabled": true
