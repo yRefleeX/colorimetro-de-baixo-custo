@@ -42,7 +42,7 @@ A produção do projeto envolverá as seguintes ferramentas, tecnologias e compo
 
 * **Hardware:**
     * Arduino Uno
-    * Sensor de cor TCS3472
+    * Sensor de cor TCS230
     * LED branco 5 mm
 * **Software (Aplicativo Mobile):**
     * React Native
@@ -52,6 +52,7 @@ A produção do projeto envolverá as seguintes ferramentas, tecnologias e compo
 * **Serviços e Ferramentas:**
     * **Google Firebase** (Authentication e Firestore)
     * **EAS Build** (Expo Application Services)
+    * **[Boxes.py](https://boxes.hackerspace-bamberg.de/boxes.py)** para elaboração da caixa (onde estará localizado o circuito)
 
 ---
 
