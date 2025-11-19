@@ -85,7 +85,7 @@
     },
     "owner": "chromalab",
     "runtimeVersion": {
-      "policy": "1.0.0"
+      "policy": "sdkVersion"
     },
     "updates": {
       "url": "https://u.expo.dev/5122dc3f-f34b-4052-8695-6ea85603b340"
