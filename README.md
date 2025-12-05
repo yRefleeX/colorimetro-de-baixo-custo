@@ -115,6 +115,12 @@ Um guia passo a passo para configurar o ambiente.
             cp .env.example .env
             ```
 
+            **ou**
+
+            ```sh
+            copy .env.example .env
+            ```
+
             **IMPORTANTE:** O arquivo `.env` nunca deve ser enviado para o repositório. Certifique-se de que ele está listado no seu arquivo `.gitignore`.
 
         * **Preencha as chaves do Firebase:**
