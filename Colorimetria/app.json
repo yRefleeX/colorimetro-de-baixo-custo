@@ -8,14 +8,15 @@
     "icon": "./assets/images/icon.png",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
-    "assetBundlePatterns": [
-      "assets/fonts/*",
-      "assets/images/*"
-    ],
+    "assetBundlePatterns": ["assets/fonts/*", "assets/images/*"],
     "ios": {
       "supportsTablet": true,
+      "infoPlist": {
+        "NSBluetoothAlwaysUsageDescription": "O aplicativo utiliza o Bluetooth para se conectar ao colorímetro.",
+        "NSBluetoothPeripheralUsageDescription": "O aplicativo precisa de acesso ao Bluetooth para comunicação com o sensor colorimétrico."
+      },
       "associatedDomains": [
-        "urn:apple:domain:colorimetro-de-baixo-custo.firebaseapp.com"
+        "applinks:colorimetro-de-baixo-custo.firebaseapp.com"
       ]
     },
     "android": {
@@ -25,6 +26,14 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
+      "permissions": [
+        "BLUETOOTH",
+        "BLUETOOTH_ADMIN",
+        "BLUETOOTH_CONNECT",
+        "BLUETOOTH_SCAN",
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION"
+      ],
       "intentFilters": [
         {
           "action": "VIEW",
@@ -36,10 +45,7 @@
               "pathPrefix": "/__/auth/action"
             }
           ],
-          "category": [
-            "BROWSABLE",
-            "DEFAULT"
-          ]
+          "category": ["BROWSABLE", "DEFAULT"]
         },
         {
           "action": "VIEW",
@@ -48,10 +54,7 @@
               "scheme": "colorimetria"
             }
           ],
-          "category": [
-            "BROWSABLE",
-            "DEFAULT"
-          ]
+          "category": ["BROWSABLE", "DEFAULT"]
         }
       ],
       "edgeToEdgeEnabled": true
@@ -81,15 +84,15 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "5122dc3f-f34b-4052-8695-6ea85603b340"
+        "projectId": "5c787b73-100a-4ab4-9618-de0527306c35"
       }
     },
-    "owner": "refleex",
+    "owner": "chromalab",
     "runtimeVersion": {
-      "policy": "appVersion"
+      "policy": "sdkVersion"
     },
     "updates": {
-      "url": "https://u.expo.dev/5122dc3f-f34b-4052-8695-6ea85603b340"
+      "url": "https://u.expo.dev/5c787b73-100a-4ab4-9618-de0527306c35"
     }
   }
 }

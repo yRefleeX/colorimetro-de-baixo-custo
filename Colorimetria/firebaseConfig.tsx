@@ -1,6 +1,7 @@
 // Importando as bibliotecas necessárias
 import { initializeApp, getApps, getApp } from 'firebase/app';
 import { getReactNativePersistence, initializeAuth, getAuth, type Auth } from 'firebase/auth/react-native';
+import { getFirestore } from 'firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Sua configuração do Firebase que estava no LoginScreen
@@ -22,4 +23,7 @@ const auth = initializeAuth(app, {
   persistence: getReactNativePersistence(AsyncStorage),
 });
 
-export { auth, app };
+// Inicializa o Firestore
+const db = getFirestore(app);
+
+export { auth, app, db };
