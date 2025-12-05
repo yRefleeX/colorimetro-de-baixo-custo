@@ -16,7 +16,7 @@
         "NSBluetoothPeripheralUsageDescription": "O aplicativo precisa de acesso ao Bluetooth para comunicação com o sensor colorimétrico."
       },
       "associatedDomains": [
-        "urn:apple:domain:colorimetro-de-baixo-custo.firebaseapp.com"
+        "applinks:colorimetro-de-baixo-custo.firebaseapp.com"
       ]
     },
     "android": {
@@ -49,7 +49,11 @@
         },
         {
           "action": "VIEW",
-          "data": [{ "scheme": "colorimetria" }],
+          "data": [
+            {
+              "scheme": "colorimetria"
+            }
+          ],
           "category": ["BROWSABLE", "DEFAULT"]
         }
       ],
