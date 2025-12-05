@@ -66,6 +66,8 @@ build_development:
   script: |
     echo "Navegando para a pasta do projeto..."
     cd Colorimetria
+    echo "Gerando google-services.json a partir da variável de CI..."
+    echo $GOOGLE_SERVICES_JSON | base64 -d > google-services.json
     echo "Iniciando build de integração para o ambiente de desenvolvimento..."
     npm install -g eas-cli
     export EXPO_TOKEN=$EAS_TOKEN
@@ -80,6 +82,8 @@ build_staging:
   script: |
     echo "Navegando para a pasta do projeto..."
     cd Colorimetria
+    echo "Gerando google-services.json a partir da variável de CI..."
+    echo $GOOGLE_SERVICES_JSON | base64 -d > google-services.json
     echo "Iniciando build de Staging para validação final..."
     npm install -g eas-cli
     export EXPO_TOKEN=$EAS_TOKEN
@@ -94,6 +98,8 @@ build_production:
   script: |
     echo "Navegando para a pasta do projeto..."
     cd Colorimetria
+    echo "Gerando google-services.json a partir da variável de CI..."
+    echo $GOOGLE_SERVICES_JSON | base64 -d > google-services.json
     echo "Iniciando build de produção..."
     npm install -g eas-cli
     export EXPO_TOKEN=$EAS_TOKEN
