@@ -102,9 +102,9 @@ Um guia passo a passo para configurar o ambiente.
         * Coloque este arquivo na pasta `colorimetro-de-baixo-custo/Colorimetria/` do projeto React Native.
         * **Crie o arquivo `.env`:**
             Este projeto utiliza um arquivo `.env` para carregar as credenciais do Firebase de forma segura. Copie o arquivo de exemplo:
-                    ```sh
-                    cp .env.example .env
-                    ```
+```sh
+    cp .env.example .env
+```
                 **IMPORTANTE:** O arquivo `.env` nunca deve ser enviado para o repositório. Certifique-se de que ele está listado no seu arquivo `.gitignore`.
         * **Preencha as chaves do Firebase:**
             Abra o arquivo `.env` recém-criado. Você precisará preenchê-lo com as informações do seu projeto Firebase.
