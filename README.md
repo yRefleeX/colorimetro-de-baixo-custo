@@ -1,196 +1,195 @@
-# Colorímetro de Baixo Custo
+# Low-Cost Colorimeter
 
-> Status: Em Andamento ⚠️ <br>
-> Versão: 0.0.1
-
----
-
-## 📝 Índice
-
-* [Sobre o Projeto](#-sobre-o-projeto)
-* [🎯 Próximos Passos](#-próximos-passos)
-* [🛠️ Tecnologias e Componentes](#️-tecnologias-e-componentes)
-* [🚀 Começando](#-começando)
-  * [Pré-requisitos](#pré-requisitos)
-  * [Instalação](#instalação)
-* [👥 Autores e Orientadores](#-autores-e-orientadores)
-* [📧 Contato](#-contato)
+> Status: In Progress ⚠️ <br>
+> Version: 0.0.1
 
 ---
 
-## 📖 Sobre o Projeto
+## 📝 Index
 
-Este trabalho propõe a construção de um colorímetro LED-TCS de baixo custo para experimentos de espectrofotometria de absorção com fins pedagógicos, voltado a atividades simplificadas de aprendizagem baseadas em contexto.
-
-O sistema será integrado a um aplicativo mobile, responsável por processar os dados obtidos e implementar ações a partir deles, como medir concentrações e averiguar possibilidades de reações químicas entre os elementos analisados.
-
-Espera-se, como resultado, obter um equipamento de menor custo e, portanto, mais acessível ao público geral, além de facilitar a compreensão dos conceitos envolvidos na espectrofotometria e promover um melhor ensino, de acordo com os Objetivos de Desenvolvimento Sustentável elaborados pela Organização das Nações Unidas.
-
----
-
-## 🎯 Próximos Passos
-
-- [ ] Elaboração da curva de calibração.
-- [ ] Realização dos testes de calibração.
+* [About the Project](#-about-the-project)
+* [🎯 Next Steps](#-next-steps)
+* [🛠️ Technologies and Components](#️-technologies-and-components)
+* [🚀 Getting Started](#-getting-started)
+  * [Prerequisites](#prerequisites)
+  * [Installation](#installation)
+* [👥 Authors and Advisors](#-authors-and-advisors)
+* [📧 Contact](#-contact)
 
 ---
 
-## 🛠️ Tecnologias e Componentes
+## 📖 About the Project
 
-A produção do projeto envolverá as seguintes ferramentas, tecnologias e componentes:
+This project proposes the construction of a low-cost LED-TCS colorimeter for absorption spectrophotometry experiments with educational purposes, aimed at simplified, context-based learning activities.
+
+The system will be integrated with a mobile application responsible for processing the obtained data and performing actions based on it, such as measuring concentrations and investigating possible chemical reactions between the analyzed elements.
+
+The expected outcome is a more affordable device, making it accessible to a wider audience, while facilitating the understanding of spectrophotometry concepts and promoting better education, aligned with the United Nations Sustainable Development Goals.
+
+---
+
+## 🎯 Next Steps
+
+- [ ] Development of the calibration curve.
+- [ ] Performing calibration tests.
+
+---
+
+## 🛠️ Technologies and Components
+
+The project will involve the following tools, technologies, and components:
 
 * **Hardware:**
     * Arduino Uno
-    * Sensor de cor TCS230
-    * LED branco 5 mm
-* **Software (Aplicativo Mobile):**
+    * TCS230 color sensor
+    * 5 mm white LED
+* **Software (Mobile App):**
     * React Native
     * JavaScript
-    * `react-native-dotenv` para variáveis de ambiente
-    * Visual Studio Code (Ambiente de Desenvolvimento)
-* **Serviços e Ferramentas:**
-    * **Google Firebase** (Authentication e Firestore)
+    * `react-native-dotenv` for environment variables
+    * Visual Studio Code (Development Environment)
+* **Services and Tools:**
+    * **Google Firebase** (Authentication and Firestore)
     * **EAS Build** (Expo Application Services)
-    * **[Boxes.py](https://boxes.hackerspace-bamberg.de/boxes.py)** para elaboração da caixa (onde estará localizado o circuito)
+    * **[Boxes.py](https://boxes.hackerspace-bamberg.de/boxes.py)** for designing the enclosure (housing the circuit)
 
 ---
 
-## 🚀 Começando
+## 🚀 Getting Started
 
-Instruções sobre como configurar e executar o projeto em um ambiente local.
+Instructions on how to set up and run the project in a local environment.
 
-### Pré-requisitos
+### Prerequisites
 
-* **Para o App Mobile:**
-    * Node.js e yarn
+* **For the Mobile App:**
+    * Node.js and yarn
     * Expo CLI
-    * Android Studio (para emulação) ou um dispositivo Android
-    * Conta no [Google Firebase](https://firebase.google.com/) para obter as chaves de configuração
-    * [EAS CLI](https://expo.dev/eas) instalado globalmente e logado na sua conta:
+    * Android Studio (for emulation) or an Android device
+    * A [Google Firebase](https://firebase.google.com/) account to obtain configuration keys
+    * [EAS CLI](https://expo.dev/eas) installed globally and logged in:
 
         ```sh
         yarn install -g eas-cli
         eas login
         ```
 
-* **Para o Hardware:**
+* **For the Hardware:**
     * Arduino IDE
 
-### Instalação
+### Installation
 
-Um guia passo a passo para configurar o ambiente.
+Step-by-step guide to configure the environment.
 
 1. **Hardware:**
-    * DESCRIÇÃO DO CIRCUITO (INCOMPLETO)
+    * CIRCUIT DESCRIPTION (INCOMPLETE)
 
 2. **Software (App):**
-    * Clone o repositório:
+    * Clone the repository:
 
         ```sh
         git clone https://gitlab.com/coegi1/colorimetro-de-baixo-custo.git
         ```
 
-    * Navegue até a pasta do aplicativo:
+    * Navigate to the app folder:
 
         ```sh
         cd Colorimetria
         ```
 
-    * Inicialize e configure o EAS no projeto:
+    * Initialize and configure EAS in the project:
 
         ```sh
         eas project:init
         ```
 
-    * **Configure o Firebase:**
-        * Abra o [Console do Firebase](https://console.firebase.google.com/) e crie um projeto.
-        * Dentro do projeto Firebase, crie um novo app Android.
-        * Siga todos os passos indicados no site para criação do app.
-        * Baixe o arquivo `google-services.json` do projeto no console do Firebase.
-        * Coloque este arquivo na pasta `colorimetro-de-baixo-custo/Colorimetria/` do projeto React Native.
-        * **Crie o arquivo `.env`:**
-            Este projeto utiliza um arquivo `.env` para carregar as credenciais do Firebase de forma segura. Copie o arquivo de exemplo:
+    * **Configure Firebase:**
+        * Open the [Firebase Console](https://console.firebase.google.com/) and create a project.
+        * Within the Firebase project, create a new Android app.
+        * Follow all the steps indicated on the website to create the app.
+        * Download the `google-services.json` file from the Firebase console.
+        * Place this file in the `colorimetro-de-baixo-custo/Colorimetria/` folder of the React Native project.
+        * **Create the `.env` file:**
+            This project uses a `.env` file to securely load Firebase credentials. Copy the example file:
 
             ```sh
             cp .env.example .env
             ```
 
-            **ou**
+            **or**
 
             ```sh
             copy .env.example .env
             ```
 
-            **IMPORTANTE:** O arquivo `.env` nunca deve ser enviado para o repositório. Certifique-se de que ele está listado no seu arquivo `.gitignore`.
+            **IMPORTANT:** The `.env` file must never be pushed to the repository. Make sure it is listed in `.gitignore`.
 
-        * **Preencha as chaves do Firebase:**
-            Abra o arquivo `.env` recém-criado. Você precisará preenchê-lo com as informações do seu projeto Firebase.
+        * **Fill in Firebase keys:**
+            Open the newly created `.env` file and fill it with your Firebase project information.
             
-            1. Vá para o seu projeto no [Console do Firebase](https://console.firebase.google.com/).
-            2. Clique no ícone de engrenagem (Configurações do projeto).
-            3. Na aba "Geral", vá para "Seus apps".
-            4. Escolha "Configuração" como "SDK" para ver as chaves.
-            5. Preencha as seguintes variáveis no seu `.env` com os valores correspondentes:
+            1. Go to your project in the [Firebase Console](https://console.firebase.google.com/).
+            2. Click the gear icon (Project Settings).
+            3. In the "General" tab, go to "Your apps".
+            4. Choose "SDK Configuration" to view the keys.
+            5. Fill in the following variables in your `.env` with the corresponding values:
 
                 ```env
-                EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN="seu-projeto.firebaseapp.com"
-                EXPO_PUBLIC_FIREBASE_PROJECT_ID="seu-projeto"
-                EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET="seu-projeto.firebasestorage.app"
+                EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN="your-project.firebaseapp.com"
+                EXPO_PUBLIC_FIREBASE_PROJECT_ID="your-project"
+                EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET="your-project.firebasestorage.app"
                 EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID="1234567890"
                 EXPO_PUBLIC_FIREBASE_APP_ID="1:1234567890:android:abcdef123456"
                 EXPO_PUBLIC_FIREBASE_MEASUREMENT_ID="A-12345BCDEF"
-                EXPO_PUBLIC_GOOGLE_CLIENT_ID_WEB="seu-id-web.apps.googleusercontent.com"
-                EXPO_PUBLIC_GOOGLE_CLIENT_ID_ANDROID="seu-id-android.apps.googleusercontent.com"
+                EXPO_PUBLIC_GOOGLE_CLIENT_ID_WEB="your-web-id.apps.googleusercontent.com"
+                EXPO_PUBLIC_GOOGLE_CLIENT_ID_ANDROID="your-android-id.apps.googleusercontent.com"
                 ```
 
-        * **Obtenha a chave de API (API_KEY) do Google Cloud**
-            A `API_KEY` é obtida no console do Google Cloud.
+        * **Obtain the Google Cloud API key (API_KEY):**
+            The `API_KEY` is obtained from the Google Cloud Console.
 
-            1. **Acesse o [Google Cloud Console](https://console.cloud.google.com/apis/credentials)** e selecione o projeto Firebase correspondente.
-            2. No menu, navegue para **APIs e Serviços > Credenciais**.
-            3. Encontre a chave com o nome **"Android key (auto created by Firebase)"**.
-            4. Clique no ícone de cópia ao lado da chave para copiá-la.
-            5. Cole a chave no seu arquivo `.env`:
+            1. **Access the [Google Cloud Console](https://console.cloud.google.com/apis/credentials)** and select the corresponding Firebase project.
+            2. Navigate to **APIs & Services > Credentials**.
+            3. Find the key named **"Android key (auto created by Firebase)"**.
+            4. Click the copy icon next to the key to copy it.
+            5. Paste the key into your `.env` file:
 
                 ```env
-                EXPO_PUBLIC_FIREBASE_API_KEY="seu-api-key"
+                EXPO_PUBLIC_FIREBASE_API_KEY="your-api-key"
                 ```
 
-        * **Obtenha a chave SHA-1 com EAS Credentials:**
+        * **Obtain the SHA-1 key using EAS Credentials:**
 
-            * Execute o seguinte comando na raíz do projeto:
+            * Run the following command in the project root:
 
                 ```sh
                 eas credentials
                 ```
 
-            * Siga as instruções: selecione **Android**, e depois a credencial de build que você utiliza.
-            * O CLI irá exibir os detalhes da sua credencial, incluindo o **"SHA-1 Fingerprint"**. Copie este valor.
+            * Follow the instructions: select **Android**, then the build credential you use.
+            * The CLI will display your credential details, including the **"SHA-1 Fingerprint"**. Copy this value.
 
-            * Adicione a chave SHA-1 no Firebase:
-                1. Vá para o seu projeto no [Console do Firebase](https://console.firebase.google.com/).
-                2. Clique no ícone de engrenagem (Configurações do projeto).
-                3. Na aba "Geral", vá para "Seus apps".
-                4. Selecione seu app Android.
-                5. Clique em "Adicionar impressão digital".
-                6. Cole a chave **SHA-1** que você copiou do EAS CLI e salve.
+            * Add the SHA-1 key in Firebase:
+                1. Go to your project in the [Firebase Console](https://console.firebase.google.com/).
+                2. Click the gear icon (Project Settings).
+                3. In the "General" tab, go to "Your apps".
+                4. Select your Android app.
+                5. Click "Add Fingerprint" and paste the SHA-1 value, then save.
 
-    * Instale as dependências:
+    * Install dependencies:
 
         ```sh
         yarn install
         ```
 
-    * **Compile o aplicativo com EAS Build:**
+    * **Build the app with EAS Build:**
 
         ```sh
         eas build --profile development --platform android
         ```
 
-        * Logo após o término do build, abra o [Expo Dev](https://expo.dev/), faça seu login e abra seu projeto.
-        * Então, abra o respectivo projeto inicializado (o qual terá o build para Android incluído) e baixe o arquivo .APK
+        * After the build completes, open [Expo Dev](https://expo.dev/), log in, and open your project.
+        * Then, open the initialized project (which will include the Android build) and download the .APK file.
 
-    * Execute o aplicativo em modo de desenvolvimento:
+    * Run the app in development mode:
 
         ```sh
         npx expo start --clear
@@ -198,21 +197,21 @@ Um guia passo a passo para configurar o ambiente.
 
 ---
 
-## 👥 Autores e Orientadores
+## 👥 Authors and Advisors
 
-**Desenvolvedores:**
+**Developers:**
 * André Takeo Miiada Caseiro
 * Gabriel Fernandes Matozinhos
 * Matheus Tonini dos Santos
 
-**Orientadores:**
-* Márcio André Miranda (Orientador)
-* Thalita Biazzuz Veronese (Coorientadora)
+**Advisors:**
+* Márcio André Miranda (Advisor)
+* Thalita Biazzuz Veronese (Co-Advisor)
 
 ---
 
-## 📧 Contato
+## 📧 Contact
 
 **André Takeo Miiada Caseiro** - [andre.miiada@gmail.com](mailto:andre.miiada@gmail.com)
 
-Link do Projeto: [https://gitlab.com/coegi1/colorimetro-de-baixo-custo](https://gitlab.com/coegi1/colorimetro-de-baixo-custo)
+Project Link: [https://gitlab.com/coegi1/colorimetro-de-baixo-custo](https://gitlab.com/coegi1/colorimetro-de-baixo-custo)
