@@ -1,6 +1,6 @@
 # Colorímetro de Baixo Custo
 
-> Status: Em Andamento ⚠️ <br>
+> Status: Concluído ✅ <br>
 > Versão: 0.0.1
 
 ---
@@ -81,7 +81,7 @@ Instruções sobre como configurar e executar o projeto em um ambiente local.
 Um guia passo a passo para configurar o ambiente.
 
 1. **Hardware:**
-    * DESCRIÇÃO DO CIRCUITO (INCOMPLETO)
+    * DESCRIÇÃO DO CIRCUITO
 
 2. **Software (App):**
     * Clone o repositório:
