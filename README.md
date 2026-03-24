@@ -1,6 +1,6 @@
 # Low-Cost Colorimeter
 
-> Status: In Progress ⚠️ <br>
+> Status: Completed ✅ <br>
 > Version: 0.0.1
 
 ---
@@ -81,7 +81,7 @@ Instructions on how to set up and run the project in a local environment.
 Step-by-step guide to configure the environment.
 
 1. **Hardware:**
-    * CIRCUIT DESCRIPTION (INCOMPLETE)
+    * CIRCUIT DESCRIPTION
 
 2. **Software (App):**
     * Clone the repository:
