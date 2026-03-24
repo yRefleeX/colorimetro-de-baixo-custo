@@ -13,10 +13,6 @@ import {signOut, onAuthStateChanged } from 'firebase/auth';
 import {auth} from '../firebaseConfig';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-interface UserInfoDisplayProps {
-  userName: string; // Definindo o tipo da propriedade 'userName' para string
-}
-
 // Definindo o UserInfoDisplay como uma constante, na qual possuirá o nome do usuário e o botão para sair do app
 const UserInfoDisplay = () => {
   const insets = useSafeAreaInsets();
