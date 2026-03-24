@@ -1,0 +1,13 @@
+diff --git a/node_modules/react-native-bluetooth-serial-next/android/build.gradle b/node_modules/react-native-bluetooth-serial-next/android/build.gradle
+index cd10efd..9c42297 100644
+--- a/node_modules/react-native-bluetooth-serial-next/android/build.gradle
++++ b/node_modules/react-native-bluetooth-serial-next/android/build.gradle
+@@ -12,7 +12,7 @@ buildscript {
+ apply plugin: 'com.android.library'
+ 
+ android {
+-    compileSdkVersion 27
++    compileSdkVersion 36
+ 
+     defaultConfig {
+         minSdkVersion 16
