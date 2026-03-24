@@ -1,13 +1,21 @@
 // Importando as bibliotecas necessárias para o código
 import React from 'react';
-import {StyleSheet, View, SafeAreaView, Text, Dimensions, FlatList} from 'react-native';
+import {StyleSheet, View, Text, Dimensions, FlatList, TouchableOpacity} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import UserInfoDisplay from '@/components/UserInfoDisplay';
 import VoltaInicio from '@/components/VoltaInicio';
+import * as WebBrowser from 'expo-web-browser';
 
 const { height } = Dimensions.get('window'); // Utilizando 'height' para fazer estilização responsiva, a partir da biblioteca Dimensions
 
 // Chamando a função principal (necessário para abrir a tela "visualizar colorímetro 3D")
 export default function ViewColorimeterScreen() {
+
+  const abrirModelo3DBrowser = async () => {
+    const sketchfabUrl = 'https://sketchfab.com/3d-models/colorimetro-3d-a937d20399c14130ac97ad31384d8e6d';
+    await WebBrowser.openBrowserAsync(sketchfabUrl);
+  };
+
   // O que será mostrado na tela
   return (
       // Container do app (onde ficará toda a view)
@@ -18,9 +26,9 @@ export default function ViewColorimeterScreen() {
           <Text style={{fontSize: 30, fontWeight: "bold", textAlign: "center"}}>Modelo 3D: Colorímetro</Text>
         </View>
 
-        <View style={{marginBottom: height * 0.1}}>
-            <Text>ESPAÇO PARA MODELO 3D DO COLORÍMETRO</Text>
-        </View>
+        <TouchableOpacity style={styles.button} onPress={abrirModelo3DBrowser}>
+            <Text style={styles.buttonText}>Ver Modelo 3D Interativo</Text>
+        </TouchableOpacity>
 
         {/* View para mostrar a lista de componentes utilizados para o colorímetro */}
         <View style={{width: '80%', marginBottom: height * 0.1}}>
@@ -58,5 +66,21 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     flex: 1,
+  },
+  button: {
+    backgroundColor: '#007AFF',
+    paddingVertical: 12,
+    paddingHorizontal: 30,
+    borderRadius: 25,
+    marginVertical: 20,
+    elevation: 3,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
