@@ -210,6 +210,12 @@ Step-by-step guide to configure the environment.
 
 ---
 
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
 ## 📧 Contact
 
 **André Takeo Miiada Caseiro** - [andre.miiada@gmail.com](mailto:andre.miiada@gmail.com)
