@@ -211,6 +211,12 @@ Um guia passo a passo para configurar o ambiente.
 
 ---
 
+## 📄 Licença
+
+Este projeto está licenciado sob a Licença MIT - consulte o arquivo [LICENSE](LICENSE) para obter mais detalhes.
+
+---
+
 ## 📧 Contato
 
 **André Takeo Miiada Caseiro** - [andre.miiada@gmail.com](mailto:andre.miiada@gmail.com)
